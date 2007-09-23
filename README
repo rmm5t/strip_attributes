@@ -49,7 +49,7 @@ ActiveRecord model after putting strip_attributes in your <tt>$LOAD_PATH</tt>:
 === Credits
 
 The idea was triggered by the information at
-<http://wiki.rubyonrails.org/rails/pages/HowToStripWhitespaceFromModelFields>
+http://wiki.rubyonrails.org/rails/pages/HowToStripWhitespaceFromModelFields
 but was modified from the original to include more idiomatic ruby and rails
 support.
 
