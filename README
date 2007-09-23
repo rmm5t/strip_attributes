@@ -1,0 +1,47 @@
+== StripAttributes
+
+StripAttributes is a Rails plugin that automatically strips all ActiveRecord
+model attributes of leading and trailing whitespace before validation. If the
+attribute is blank, it strips the value to +nil+.
+
+It works by adding a before_validation hook to the record.  By default, all
+attributes are stripped of whitespace, but <tt>:only</tt> and <tt>:except</tt>
+options can be used to limit which attributes are stripped.  Both options accept
+a single attribute (<tt>:only => :field</tt>) or arrays of attributes (<tt>:except =>
+[:field1, :field2, :field3]</tt>).
+
+=== Examples
+
+  class DrunkPokerPlayer < ActiveRecord::Base
+    strip_attributes!
+  end
+
+  class SoberPokerPlayer < ActiveRecord::Base
+    strip_attributes! :except => :underwear
+  end
+
+  class ConservativePokerPlayer < ActiveRecord::Base
+    strip_attributes! :only => [:shoe, :sock, :glove]
+  end
+
+=== Other
+
+If you want to use this outside of Rails, extend StripAttributes in your
+ActiveRecord model after putting strip_attributes in your <tt>$LOAD_PATH</tt>:
+
+  require 'strip_attributes'
+  class SomeModel < ActiveRecord::Base
+    extend StripAttributes
+    strip_attributes!
+  end
+
+=== Credits
+
+The idea was triggered by the information at
+<http://wiki.rubyonrails.org/rails/pages/HowToStripWhitespaceFromModelFields>
+but was modified from the original to include more idiomatic ruby and rails
+support.
+
+=== Copyright
+
+Copyright (c) 2007 Ryan McGeary released under the MIT license
