@@ -28,12 +28,12 @@ a single attribute (<tt>:only => :field</tt>) or arrays of attributes (<tt>:exce
 
 Option 1. Use the standard Rails plugin install.
 
-  $ ./script/plugin install [-x] http://stripattributes.rubyforge.org/svn/tags/strip_attributes
+  ./script/plugin install [-x] http://stripattributes.rubyforge.org/svn/tags/strip_attributes
 
 Option 2. Use piston[http://piston.rubyforge.org/] (my preferred choice).
 
-  $ cd vendor/plugins
-  $ piston import http://stripattributes.rubyforge.org/svn/tags/strip_attributes
+  cd vendor/plugins
+  piston import http://stripattributes.rubyforge.org/svn/tags/strip_attributes
 
 === Other
 
@@ -46,6 +46,16 @@ ActiveRecord model after putting strip_attributes in your <tt>$LOAD_PATH</tt>:
     strip_attributes!
   end
 
+=== Support
+
+The StripAttributes homepage is http://stripattributes.rubyforge.org. You can
+find the StripAttributes RubyForge progject page at
+http://rubyforge.org/projects/stripattributes.
+
+Feel free to submit suggestions or feature requests. If you send a patch,
+remember to update the corresponding unit tests.  In fact, I prefer new features
+to be submitted in the form of new unit tests.
+
 === Credits
 
 The idea was triggered by the information at
@@ -53,6 +63,6 @@ http://wiki.rubyonrails.org/rails/pages/HowToStripWhitespaceFromModelFields
 but was modified from the original to include more idiomatic ruby and rails
 support.
 
-=== Copyright
+=== License
 
 Copyright (c) 2007 Ryan McGeary released under the MIT license
