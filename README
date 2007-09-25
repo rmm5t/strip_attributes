@@ -28,7 +28,7 @@ a single attribute (<tt>:only => :field</tt>) or arrays of attributes (<tt>:exce
 
 Option 1. Use the standard Rails plugin install.
 
-  ./script/plugin install [-x] http://stripattributes.rubyforge.org/svn/tags/strip_attributes
+  ./script/plugin install http://stripattributes.rubyforge.org/svn/tags/strip_attributes
 
 Option 2. Use piston[http://piston.rubyforge.org/] (my preferred choice).
 
