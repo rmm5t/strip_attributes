@@ -20,3 +20,11 @@ Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.rdoc_files.include('README')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
+
+desc 'Publishes rdoc to rubyforge server'
+task :publish_rdoc => :rdoc do
+  cmd = "scp rdoc/* rmm5t@rubyforge.org:/var/www/gforge-projects/stripattributes"
+  puts "\nPublishing rdoc: #{cmd}\n\n"
+  system(cmd)
+end
+
