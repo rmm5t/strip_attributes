@@ -30,7 +30,11 @@ Option 1. Use the standard Rails plugin install (assuming Rails 2.1).
 
   ./script/plugin install git://github.com/rmm5t/strip_attributes.git
 
-Option 2. Use braid[http://github.com/evilchelu/braid/tree/master] (assuming
+Option 2. Use git submodules
+
+  git submodule add git://github.com/rmm5t/strip_attributes.git vendor/plugins/strip_attributes
+
+Option 3. Use braid[http://github.com/evilchelu/braid/tree/master] (assuming
 you're using git)
 
   braid add --rails_plugin git://github.com/rmm5t/strip_attributes.git
