@@ -14,6 +14,19 @@ module StripAttributes
         end
       end
     end
+
+    def should_not_strip_attributes(*attributes)
+      klass = model_class
+      attributes.each do |attribute|
+        attribute = attribute.to_sym
+        should "not strip whitespace from #{attribute}" do
+          object = get_instance_of(klass)
+          object.send("#{attribute}=", " string ")
+          object.valid?
+          assert_equal " string ", object.send(attribute)
+        end
+      end
+    end
   end
 end
 
