@@ -16,7 +16,7 @@ desc 'Generate documentation for the stripattributes plugin.'
 Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
   rdoc.title    = 'Stripattributes'
-  rdoc.options << '--line-numbers' << '--inline-source'
+  rdoc.options << '--line-numbers'
   rdoc.rdoc_files.include('README.rdoc')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
