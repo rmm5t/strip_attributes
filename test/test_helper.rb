@@ -1,6 +1,7 @@
 require 'test/unit'
 require 'rubygems'
 require 'active_record'
+begin require 'redgreen' if ENV['TM_FILENAME'].nil?; rescue LoadError; end
 
 PLUGIN_ROOT = File.expand_path(File.join(File.dirname(__FILE__), ".."))
 
