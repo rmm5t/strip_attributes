@@ -10,7 +10,7 @@ module StripAttributes
       end
     end
   end
-  
+
   # Necessary because Rails has removed the narrowing of attributes using :only
   # and :except on Base#attributes
   def self.narrow(attributes, options)
@@ -25,7 +25,7 @@ module StripAttributes
         attributes.slice(*only)
       else
         raise ArgumentError, "Options does not specify :except or :only (#{options.keys.inspect})"
-      end    
+      end
     end
   end
 end

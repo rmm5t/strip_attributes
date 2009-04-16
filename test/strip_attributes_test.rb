@@ -2,10 +2,11 @@ require "#{File.dirname(__FILE__)}/test_helper"
 
 module MockAttributes
   def self.included(base)
-    base.column :foo, :string
-    base.column :bar, :string
-    base.column :biz, :string
-    base.column :baz, :string
+    base.column :foo,  :string
+    base.column :bar,  :string
+    base.column :biz,  :string
+    base.column :baz,  :string
+    base.column :bang, :string
   end
 end
 
@@ -36,7 +37,7 @@ end
 
 class StripAttributesTest < Test::Unit::TestCase
   def setup
-    @init_params = { :foo => "\tfoo", :bar => "bar \t ", :biz => "\tbiz ", :baz => "" }
+    @init_params = { :foo => "\tfoo", :bar => "bar \t ", :biz => "\tbiz ", :baz => "", :bang => " " }
   end
 
   def test_should_exist
@@ -50,6 +51,7 @@ class StripAttributesTest < Test::Unit::TestCase
     assert_equal "bar", record.bar
     assert_equal "biz", record.biz
     assert_nil record.baz
+    assert_nil record.bang
   end
 
   def test_should_strip_only_one_field
@@ -59,6 +61,7 @@ class StripAttributesTest < Test::Unit::TestCase
     assert_equal "bar \t ", record.bar
     assert_equal "\tbiz ",  record.biz
     assert_equal "",        record.baz
+    assert_equal " ",       record.bang
   end
 
   def test_should_strip_only_three_fields
@@ -68,6 +71,7 @@ class StripAttributesTest < Test::Unit::TestCase
     assert_equal "bar", record.bar
     assert_equal "biz", record.biz
     assert_equal "",    record.baz
+    assert_equal " ",   record.bang
   end
 
   def test_should_strip_all_except_one_field
@@ -77,6 +81,7 @@ class StripAttributesTest < Test::Unit::TestCase
     assert_equal "bar",   record.bar
     assert_equal "biz",   record.biz
     assert_nil record.baz
+    assert_nil record.bang
   end
 
   def test_should_strip_all_except_three_fields
@@ -86,5 +91,6 @@ class StripAttributesTest < Test::Unit::TestCase
     assert_equal "bar \t ", record.bar
     assert_equal "\tbiz ",  record.biz
     assert_nil record.baz
+    assert_nil record.bang
   end
 end
