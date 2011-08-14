@@ -1,1 +1,6 @@
-rdoc
+*.gem
+.bundle
+vendor/ruby
+Gemfile.lock
+pkg/*
+rdoc/*

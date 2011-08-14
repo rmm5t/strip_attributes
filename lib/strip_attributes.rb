@@ -1,4 +1,6 @@
 module StripAttributes
+  VERSION = "0.9.0.pre"
+
   # Strips whitespace from model fields and converts blank values to nil.
   def strip_attributes!(options = nil)
     before_validation do |record|

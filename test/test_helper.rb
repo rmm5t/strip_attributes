@@ -6,7 +6,7 @@ begin require 'redgreen' if ENV['TM_FILENAME'].nil?; rescue LoadError; end
 PLUGIN_ROOT = File.expand_path(File.join(File.dirname(__FILE__), ".."))
 
 $LOAD_PATH.unshift "#{PLUGIN_ROOT}/lib"
-require "#{PLUGIN_ROOT}/init"
+load "#{PLUGIN_ROOT}/rails/init.rb"
 
 class ActiveRecord::Base
   alias_method :save, :valid?
