@@ -1,6 +1,6 @@
 # StripAttributes
 
-StripAttributes is a Rails plugin that automatically strips all ActiveModel
+StripAttributes is an ActiveModel extension that automatically strips all
 attributes of leading and trailing whitespace before validation. If the
 attribute is blank, it strips the value to `nil`.
 
