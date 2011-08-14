@@ -31,7 +31,7 @@ discouraged.
 
 Include the gem in your Gemfile:
 
-    gem "strip_attributes", "~> 0.9"
+    gem "strip_attributes", "~> 1.0"
 
 Or, if you don't use Bundler (though you probably should, even in Rails 2), with
 config.gem
@@ -88,7 +88,7 @@ form of new unit tests.
 ## Credits
 
 The idea was originally triggered by the information at the (now defunct) [Rails
-Wiki](http://wiki.rubyonrails.org/rails/pages/HowToStripWhitespaceFromModelFields)
+Wiki](http://oldwiki.rubyonrails.org/rails/pages/HowToStripWhitespaceFromModelFields)
 but was modified from the original to include more idiomatic ruby and rails
 support.
 
