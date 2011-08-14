@@ -44,6 +44,11 @@ config.gem
     ...
   end
 
+Note: For Rails 2.x, be sure to use the <tt>~&gt; 0.9</tt> version of
+strip_attributes, because strip_attributes ties directly into
+ActiveRecord. Later versions (<tt>&gt; 1.0</tt>) are geared towards Rails 3 and
+ActiveModel.
+
 === Usage Outside of Rails
 
 If you want to use this outside of Rails, extend StripAttributes in your

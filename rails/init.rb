@@ -1,2 +1,2 @@
-require 'strip_attributes'
-ActiveRecord::Base.extend(StripAttributes)
+require "strip_attributes"
+::ActiveModel::Validations::ClassMethods.send(:include, StripAttributes)
