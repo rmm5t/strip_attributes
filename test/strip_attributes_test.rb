@@ -12,27 +12,27 @@ end
 
 class StripAllMockRecord < ActiveRecord::Base
   include MockAttributes
-  strip_attributes!
+  strip_attributes
 end
 
 class StripOnlyOneMockRecord < ActiveRecord::Base
   include MockAttributes
-  strip_attributes! :only => :foo
+  strip_attributes :only => :foo
 end
 
 class StripOnlyThreeMockRecord < ActiveRecord::Base
   include MockAttributes
-  strip_attributes! :only => [:foo, :bar, :biz]
+  strip_attributes :only => [:foo, :bar, :biz]
 end
 
 class StripExceptOneMockRecord < ActiveRecord::Base
   include MockAttributes
-  strip_attributes! :except => :foo
+  strip_attributes :except => :foo
 end
 
 class StripExceptThreeMockRecord < ActiveRecord::Base
   include MockAttributes
-  strip_attributes! :except => [:foo, :bar, :biz]
+  strip_attributes :except => [:foo, :bar, :biz]
 end
 
 class StripAttributesTest < Test::Unit::TestCase

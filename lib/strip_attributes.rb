@@ -2,7 +2,7 @@ module StripAttributes
   VERSION = "1.0.0.pre"
 
   # Strips whitespace from model fields and converts blank values to nil.
-  def strip_attributes!(options = nil)
+  def strip_attributes(options = nil)
     before_validation do |record|
       attributes = StripAttributes.narrow(record.attributes, options)
       attributes.each do |attr, value|
@@ -11,6 +11,13 @@ module StripAttributes
         end
       end
     end
+  end
+
+  # <b>DEPRECATED:</b> Please use <tt>strip_attributes</tt> (non-bang method)
+  # instead.
+  def strip_attributes!(options = nil)
+    warn "[DEPRECATION] `strip_attributes!` is deprecated.  Please use `strip_attributes` (non-bang method) instead."
+    strip_attributes(options)
   end
 
   # Necessary because Rails has removed the narrowing of attributes using :only
