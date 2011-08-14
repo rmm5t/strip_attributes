@@ -12,16 +12,26 @@ a single attribute (`:only => :field`) or arrays of attributes (`:except =>
 
 ## Examples
 
+    # all attributes will be stripped (default)
     class DrunkPokerPlayer < ActiveRecord::Base
       strip_attributes
     end
 
+    # all attributes will be stripped except :boxers
     class SoberPokerPlayer < ActiveRecord::Base
       strip_attributes :except => :boxers
     end
 
+    # only :shoe, :sock, and :glove attributes will be stripped
     class ConservativePokerPlayer < ActiveRecord::Base
       strip_attributes :only => [:shoe, :sock, :glove]
+    end
+
+It also works on other ActiveModel classes, such as [Mongoid](http://mongoid.org/) documents:
+
+    class User
+      include Mongoid::Document
+      strip_attributes :only => :email
     end
 
 ## Installation
