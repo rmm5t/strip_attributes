@@ -26,21 +26,25 @@ a single attribute (<tt>:only => :field</tt>) or arrays of attributes (<tt>:exce
 
 === Installation
 
-Option 1. Use the standard Rails plugin install (assuming Rails 2.1).
+StripAttributes is distributed as a gem. It was once a plugin, but that is now
+discouraged.
 
-  ./script/plugin install git://github.com/rmm5t/strip_attributes.git
+Include the gem in your Gemfile:
 
-Option 2. Use git submodules
+  gem "strip_attributes", "~> 0.9"
 
-  git submodule add git://github.com/rmm5t/strip_attributes.git vendor/plugins/strip_attributes
+Or, if you don't use Bundler (though you probably should, even in Rails 2), with
+config.gem
 
-Option 3. Use braid[http://github.com/evilchelu/braid/tree/master] (assuming
-you're using git)
+  # In config/environment.rb
+  ...
+  Rails::Initializer.run do |config|
+    ...
+    config.gem "paperclip", :version => "~> 0.9"
+    ...
+  end
 
-  braid add --rails_plugin git://github.com/rmm5t/strip_attributes.git
-  git merge braid/track
-
-=== Other
+=== Usage Outside of Rails
 
 If you want to use this outside of Rails, extend StripAttributes in your
 ActiveRecord model after putting strip_attributes in your <tt>$LOAD_PATH</tt>:
@@ -49,6 +53,26 @@ ActiveRecord model after putting strip_attributes in your <tt>$LOAD_PATH</tt>:
   class SomeModel < ActiveRecord::Base
     extend StripAttributes
     strip_attributes!
+  end
+
+=== Testing
+
+StripAttributes provides shoulda-compatible macros for easier testing of
+attribute assignment.
+
+To initialize, extend <tt>StripAttributes::Shoulda::Macros</tt> in your
+<tt>test_helper.rb</tt>:
+
+  require "strip_attributes/shoulda"
+  class Test::Unit::TestCase
+    extend StripAttributes::Shoulda::Macros
+  end
+
+And in your unit tests:
+
+  class UserTest < ActiveSupport::TestCase
+    should_strip_attributes :name, :email
+    should_not_strip_attributes :password
   end
 
 === Support
@@ -73,5 +97,5 @@ support.
 
 === License
 
-Copyright (c) 2007-2008 Ryan McGeary released under the MIT license
+Copyright (c) 2007-2011 Ryan McGeary released under the MIT license
 http://en.wikipedia.org/wiki/MIT_License
