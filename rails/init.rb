@@ -1,2 +1,1 @@
-require "strip_attributes"
-::ActiveModel::Validations::ClassMethods.send(:include, StripAttributes)
+require "strip_attributes/active_model"

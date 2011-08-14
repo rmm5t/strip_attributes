@@ -1,5 +1,5 @@
 class StripAttributes::Railtie < Rails::Railtie
   initializer "strip_attributes.initialize" do |app|
-    ::ActiveModel::Validations::ClassMethods.send(:include, StripAttributes)
+    require "strip_attributes/active_model"
   end
 end

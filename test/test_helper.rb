@@ -1,12 +1,6 @@
-require 'test/unit'
-require 'rubygems'
-require 'active_record'
-begin require 'redgreen' if ENV['TM_FILENAME'].nil?; rescue LoadError; end
-
-PLUGIN_ROOT = File.expand_path(File.join(File.dirname(__FILE__), ".."))
-
-$LOAD_PATH.unshift "#{PLUGIN_ROOT}/lib"
-load "#{PLUGIN_ROOT}/rails/init.rb"
+require "test/unit"
+require "active_record"
+require "strip_attributes/active_model"
 
 class ActiveRecord::Base
   alias_method :save, :valid?
