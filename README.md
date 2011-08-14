@@ -1,7 +1,7 @@
 # StripAttributes
 
-StripAttributes is a Rails plugin that automatically strips all ActiveRecord
-model attributes of leading and trailing whitespace before validation. If the
+StripAttributes is a Rails plugin that automatically strips all ActiveModel
+attributes of leading and trailing whitespace before validation. If the
 attribute is blank, it strips the value to `nil`.
 
 It works by adding a before_validation hook to the record.  By default, all
@@ -13,15 +13,15 @@ a single attribute (`:only => :field`) or arrays of attributes (`:except =>
 ## Examples
 
     class DrunkPokerPlayer < ActiveRecord::Base
-      strip_attributes!
+      strip_attributes
     end
 
     class SoberPokerPlayer < ActiveRecord::Base
-      strip_attributes! :except => :boxers
+      strip_attributes :except => :boxers
     end
 
     class ConservativePokerPlayer < ActiveRecord::Base
-      strip_attributes! :only => [:shoe, :sock, :glove]
+      strip_attributes :only => [:shoe, :sock, :glove]
     end
 
 ## Installation
@@ -43,20 +43,19 @@ config.gem
       # ...
     end
 
-Note: For Rails 2.x, be sure to use the `~> 0.9` version of
-StripAttributes, because StripAttributes ties directly into
-ActiveRecord. Later versions (`> 1.0`) are geared towards Rails 3 and
-ActiveModel.
+Note: For Rails 2.x, be sure to use the `~> 0.9` version of StripAttributes,
+because StripAttributes tied directly into ActiveRecord. Later versions (`>
+1.0`) are geared towards Rails 3 and, more specifically, ActiveModel.
 
 ## Usage Outside of Rails
 
-If you want to use this outside of Rails, extend StripAttributes in your
-ActiveRecord model after putting `strip_attributes` in your `$LOAD_PATH`:
+If you want to use this outside of Rails, just require
+`strip_attributes/active_model` and you models will get the `strip_attributes`
+class method.
 
-    require "strip_attributes"
+    require "strip_attributes/active_model"
     class SomeModel < ActiveRecord::Base
-      extend StripAttributes
-      strip_attributes!
+      strip_attributes
     end
 
 ## Testing
