@@ -40,7 +40,7 @@ config.gem
   ...
   Rails::Initializer.run do |config|
     ...
-    config.gem "paperclip", :version => "~> 0.9"
+    config.gem "strip_attributes", :version => "~> 0.9"
     ...
   end
 
@@ -77,16 +77,10 @@ And in your unit tests:
 
 === Support
 
-The StripAttributes homepage is http://stripattributes.rubyforge.org. You can
-find the StripAttributes RubyForge progject page at:
-http://rubyforge.org/projects/stripattributes
-
-StripAttributes source is hosted on GitHub[http://github.com/]:
-http://github.com/rmm5t/strip_attributes
-
-Feel free to submit suggestions or feature requests. If you send a patch,
-remember to update the corresponding unit tests.  In fact, I prefer new features
-to be submitted in the form of new unit tests.
+Feel free to submit suggestions or feature requests as a GitHub Issue or Pull
+Request (preferred). If you send a pull request, remember to update the
+corresponding unit tests.  In fact, I prefer new features to be submitted in the
+form of new unit tests.
 
 === Credits
 
