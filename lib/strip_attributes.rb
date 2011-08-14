@@ -1,5 +1,5 @@
 module StripAttributes
-  VERSION = "0.9.0.pre"
+  VERSION = "0.9.0"
 
   # Strips whitespace from model fields and converts blank values to nil.
   def strip_attributes!(options = nil)
