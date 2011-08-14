@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require "strip_attributes"
+require "strip_attributes/version"
 
 Gem::Specification.new do |s|
   s.name        = "strip_attributes"
@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
 
   s.rubyforge_project = "strip_attributes"
 
-  s.files         = Dir["{lib,rails,test}/**/*"]
+  s.files         = Dir["{lib,test}/**/*"]
   s.test_files    = Dir["{test}/**/*"]
   s.require_paths = ["lib"]
 

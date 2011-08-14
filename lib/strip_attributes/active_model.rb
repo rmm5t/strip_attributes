@@ -1,4 +1,6 @@
 require "strip_attributes"
+require "active_model"
 
-::ActiveModel::Validations::HelperMethods.send(:include, StripAttributes)
-
+module ActiveModel::Validations::HelperMethods
+  include StripAttributes
+end

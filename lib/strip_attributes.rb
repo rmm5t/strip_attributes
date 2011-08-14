@@ -1,6 +1,4 @@
 module StripAttributes
-  VERSION = "1.0.0.pre"
-
   # Strips whitespace from model fields and converts blank values to nil.
   def strip_attributes(options = nil)
     before_validation do |record|
@@ -39,4 +37,4 @@ module StripAttributes
   end
 end
 
-require "strip_attributes/railtie" if defined?(::Rails) && defined?(::Rails::Railtie)
+require "strip_attributes/active_model"
