@@ -17,6 +17,6 @@ Gem::Specification.new do |s|
   s.test_files    = Dir["{test}/**/*"]
   s.require_paths = ["lib"]
 
-  s.add_runtime_dependency "activemodel", "~> 3.0"
-  s.add_development_dependency "activerecord", "~> 3.0"
+  s.add_runtime_dependency "activemodel", "~> 3.0.0"
+  s.add_development_dependency "activerecord", "~> 3.0.0"
 end
