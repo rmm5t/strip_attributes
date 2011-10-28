@@ -1,6 +1,6 @@
 require "test/unit"
 require "active_record"
-require "strip_attributes/active_model"
+require "strip_attributes"
 
 # Tableless AR borrowed from
 # http://stackoverflow.com/questions/937429/activerecordbase-without-table
