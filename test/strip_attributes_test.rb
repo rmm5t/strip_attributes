@@ -10,27 +10,27 @@ module MockAttributes
   end
 end
 
-class StripAllMockRecord < ActiveRecord::Base
+class StripAllMockRecord < Tableless
   include MockAttributes
   strip_attributes
 end
 
-class StripOnlyOneMockRecord < ActiveRecord::Base
+class StripOnlyOneMockRecord < Tableless
   include MockAttributes
   strip_attributes :only => :foo
 end
 
-class StripOnlyThreeMockRecord < ActiveRecord::Base
+class StripOnlyThreeMockRecord < Tableless
   include MockAttributes
   strip_attributes :only => [:foo, :bar, :biz]
 end
 
-class StripExceptOneMockRecord < ActiveRecord::Base
+class StripExceptOneMockRecord < Tableless
   include MockAttributes
   strip_attributes :except => :foo
 end
 
-class StripExceptThreeMockRecord < ActiveRecord::Base
+class StripExceptThreeMockRecord < Tableless
   include MockAttributes
   strip_attributes :except => [:foo, :bar, :biz]
 end
