@@ -1,19 +1,39 @@
 require "test/unit"
 require "active_record"
+require "active_support/core_ext/hash/indifferent_access"
 require "strip_attributes"
 
-# Tableless AR borrowed from
-# http://stackoverflow.com/questions/937429/activerecordbase-without-table
-class Tableless < ActiveRecord::Base
-  def self.columns()
-    @columns ||= []
+# Tableless ActiveModel with some parts borrowed from both
+# http://railscasts.com/episodes/219-active-model and ActiveRecord's
+# implementation.
+class Tableless
+  include ActiveModel::Validations
+  include ActiveModel::Validations::Callbacks
+
+  def initialize(attributes = {})
+    attributes.each { |name, value| send("#{name}=", value) }
   end
 
-  def self.column(name, sql_type = nil, default = nil, null = true)
-    columns << ActiveRecord::ConnectionAdapters::Column.new(name.to_s, default, sql_type, null)
+  def attributes
+    attrs = HashWithIndifferentAccess.new
+    self.class.attribute_names.each { |name| attrs[name] = self[name] }
+    attrs
   end
 
-  def save(validate = true)
-    validate ? valid? : true
+  def [](name)
+    send name
+  end
+
+  def []=(name, value)
+    send "#{name}=", value
+  end
+
+  def self.attribute_names
+    @attribute_names ||= []
+  end
+
+  def self.attributes(*names)
+    attr_accessor *names
+    attribute_names.concat names
   end
 end

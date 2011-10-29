@@ -2,11 +2,7 @@ require "test_helper"
 
 module MockAttributes
   def self.included(base)
-    base.column :foo,  :string
-    base.column :bar,  :string
-    base.column :biz,  :string
-    base.column :baz,  :string
-    base.column :bang, :string
+    base.attributes :foo, :bar, :biz, :baz, :bang
   end
 end
 
