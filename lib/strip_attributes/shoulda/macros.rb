@@ -1,10 +1,10 @@
-require "shoulda/active_record"
+require "shoulda/context"
 
 module StripAttributes
   module Shoulda
     module Macros
       def should_strip_attributes(*attributes)
-        klass = respond_to?(:described_type) ? described_type : model_class
+        klass = described_type
         attributes.each do |attribute|
           attribute = attribute.to_sym
           should "strip whitespace from #{attribute}" do
@@ -17,7 +17,7 @@ module StripAttributes
       end
 
       def should_not_strip_attributes(*attributes)
-        klass = respond_to?(:described_type) ? described_type : model_class
+        klass = described_type
         attributes.each do |attribute|
           attribute = attribute.to_sym
           should "not strip whitespace from #{attribute}" do
