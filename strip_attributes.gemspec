@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
 
   s.rubyforge_project = "strip_attributes"
 
-  s.files         = Dir["{lib,test}/**/*"]
+  s.files         = Dir["{lib,test}/**/*", "README*"]
   s.test_files    = Dir["{test}/**/*"]
   s.require_paths = ["lib"]
 
