@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.authors     = ["Ryan McGeary"]
   s.email       = ["ryan@mcgeary.org"]
   s.homepage    = "https://github.com/rmm5t/strip_attributes"
-  s.summary     = "Whitespace cleanup for ActiveRecord attributes"
+  s.summary     = "Whitespace cleanup for ActiveModel attributes"
   s.description = "StripAttributes automatically strips all ActiveRecord model attributes of leading and trailing whitespace before validation. If the attribute is blank, it strips the value to nil."
 
   s.rubyforge_project = "strip_attributes"
