@@ -74,7 +74,7 @@ end
 
 ## Testing
 
-StripAttributes provides shoulda-compatible macros for easier testing of
+StripAttributes provides shoulda support for easier testing of
 attribute assignment.
 
 ### Setup `test_helper.rb`
@@ -97,6 +97,31 @@ And in your unit tests:
 class UserTest < ActiveSupport::TestCase
   should_strip_attributes :name, :email
   should_not_strip_attributes :password
+end
+```
+
+or
+
+### Setup `spec_helper.rb`
+
+To initialize, include `StripAttributes::Shoulda::Matchers` in your
+`spec_helper.rb`:
+
+```ruby
+require "strip_attributes/shoulda"
+RSpec.configure do |config|
+  config.include StripAttributes::Shoulda::Matchers
+end
+```
+
+### Writing Specs
+
+And in your specs:
+
+```ruby
+describe User do
+  it { should strip_attributes :name, :email }
+  it { should_not strip_attributes :password }
 end
 ```
 
