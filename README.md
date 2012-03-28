@@ -1,4 +1,4 @@
-# StripAttributes
+# StripAttributes [![Build Status](https://secure.travis-ci.org/rmm5t/strip_attributes.png)](http://travis-ci.org/rmm5t/strip_attributes)
 
 StripAttributes is an ActiveModel extension that automatically strips all
 attributes of leading and trailing whitespace before validation. If the
@@ -9,8 +9,6 @@ attributes are stripped of whitespace, but `:only` and `:except`
 options can be used to limit which attributes are stripped.  Both options accept
 a single attribute (`:only => :field`) or arrays of attributes (`:except =>
 [:field1, :field2, :field3]`).
-
-[![Build Status](https://secure.travis-ci.org/rmm5t/strip_attributes.png)](http://travis-ci.org/rmm5t/strip_attributes)
 
 ## Installation
 
