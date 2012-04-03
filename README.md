@@ -46,6 +46,15 @@ class ConservativePokerPlayer < ActiveRecord::Base
 end
 ```
 
+### Using `:nullify => false`
+
+```ruby
+# all attributes will be stripped, but empty strings will not be translated into nil
+class EmptyStringPokerPlayer < ActiveRecord::Base
+  strip_attributes :nullify => false
+end
+```
+
 ## Usage Patterns
 
 ### Other ORMs implementing `ActiveModel`
