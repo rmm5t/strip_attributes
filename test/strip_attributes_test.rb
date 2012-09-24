@@ -31,6 +31,11 @@ class StripExceptThreeMockRecord < Tableless
   strip_attributes :except => [:foo, :bar, :biz]
 end
 
+class StripNullifyFalseMockRecord < Tableless
+  include MockAttributes
+  strip_attributes :nullify => false
+end
+
 class StripAttributesTest < Test::Unit::TestCase
   def setup
     @init_params = { :foo => "\tfoo", :bar => "bar \t ", :biz => "\tbiz ", :baz => "", :bang => " " }
@@ -88,5 +93,15 @@ class StripAttributesTest < Test::Unit::TestCase
     assert_equal "\tbiz ",  record.biz
     assert_nil record.baz
     assert_nil record.bang
+  end
+  
+  def test_should_strip_all_fields_with_nullify_false
+    record = StripNullifyFalseMockRecord.new(@init_params)
+    record.valid?
+    assert_equal "foo", record.foo
+    assert_equal "bar", record.bar
+    assert_equal "biz", record.biz
+    assert_equal "", record.baz
+    assert_equal "", record.bang
   end
 end
