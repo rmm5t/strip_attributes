@@ -1,6 +1,17 @@
 module StripAttributes
   module Matchers
 
+    # Whitespace is stripped from the beginning and end of the attribute
+    #
+    # RSpec Examples:
+    #
+    #   it { should strip_attribute(:first_name) }
+    #   it { should_not strip_attribute(:password) }
+    #
+    # Minitest Matchers Examples:
+    #
+    #   must { strip_attribute :first_name }
+    #   wont { strip_attribute :password }
     def strip_attribute(attribute)
       StripAttributeMatcher.new(attribute)
     end
