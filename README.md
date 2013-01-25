@@ -59,17 +59,19 @@ class User
 end
 ```
 
-### Outside of Rails
-
-If you want to use this outside of Rails, just require
-`strip_attributes/active_model` and you models will get the `strip_attributes`
-class method.
+### Using it with [`ActiveAttr`](https://github.com/cgriego/active_attr)
 
 ```ruby
-require "strip_attributes/active_model"
-class SomeModel < ActiveRecord::Base
+class Person
+  include ActiveAttr::Model
+  include ActiveModel::Validations::Callbacks
+
+  attribute :name
+  attribute :email
+
   strip_attributes
 end
+
 ```
 
 ## Testing
