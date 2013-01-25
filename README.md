@@ -74,54 +74,70 @@ end
 
 ## Testing
 
-StripAttributes provides shoulda support for easier testing of
-attribute assignment.
+StripAttributes provides an RSpec/Shoulda-compatible matcher for easier
+testing of attribute assignment. You can use this with
+[RSpec](http://rspec.info/), [Shoulda](https://github.com/thoughtbot/shoulda),
+or [Minitest-Matchers](https://github.com/zenspider/minitest-matchers).
 
-### Setup `test_helper.rb`
+### Setup `spec_helper.rb` or `test_helper.rb`
 
-To initialize, extend `StripAttributes::Shoulda::Macros` in your
-`test_helper.rb`:
+To initialize RSpec, add this to your `spec_helper.rb`:
 
 ```ruby
-require "strip_attributes/shoulda"
+require "strip_attributes/matchers
+RSpec.configure do |config|
+  config.include StripAttributes::Matchers
+end
+```
+
+To initialize Shoulda (with test-unit), add this to your `test_helper.rb`:
+
+```ruby
 class Test::Unit::TestCase
-  extend StripAttributes::Shoulda::Macros
+  include StripAttributes::Matchers
+  extend StripAttributes::Matchers
+end
+```
+
+To initialize Minitest-Matchers, add this to your `test_helper.rb`:
+
+```ruby
+class MiniTest::Spec
+  include StripAttributes::Matchers
 end
 ```
 
 ### Writing Tests
 
-And in your unit tests:
-
-```ruby
-class UserTest < ActiveSupport::TestCase
-  should_strip_attributes :name, :email
-  should_not_strip_attributes :password
-end
-```
-
-or
-
-### Setup `spec_helper.rb`
-
-To initialize, include `StripAttributes::Shoulda::Matchers` in your
-`spec_helper.rb`:
-
-```ruby
-require "strip_attributes/shoulda"
-RSpec.configure do |config|
-  config.include StripAttributes::Shoulda::Matchers
-end
-```
-
-### Writing Specs
-
-And in your specs:
+Rspec:
 
 ```ruby
 describe User do
-  it { should strip_attributes :name, :email }
-  it { should_not strip_attributes :password }
+  it { should strip_attribute :name }
+  it { should strip_attribute :email }
+  it { should_not strip_attribute :password }
+end
+```
+
+Shoulda (with test-unit):
+
+```ruby
+class UserTest < ActiveSupport::TestCase
+  should strip_attribute :name
+  should strip_attribute :email
+  should_not strip_attribute :password
+end
+```
+
+Minitest-Matchers:
+
+```ruby
+describe User do
+  subject { User.new }
+
+  must { strip_attribute :name }
+  must { strip_attribute :email }
+  wont { strip_attribute :password }
 end
 ```
 
