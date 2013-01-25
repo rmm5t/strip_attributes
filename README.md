@@ -15,7 +15,7 @@ a single attribute (`:only => :field`) or arrays of attributes (`:except =>
 Include the gem in your Gemfile:
 
 ```ruby
-gem "strip_attributes", "~> 1.1"
+gem "strip_attributes", "~> 1.2"
 ```
 
 ## Examples
