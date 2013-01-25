@@ -1,6 +1,6 @@
 require "minitest/matchers"
 require "test_helper"
-require "strip_attributes/shoulda/matchers"
+require "strip_attributes/matchers"
 
 class SampleMockRecord < Tableless
   attributes :stripped1, :stripped2, :stripped3
@@ -10,7 +10,7 @@ class SampleMockRecord < Tableless
 end
 
 describe SampleMockRecord do
-  include StripAttributes::Shoulda::Matchers
+  include StripAttributes::Matchers
 
   subject { SampleMockRecord.new }
 
