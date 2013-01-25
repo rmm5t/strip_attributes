@@ -17,6 +17,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
 
   gem.add_runtime_dependency "activemodel", "~> 3.0"
+  gem.add_development_dependency "minitest-matchers", "~> 1.2"
   gem.add_development_dependency "activerecord", "~> 3.0"
   gem.add_development_dependency "rake", "~> 10.0"
 end

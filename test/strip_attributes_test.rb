@@ -31,7 +31,7 @@ class StripExceptThreeMockRecord < Tableless
   strip_attributes :except => [:foo, :bar, :biz]
 end
 
-class StripAttributesTest < Test::Unit::TestCase
+class StripAttributesTest < MiniTest::Unit::TestCase
   def setup
     @init_params = { :foo => "\tfoo", :bar => "bar \t ", :biz => "\tbiz ", :baz => "", :bang => " " }
   end
