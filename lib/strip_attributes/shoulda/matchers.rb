@@ -2,40 +2,34 @@ module StripAttributes
   module Shoulda
     module Matchers
 
-      def strip_attributes(*attributes)
-        StripAttributesMatcher.new(attributes)
+      def strip_attribute(attributes)
+        StripAttributeMatcher.new(attributes)
       end
 
-      class StripAttributesMatcher
-        def initialize(attributes)
-          @attributes = attributes
+      class StripAttributeMatcher
+        def initialize(attribute)
+          @attribute = attribute
         end
 
         def matches?(subject)
-          @attributes.each { |attribute| subject.send("#{attribute}=", " string ") }
+          subject.send("#{@attribute}=", " string ")
           subject.valid?
-          @attributes.all? { |attribute| subject.send(attribute) == "string" }
+          subject.send(@attribute) == "string"
         end
 
         def failure_message
-          "Expected stripped whitespaces attributes: #{attributes_string},
-          but some of them not stripped still"
+          "Expected whitespace to be stripped from `#{@attribute}`, but it was not"
         end
 
         def negative_failure_message
-          "Expected not stripped whitespaces attributes: #{attributes_string},
-          but some of them stripped still"
+          "Expected whitespace to remain on `#{@attribute}`, but it was stripped"
         end
 
         def description
-          "strip whitespaces from attributes: #{attributes_string}"
-        end
-        
-        def attributes_string
-          @attributes.join(', ')
+          "strip whitespace from ##{@attribute}"
         end
       end
-      
-    end  
+
+    end
   end
 end
