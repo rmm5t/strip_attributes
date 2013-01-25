@@ -116,5 +116,5 @@ support.
 
 ## License
 
-Copyright (c) 2007-2011 Ryan McGeary released under the [MIT
+Copyright (c) 2007-2013 Ryan McGeary released under the [MIT
 license](http://en.wikipedia.org/wiki/MIT_License)
