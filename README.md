@@ -81,27 +81,29 @@ or [Minitest-Matchers](https://github.com/zenspider/minitest-matchers).
 
 ### Setup `spec_helper.rb` or `test_helper.rb`
 
-To initialize RSpec, add this to your `spec_helper.rb`:
+To initialize **RSpec**, add this to your `spec_helper.rb`:
 
 ```ruby
-require "strip_attributes/matchers
+require "strip_attributes/matchers"
 RSpec.configure do |config|
   config.include StripAttributes::Matchers
 end
 ```
 
-To initialize Shoulda (with test-unit), add this to your `test_helper.rb`:
+To initialize **Shoulda (with test-unit)**, add this to your `test_helper.rb`:
 
 ```ruby
+require "strip_attributes/matchers"
 class Test::Unit::TestCase
   include StripAttributes::Matchers
   extend StripAttributes::Matchers
 end
 ```
 
-To initialize Minitest-Matchers, add this to your `test_helper.rb`:
+To initialize **Minitest-Matchers**, add this to your `test_helper.rb`:
 
 ```ruby
+require "strip_attributes/matchers"
 class MiniTest::Spec
   include StripAttributes::Matchers
 end
@@ -109,7 +111,7 @@ end
 
 ### Writing Tests
 
-Rspec:
+**Rspec**:
 
 ```ruby
 describe User do
@@ -119,7 +121,7 @@ describe User do
 end
 ```
 
-Shoulda (with test-unit):
+**Shoulda (with test-unit)**:
 
 ```ruby
 class UserTest < ActiveSupport::TestCase
@@ -129,7 +131,7 @@ class UserTest < ActiveSupport::TestCase
 end
 ```
 
-Minitest-Matchers:
+**Minitest-Matchers**:
 
 ```ruby
 describe User do
