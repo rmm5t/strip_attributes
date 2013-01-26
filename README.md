@@ -97,7 +97,6 @@ To initialize **Shoulda (with test-unit)**, add this to your `test_helper.rb`:
 ```ruby
 require "strip_attributes/matchers"
 class Test::Unit::TestCase
-  include StripAttributes::Matchers
   extend StripAttributes::Matchers
 end
 ```
