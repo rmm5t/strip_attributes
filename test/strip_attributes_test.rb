@@ -31,6 +31,12 @@ class StripExceptThreeMockRecord < Tableless
   strip_attributes :except => [:foo, :bar, :biz]
 end
 
+class StripAllowEmpty < Tableless
+  include MockAttributes
+  strip_attributes :allow_empty => true
+end
+
+
 class StripAttributesTest < MiniTest::Unit::TestCase
   def setup
     @init_params = { :foo => "\tfoo", :bar => "bar \t ", :biz => "\tbiz ", :baz => "", :bang => " " }
@@ -88,5 +94,15 @@ class StripAttributesTest < MiniTest::Unit::TestCase
     assert_equal "\tbiz ",  record.biz
     assert_nil record.baz
     assert_nil record.bang
+  end
+
+  def test_should_strip_and_allow_empty
+    record = StripAllowEmpty.new(@init_params)
+    record.valid?
+    assert_equal "foo", record.foo
+    assert_equal "bar", record.bar
+    assert_equal "biz", record.biz
+    assert_equal "",    record.baz
+    assert_equal "",    record.bang
   end
 end

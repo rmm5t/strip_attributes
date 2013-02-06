@@ -2,7 +2,7 @@
 
 StripAttributes is an ActiveModel extension that automatically strips all
 attributes of leading and trailing whitespace before validation. If the
-attribute is blank, it strips the value to `nil`.
+attribute is blank, it strips the value to `nil` by default.
 
 It works by adding a before_validation hook to the record.  By default, all
 attributes are stripped of whitespace, but `:only` and `:except`
@@ -43,6 +43,15 @@ end
 # only :shoe, :sock, and :glove attributes will be stripped
 class ConservativePokerPlayer < ActiveRecord::Base
   strip_attributes :only => [:shoe, :sock, :glove]
+end
+```
+
+### Using `allow_empty`
+
+```ruby
+# Empty attributes will not be converted to nil
+class BrokePokerPlayer < ActiveRecord::Base
+  strip_attributes :allow_empty => true
 end
 ```
 
