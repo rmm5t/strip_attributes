@@ -11,6 +11,7 @@ Gem::Specification.new do |gem|
   gem.homepage    = "https://github.com/rmm5t/strip_attributes"
   gem.summary     = "Whitespace cleanup for ActiveModel attributes"
   gem.description = "StripAttributes automatically strips all ActiveRecord model attributes of leading and trailing whitespace before validation. If the attribute is blank, it strips the value to nil."
+  gem.license     = "MIT"
 
   gem.files         = Dir["{lib,test}/**/*", "README*"]
   gem.test_files    = Dir["{test}/**/*"]
