@@ -55,6 +55,15 @@ class BrokePokerPlayer < ActiveRecord::Base
 end
 ```
 
+### Using `collapse_spaces`
+
+```ruby
+# Sequential spaces in attributes will be collapsed to one space
+class EloquentPokerPlayer < ActiveRecord::Base
+  strip_attributes :collapse_spaces => true
+end
+```
+
 ## Usage Patterns
 
 ### Other ORMs implementing `ActiveModel`
