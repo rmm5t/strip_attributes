@@ -4,13 +4,22 @@ module ActiveModel::Validations::HelperMethods
   # Strips whitespace from model fields and converts blank values to nil.
   def strip_attributes(options = nil)
     before_validation do |record|
-      allow_empty = options.delete(:allow_empty) if options
+      if options
+        allow_empty     = options.delete(:allow_empty)
+        collapse_spaces = options.delete(:collapse_spaces)
+      end
 
       attributes = StripAttributes.narrow(record.attributes, options)
       attributes.each do |attr, value|
         if value.respond_to?(:strip)
-          record[attr] = (value.blank? && !allow_empty) ? nil : value.strip
+          value = (value.blank? && !allow_empty) ? nil : value.strip
         end
+
+        if collapse_spaces && value.respond_to?(:squeeze!)
+          value.squeeze!(' ')
+        end
+
+        record[attr] = value
       end
     end
   end
