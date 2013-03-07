@@ -3,10 +3,12 @@ require "active_model"
 module ActiveModel::Validations::HelperMethods
   # Strips whitespace from model fields and converts blank values to nil.
   def strip_attributes(options = nil)
+    StripAttributes.validate_options(options)
+
     before_validation do |record|
       if options
-        allow_empty     = options.delete(:allow_empty)
-        collapse_spaces = options.delete(:collapse_spaces)
+        allow_empty     = options[:allow_empty]
+        collapse_spaces = options[:collapse_spaces]
       end
 
       attributes = StripAttributes.narrow(record.attributes, options)
@@ -33,20 +35,26 @@ module ActiveModel::Validations::HelperMethods
 end
 
 module StripAttributes
+  VALID_OPTIONS = [:only, :except, :allow_empty, :collapse_spaces]
+
   # Necessary because Rails has removed the narrowing of attributes using :only
   # and :except on Base#attributes
-  def self.narrow(attributes, options)
-    if options.nil? || options.empty?
-      attributes
+  def self.narrow(attributes, options = {})
+    if except = options && options[:except]
+      except = Array(except).collect { |attribute| attribute.to_s }
+      attributes.except(*except)
+    elsif only = options && options[:only]
+      only = Array(only).collect { |attribute| attribute.to_s }
+      attributes.slice(*only)
     else
-      if except = options[:except]
-        except = Array(except).collect { |attribute| attribute.to_s }
-        attributes.except(*except)
-      elsif only = options[:only]
-        only = Array(only).collect { |attribute| attribute.to_s }
-        attributes.slice(*only)
-      else
-        raise ArgumentError, "Options does not specify :except or :only (#{options.keys.inspect})"
+      attributes
+    end
+  end
+
+  def self.validate_options(options)
+    if keys = options && options.keys
+      unless (keys - VALID_OPTIONS).empty?
+        raise ArgumentError, "Options does not specify #{VALID_OPTIONS} (#{options.keys.inspect})"
       end
     end
   end
