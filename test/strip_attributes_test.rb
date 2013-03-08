@@ -126,4 +126,17 @@ class StripAttributesTest < MiniTest::Unit::TestCase
     assert_equal nil,       record.baz
     assert_equal nil,       record.bang
   end
+
+  def test_should_strip_and_allow_empty_always
+    record = StripAllowEmpty.new(@init_params)
+    record.valid?
+    record.assign_attributes(@init_params)
+    record.valid?
+    assert_equal "foo",      record.foo
+    assert_equal "bar",      record.bar
+    assert_equal "biz",      record.biz
+    assert_equal "foz  foz", record.foz
+    assert_equal "",         record.baz
+    assert_equal "",         record.bang
+  end
 end
