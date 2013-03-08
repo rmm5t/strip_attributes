@@ -6,23 +6,7 @@ module ActiveModel::Validations::HelperMethods
     StripAttributes.validate_options(options)
 
     before_validation do |record|
-      if options
-        allow_empty     = options[:allow_empty]
-        collapse_spaces = options[:collapse_spaces]
-      end
-
-      attributes = StripAttributes.narrow(record.attributes, options)
-      attributes.each do |attr, value|
-        if value.respond_to?(:strip)
-          value = (value.blank? && !allow_empty) ? nil : value.strip
-        end
-
-        if collapse_spaces && value.respond_to?(:squeeze!)
-          value.squeeze!(' ')
-        end
-
-        record[attr] = value
-      end
+      StripAttributes.strip(record, options)
     end
   end
 
@@ -49,6 +33,27 @@ module StripAttributes
     else
       attributes
     end
+  end
+
+  def self.strip(record, options)
+      attributes = self.narrow(record.attributes, options)
+
+      if options
+        allow_empty     = options[:allow_empty]
+        collapse_spaces = options[:collapse_spaces]
+      end
+
+      attributes.each do |attr, value|
+        if value.respond_to?(:strip)
+          value = (value.blank? && !allow_empty) ? nil : value.strip
+        end
+
+        if collapse_spaces && value.respond_to?(:squeeze!)
+          value.squeeze!(' ')
+        end
+
+        record[attr] = value
+      end
   end
 
   def self.validate_options(options)
