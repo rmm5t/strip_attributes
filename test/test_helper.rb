@@ -21,6 +21,10 @@ class Tableless
     attrs
   end
 
+  def assign_attributes(attributes = {})
+    attributes.each { |name, value| send("#{name}=", value) }
+  end
+
   def [](name)
     send name
   end
