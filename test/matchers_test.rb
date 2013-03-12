@@ -3,9 +3,12 @@ require "test_helper"
 require "strip_attributes/matchers"
 
 class SampleMockRecord < Tableless
-  attributes :stripped1, :stripped2, :stripped3
-  attributes :unstripped1, :unstripped2, :unstripped3
-
+  attribute :stripped1
+  attribute :stripped2
+  attribute :stripped3
+  attribute :unstripped1
+  attribute :unstripped2
+  attribute :unstripped3
   strip_attributes :only => [:stripped1, :stripped2, :stripped3]
 end
 

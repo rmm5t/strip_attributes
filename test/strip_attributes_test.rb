@@ -2,7 +2,12 @@ require "test_helper"
 
 module MockAttributes
   def self.included(base)
-    base.attributes :foo, :bar, :biz, :baz, :bang, :foz
+    base.attribute :foo
+    base.attribute :bar
+    base.attribute :biz
+    base.attribute :baz
+    base.attribute :bang
+    base.attribute :foz
   end
 end
 
