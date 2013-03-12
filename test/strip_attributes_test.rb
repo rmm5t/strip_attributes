@@ -46,6 +46,17 @@ class CollapseDuplicateSpaces < Tableless
   strip_attributes :collapse_spaces => true
 end
 
+class CoexistWithOtherValidations < Tableless
+  include MockAttributes
+  attribute :number, :type => Integer
+
+  strip_attributes
+  validates :number, {
+    :numericality => { :only_integer => true,  :greater_than_or_equal_to => 1000 },
+    :allow_blank => true
+  }
+end
+
 class StripAttributesTest < MiniTest::Unit::TestCase
   def setup
     @init_params = { :foo => "\tfoo", :bar => "bar \t ", :biz => "\tbiz ", :baz => "", :bang => " ", :foz => " foz  foz" }
@@ -143,5 +154,12 @@ class StripAttributesTest < MiniTest::Unit::TestCase
     assert_equal "foz  foz", record.foz
     assert_equal "",         record.baz
     assert_equal "",         record.bang
+  end
+
+  def test_should_coexist_with_other_validations
+    record = CoexistWithOtherValidations.new(@init_params)
+    record.number = 1000.1
+    assert !record.valid?, "Expected record to be invalid"
+    assert record.errors.include?(:number), "Expected record to have an error on :number"
   end
 end
