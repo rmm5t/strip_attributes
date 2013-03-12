@@ -1,6 +1,5 @@
 require "minitest/autorun"
 require "minitest/pride"
-require "active_record"
 require "active_support/core_ext/hash/indifferent_access"
 require "strip_attributes"
 
