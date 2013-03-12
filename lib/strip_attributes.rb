@@ -44,6 +44,8 @@ module StripAttributes
       end
 
       attributes.each do |attr, value|
+        original_value = value
+
         if value.respond_to?(:strip)
           value = (value.blank? && !allow_empty) ? nil : value.strip
         end
@@ -52,7 +54,7 @@ module StripAttributes
           value.squeeze!(' ')
         end
 
-        record[attr] = value
+        record[attr] = value if original_value != value
       end
   end
 
