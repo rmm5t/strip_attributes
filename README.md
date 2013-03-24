@@ -1,4 +1,4 @@
-# StripAttributes [![Gem Version](https://badge.fury.io/rb/strip_attributes.png)](http://badge.fury.io/rb/strip_attributes) [![Build Status](https://secure.travis-ci.org/rmm5t/strip_attributes.png)](http://travis-ci.org/rmm5t/strip_attributes)
+# StripAttributes [![Gem Version](https://badge.fury.io/rb/strip_attributes.png)](http://badge.fury.io/rb/strip_attributes) [![Build Status](https://secure.travis-ci.org/rmm5t/strip_attributes.png)](http://travis-ci.org/rmm5t/strip_attributes) [![Code Climate](https://codeclimate.com/github/rmm5t/strip_attributes.png)](https://codeclimate.com/github/rmm5t/strip_attributes)
 
 StripAttributes is an ActiveModel extension that automatically strips all
 attributes of leading and trailing whitespace before validation. If the
