@@ -2,5 +2,6 @@
 .bundle
 vendor/ruby
 Gemfile.lock
+gemfiles/*.lock
 pkg/*
 rdoc/*
