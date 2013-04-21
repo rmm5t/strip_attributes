@@ -10,6 +10,10 @@ class SampleMockRecord < Tableless
   attribute :unstripped2
   attribute :unstripped3
   strip_attributes :only => [:stripped1, :stripped2, :stripped3]
+
+  attribute :collapsed
+  attribute :uncollapsed
+  strip_attributes :only => [:collapsed], :collapse_spaces => true
 end
 
 describe SampleMockRecord do
@@ -24,6 +28,9 @@ describe SampleMockRecord do
   wont { strip_attribute :unstripped2 }
   wont { strip_attribute :unstripped3 }
 
+  must { strip_attribute(:collapsed).collapse_spaces }
+  wont { strip_attribute(:uncollapsed).collapse_spaces }
+
   it "should fail when testing for strip on an unstripped attribute" do
     begin
       assert_must strip_attribute(:unstripped1)
@@ -36,6 +43,24 @@ describe SampleMockRecord do
   it "should fail when testing for no strip on a stripped attribute" do
     begin
       assert_wont strip_attribute(:stripped1)
+      assert false
+    rescue
+      assert true
+    end
+  end
+
+  it "should fail when testing for collapse on an uncollapsed attribute" do
+    begin
+      assert_must collapse_attribute(:uncollapsed)
+      assert false
+    rescue
+      assert true
+    end
+  end
+
+  it "should fail when testing for no collapse on a collapsed attribute" do
+    begin
+      assert_wont collapse_attribute(:collapsed)
       assert false
     rescue
       assert true
