@@ -34,11 +34,11 @@ module StripAttributes
       end
 
       def failure_message
-        "Expected whitespace to be #{expectation} from `#{@attribute}`, but it was not"
+        "Expected whitespace to be #{expectation} from ##{@attribute}, but it was not"
       end
 
       def negative_failure_message
-        "Expected whitespace to remain on `#{@attribute}`, but it was #{expectation}"
+        "Expected whitespace to remain on ##{@attribute}, but it was #{expectation}"
       end
 
       def description
