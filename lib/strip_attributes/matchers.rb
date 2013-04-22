@@ -19,26 +19,47 @@ module StripAttributes
     class StripAttributeMatcher
       def initialize(attribute)
         @attribute = attribute
+        @options = {}
       end
 
       def matches?(subject)
         subject.send("#{@attribute}=", " string ")
         subject.valid?
-        subject.send(@attribute) == "string"
+        subject.send(@attribute) == "string" and collapse_spaces?(subject)
+      end
+
+      def collapse_spaces
+        @options[:collapse_spaces] = true
+        self
       end
 
       def failure_message
-        "Expected whitespace to be stripped from `#{@attribute}`, but it was not"
+        "Expected whitespace to be #{expectation} from `#{@attribute}`, but it was not"
       end
 
       def negative_failure_message
-        "Expected whitespace to remain on `#{@attribute}`, but it was stripped"
+        "Expected whitespace to remain on `#{@attribute}`, but it was #{expectation}"
       end
 
       def description
-        "strip whitespace from ##{@attribute}"
+        description + "#{expectation(false)} whitespace from ##{@attribute}"
+      end
+
+
+      private
+
+      def collapse_spaces?(subject)
+        return true if !@options[:collapse_spaces]
+
+        subject.send("#{@attribute}=", " string    string ")
+        subject.valid?
+        subject.send(@attribute) == "string string"
+      end
+
+      def expectation(past = true)
+        expectation = past ? "stripped" : "strip"
+        expectation += past ? " and collapsed" : " and collapse" if @options[:collapse_spaces]
       end
     end
-
   end
 end
