@@ -42,9 +42,8 @@ module StripAttributes
       end
 
       def description
-        description + "#{expectation(false)} whitespace from ##{@attribute}"
+        "#{expectation(false)} whitespace from ##{@attribute}"
       end
-
 
       private
 
