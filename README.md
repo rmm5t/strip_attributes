@@ -134,7 +134,7 @@ end
 
 ```ruby
 describe User do
-  it { should strip_attribute :name }
+  it { should strip_attribute(:name).collapse_spaces }
   it { should strip_attribute :email }
   it { should_not strip_attribute :password }
 end
@@ -144,7 +144,7 @@ end
 
 ```ruby
 class UserTest < ActiveSupport::TestCase
-  should strip_attribute :name
+  should strip_attribute(:name).collapse_spaces
   should strip_attribute :email
   should_not strip_attribute :password
 end
@@ -156,7 +156,7 @@ end
 describe User do
   subject { User.new }
 
-  must { strip_attribute :name }
+  must { strip_attribute(:name).collapse_spaces }
   must { strip_attribute :email }
   wont { strip_attribute :password }
 end
