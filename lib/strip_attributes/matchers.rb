@@ -33,13 +33,15 @@ module StripAttributes
         self
       end
 
-      def failure_message
+      def failure_message_for_should
         "Expected whitespace to be #{expectation} from ##{@attribute}, but it was not"
       end
+      alias_method :failure_message, :failure_message_for_should
 
-      def negative_failure_message
+      def failure_message_for_should_not
         "Expected whitespace to remain on ##{@attribute}, but it was #{expectation}"
       end
+      alias_method :negative_failure_message, :failure_message_for_should_not
 
       def description
         "#{expectation(false)} whitespace from ##{@attribute}"
