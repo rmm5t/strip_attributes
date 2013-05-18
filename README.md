@@ -10,6 +10,11 @@ options can be used to limit which attributes are stripped.  Both options accept
 a single attribute (`:only => :field`) or arrays of attributes (`:except =>
 [:field1, :field2, :field3]`).
 
+**If you like this project, please help by donating.**
+
+* Gittip: https://www.gittip.com/rmm5t/
+* Bitcoin: `1wzBnMjWVZfpiFMc5i2nzKT7sCBaZNfLK`
+
 ## Installation
 
 Include the gem in your Gemfile:
