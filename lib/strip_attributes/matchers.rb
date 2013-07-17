@@ -60,6 +60,7 @@ module StripAttributes
       def expectation(past = true)
         expectation = past ? "stripped" : "strip"
         expectation += past ? " and collapsed" : " and collapse" if @options[:collapse_spaces]
+        expectation
       end
     end
   end
