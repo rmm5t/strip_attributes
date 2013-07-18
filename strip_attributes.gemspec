@@ -20,5 +20,6 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency "activemodel", ">= 3.0", "< 5.0"
   gem.add_development_dependency "active_attr", "~> 0.7"
   gem.add_development_dependency "minitest-matchers", "~> 1.2"
+  gem.add_development_dependency "minitest", "~> 4.7"
   gem.add_development_dependency "rake", "~> 10.0"
 end
