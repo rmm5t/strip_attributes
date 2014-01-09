@@ -61,13 +61,6 @@ class StripRegexMockRecord < Tableless
   strip_attributes :regex => /[\^\%&\*]/
 end
 
-# 
-# class StripRegexMockRecord < Tableless  
-#   include MockAttribtues
-#   strip_attributes :regex => /^%&\*/
-# end
-
-
 class StripAttributesTest < MiniTest::Unit::TestCase
   def setup
     @init_params = { :foo => "\tfoo", :bar => "bar \t ", :biz => "\tbiz ", :baz => "", :bang => " ", :foz => " foz  foz" }
