@@ -169,4 +169,10 @@ class StripAttributesTest < MiniTest::Unit::TestCase
     # assert record.valid?, "Expected record to be valid, but got #{record.errors.full_messages}"
     # assert !record.errors.include?(:number), "Expected record to have no errors on :number"
   end
+
+  def test_strip_unicode
+    record = StripOnlyOneMockRecord.new({:foo => "\u200Bfoo\u3000"})
+    record.valid?
+    assert_equal "foo",      record.foo
+  end
 end

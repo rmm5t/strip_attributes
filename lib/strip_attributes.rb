@@ -50,6 +50,16 @@ module StripAttributes
           value = (value.blank? && !allow_empty) ? nil : value.strip
         end
 
+        # Remove leading and trailing Unicode invisible and whitespace characters.
+        # Include groups White_Space and Join_Control from
+        # http://unicode.org/Public/UNIDATA/PropList.txt, plus:
+        #   180E MONGOLIAN VOWEL SEPARATOR
+        #   200B ZERO WIDTH SPACE
+        #   FEFF ZERO WIDTH NO-BREAK SPACE
+        if value.respond_to?(:gsub!)
+          value.gsub!(/\A[\u0009-\u000D\u0020\u0085\u00A0\u1680\u2000-\u200A\u2028\u2029\u202F\u205F\u3000\u200C\u200D\u180E\u200B\uFEFF]+|[\u0009-\u000D\u0020\u0085\u00A0\u1680\u2000-\u200A\u2028\u2029\u202F\u205F\u3000\u200C\u200D\u180E\u200B\uFEFF]+\z/, '')
+        end
+
         if collapse_spaces && value.respond_to?(:squeeze!)
           value.squeeze!(' ')
         end
