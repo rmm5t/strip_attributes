@@ -69,6 +69,17 @@ class EloquentPokerPlayer < ActiveRecord::Base
 end
 ```
 
+### Using `regex`
+
+```ruby
+class User < ActiveRecord::Base
+  # Strip off characters defined by RegEx
+  strip_attributes :only => [:first_name, :last_name], :regex => /[^[:alpha:]\s]/
+  # Strip off non-integers
+  strip_attributes :only => [:phone], :regex => /[^0-9]/
+end
+```
+
 ## Usage Patterns
 
 ### Other ORMs implementing `ActiveModel`

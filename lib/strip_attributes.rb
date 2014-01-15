@@ -19,7 +19,7 @@ module ActiveModel::Validations::HelperMethods
 end
 
 module StripAttributes
-  VALID_OPTIONS = [:only, :except, :allow_empty, :collapse_spaces]
+  VALID_OPTIONS = [:only, :except, :allow_empty, :collapse_spaces, :regex]
 
   # Necessary because Rails has removed the narrowing of attributes using :only
   # and :except on Base#attributes
@@ -41,6 +41,7 @@ module StripAttributes
       if options
         allow_empty     = options[:allow_empty]
         collapse_spaces = options[:collapse_spaces]
+        regex           = options[:regex]
       end
 
       attributes.each do |attr, value|
@@ -52,6 +53,10 @@ module StripAttributes
 
         if collapse_spaces && value.respond_to?(:squeeze!)
           value.squeeze!(' ')
+        end
+        
+        if regex && value.respond_to?(:gsub!)
+          value.gsub!(regex, '')
         end
 
         record[attr] = value if original_value != value
