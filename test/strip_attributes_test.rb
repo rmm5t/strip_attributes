@@ -56,6 +56,11 @@ class CoexistWithOtherValidations < Tableless
   }
 end
 
+class StripRegexMockRecord < Tableless
+  include MockAttributes
+  strip_attributes :regex => /[\^\%&\*]/
+end
+
 class StripAttributesTest < MiniTest::Unit::TestCase
   def setup
     @init_params = { :foo => "\tfoo", :bar => "bar \t ", :biz => "\tbiz ", :baz => "", :bang => " ", :foz => " foz  foz" }
@@ -169,6 +174,14 @@ class StripAttributesTest < MiniTest::Unit::TestCase
     # assert record.valid?, "Expected record to be valid, but got #{record.errors.full_messages}"
     # assert !record.errors.include?(:number), "Expected record to have no errors on :number"
   end
+
+  def test_should_strip_regex
+    record = StripRegexMockRecord.new
+    record.assign_attributes(@init_params.merge(:foo => "^%&*abc  "))
+    record.valid?
+    assert_equal "abc",        record.foo
+    assert_equal "bar",        record.bar
+  end  
 
   def test_strip_unicode
     record = StripOnlyOneMockRecord.new({:foo => "\u200Bfoo\u3000"})
