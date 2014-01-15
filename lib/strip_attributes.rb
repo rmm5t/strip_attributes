@@ -56,13 +56,18 @@ module StripAttributes
         end
 
         # Remove leading and trailing Unicode invisible and whitespace characters.
-        # Include groups White_Space and Join_Control from
-        # http://unicode.org/Public/UNIDATA/PropList.txt, plus:
-        #   180E MONGOLIAN VOWEL SEPARATOR
-        #   200B ZERO WIDTH SPACE
-        #   FEFF ZERO WIDTH NO-BREAK SPACE
+        # The POSIX character class [:space:] corresponds to the Unicode class Z
+        # ("separator"). We also include the following characters from Unicode class
+        # C ("control"), which are spaces or invisible characters that make no
+        # sense at the start or end of a string:
+        #   U+180E MONGOLIAN VOWEL SEPARATOR
+        #   U+200B ZERO WIDTH SPACE
+        #   U+200C ZERO WIDTH NON-JOINER
+        #   U+200D ZERO WIDTH JOINER
+        #   U+2060 WORD JOINER
+        #   U+FEFF ZERO WIDTH NO-BREAK SPACE
         if value.respond_to?(:gsub!)
-          value.gsub!(/\A[\u0009-\u000D\u0020\u0085\u00A0\u1680\u2000-\u200A\u2028\u2029\u202F\u205F\u3000\u200C\u200D\u180E\u200B\uFEFF]+|[\u0009-\u000D\u0020\u0085\u00A0\u1680\u2000-\u200A\u2028\u2029\u202F\u205F\u3000\u200C\u200D\u180E\u200B\uFEFF]+\z/, '')
+          value.gsub!(/\A[[:space:]\u180E\u200B\u200C\u200D\u2060\uFEFF]+|[[:space:]\u180E\u200B\u200C\u200D\u2060\uFEFF]+\z/, '')
         end
 
         if collapse_spaces && value.respond_to?(:squeeze!)

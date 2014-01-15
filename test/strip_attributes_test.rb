@@ -184,7 +184,9 @@ class StripAttributesTest < MiniTest::Unit::TestCase
   end  
 
   def test_strip_unicode
-    record = StripOnlyOneMockRecord.new({:foo => "\u200Bfoo\u3000"})
+    # U200A - HAIR SPACE
+    # U200B - ZERO WIDTH SPACE
+    record = StripOnlyOneMockRecord.new({:foo => "\u200A\u200B foo\u200A\u200B "})
     record.valid?
     assert_equal "foo",      record.foo
   end
