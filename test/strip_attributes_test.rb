@@ -184,6 +184,8 @@ class StripAttributesTest < MiniTest::Unit::TestCase
   end  
 
   def test_strip_unicode
+    # This feature only works if multi-byte characters are supported by Ruby
+    return if "\u0020" != " "
     # U200A - HAIR SPACE
     # U200B - ZERO WIDTH SPACE
     record = StripOnlyOneMockRecord.new({:foo => "\u200A\u200B foo\u200A\u200B "})
