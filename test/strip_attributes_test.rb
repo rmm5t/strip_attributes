@@ -174,7 +174,7 @@ class StripAttributesTest < MiniTest::Unit::TestCase
     # assert record.valid?, "Expected record to be valid, but got #{record.errors.full_messages}"
     # assert !record.errors.include?(:number), "Expected record to have no errors on :number"
   end
-  
+
   def test_should_strip_regex
     record = StripRegexMockRecord.new
     record.assign_attributes(@init_params.merge(:foo => "^%&*abc  "))
@@ -182,4 +182,14 @@ class StripAttributesTest < MiniTest::Unit::TestCase
     assert_equal "abc",        record.foo
     assert_equal "bar",        record.bar
   end  
+
+  def test_strip_unicode
+    # This feature only works if multi-byte characters are supported by Ruby
+    return if "\u0020" != " "
+    # U200A - HAIR SPACE
+    # U200B - ZERO WIDTH SPACE
+    record = StripOnlyOneMockRecord.new({:foo => "\u200A\u200B foo\u200A\u200B "})
+    record.valid?
+    assert_equal "foo",      record.foo
+  end
 end
