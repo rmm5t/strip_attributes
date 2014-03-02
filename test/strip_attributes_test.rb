@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require "test_helper"
 
 module MockAttributes
@@ -191,5 +193,11 @@ class StripAttributesTest < MiniTest::Unit::TestCase
     record = StripOnlyOneMockRecord.new({:foo => "\u200A\u200B foo\u200A\u200B "})
     record.valid?
     assert_equal "foo",      record.foo
+  end
+
+  def test_strip_non_ascii
+    record = StripOnlyOneMockRecord.new({:foo => "vélo "})
+    record.valid?
+    assert_equal "vélo",      record.foo
   end
 end

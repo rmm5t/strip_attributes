@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require "active_model"
 
 module ActiveModel::Validations::HelperMethods
