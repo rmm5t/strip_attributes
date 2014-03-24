@@ -33,15 +33,16 @@ module StripAttributes
         self
       end
 
-      def failure_message_for_should
+      def failure_message # RSpec 3.x
         "Expected whitespace to be #{expectation} from ##{@attribute}, but it was not"
       end
-      alias_method :failure_message, :failure_message_for_should
+      alias_method :failure_message_for_should, :failure_message # RSpec 1.2, 2.x, and minitest-matchers
 
-      def failure_message_for_should_not
+      def failure_message_when_negated # RSpec 3.x
         "Expected whitespace to remain on ##{@attribute}, but it was #{expectation}"
       end
-      alias_method :negative_failure_message, :failure_message_for_should_not
+      alias_method :failure_message_for_should_not, :failure_message_when_negated # RSpec 1.2, 2.x, and minitest-matchers
+      alias_method :negative_failure_message,       :failure_message_when_negated # RSpec 1.1
 
       def description
         "#{expectation(false)} whitespace from ##{@attribute}"
