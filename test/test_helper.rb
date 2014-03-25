@@ -10,3 +10,6 @@ class Tableless
 
   include ActiveModel::Validations::Callbacks
 end
+
+# Avoid annoying deprecation warning
+I18n.enforce_available_locales = true
