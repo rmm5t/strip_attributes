@@ -93,6 +93,8 @@ class User < ActiveRecord::Base
   strip_attributes :only => [:first_name, :last_name], :regex => /[^[:alpha:]\s]/
   # Strip off non-integers
   strip_attributes :only => [:phone], :regex => /[^0-9]/
+  # Strip off all spaces and keep only alphabetic and numeric characters
+  strip_attributes :only => [:nick_name], :regex => /[^[:alnum:]\S]/
 end
 ```
 
