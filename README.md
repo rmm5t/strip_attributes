@@ -164,13 +164,13 @@ end
 
 ### Writing Tests
 
-**Rspec**:
+**RSpec**:
 
 ```ruby
 describe User do
-  it { should strip_attribute(:name).collapse_spaces }
-  it { should strip_attribute :email }
-  it { should_not strip_attribute :password }
+  it { is_expected.to strip_attribute(:name).collapse_spaces }
+  it { is_expected.to strip_attribute :email }
+  it { is_expected.not_to strip_attribute :password }
 end
 ```
 
