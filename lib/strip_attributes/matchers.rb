@@ -5,8 +5,8 @@ module StripAttributes
     #
     # RSpec Examples:
     #
-    #   it { should strip_attribute(:first_name) }
-    #   it { should_not strip_attribute(:password) }
+    #   it { is_expected.to strip_attribute(:first_name) }
+    #   it { is_expected.not_to strip_attribute(:password) }
     #
     # Minitest Matchers Examples:
     #
