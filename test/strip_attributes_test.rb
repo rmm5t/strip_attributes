@@ -8,6 +8,7 @@ module MockAttributes
     base.attribute :baz
     base.attribute :bang
     base.attribute :foz
+    base.attribute :fox_hash
   end
 end
 
@@ -46,6 +47,7 @@ class CollapseDuplicateSpaces < Tableless
   strip_attributes :collapse_spaces => true
 end
 
+
 class CoexistWithOtherValidations < Tableless
   attribute :number, :type => Integer
 
@@ -61,9 +63,21 @@ class StripRegexMockRecord < Tableless
   strip_attributes :regex => /[\^\%&\*]/
 end
 
+class StripHashValues < Tableless
+  include MockAttributes
+  strip_attributes :strip_hash_values => true 
+end
+
 class StripAttributesTest < MiniTest::Unit::TestCase
   def setup
-    @init_params = { :foo => "\tfoo", :bar => "bar \t ", :biz => "\tbiz ", :baz => "", :bang => " ", :foz => " foz  foz" }
+    @init_params = { :foo => "\tfoo", 
+                     :bar => "bar \t ", 
+                     :biz => "\tbiz ", 
+                     :baz => "", 
+                     :bang => " ", 
+                     :foz => " foz  foz",
+                     :fox_hash => {:foo => "    foz" } }
+                     
   end
 
   def test_should_exist
@@ -191,5 +205,11 @@ class StripAttributesTest < MiniTest::Unit::TestCase
     record = StripOnlyOneMockRecord.new({:foo => "\u200A\u200B foo\u200A\u200B "})
     record.valid?
     assert_equal "foo",      record.foo
+  end
+  
+  def test_strip_hash_values
+    record = StripHashValues.new(@init_params)    
+    record.valid?
+    assert_equal 'foz', record.fox_hash[:foo]
   end
 end
