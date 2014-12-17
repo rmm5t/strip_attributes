@@ -19,7 +19,7 @@ module ActiveModel::Validations::HelperMethods
 end
 
 module StripAttributes
-  VALID_OPTIONS = [:only, :except, :allow_empty, :collapse_spaces, :regex]
+  VALID_OPTIONS = [:only, :except, :allow_empty, :collapse_spaces, :regex, :strip_hash_values]
   MULTIBYTE_SUPPORTED = "\u0020" == " "
 
   # Necessary because Rails has removed the narrowing of attributes using :only
@@ -37,48 +37,60 @@ module StripAttributes
   end
 
   def self.strip(record, options)
-      attributes = self.narrow(record.attributes, options)
+    attributes = self.narrow(record.attributes, options)
 
-      if options
-        allow_empty     = options[:allow_empty]
-        collapse_spaces = options[:collapse_spaces]
-        regex           = options[:regex]
+    if options
+      strip_hash_values = options[:strip_hash_values] 
+    end
+
+    attributes.map do |attr, value|
+      original_value = value
+      if :strip_hash_values && value.respond_to?(:values)
+        modified_key_value_pairs = value.map { |k,v| [k, strip_value(v,options)] }
+        value = Hash[modified_key_value_pairs]
+      else
+        value = strip_value(value, options)
       end
+      record[attr] = value if original_value != value
+    end
+  end
+  
+  def self.strip_value(value, options)
+    if options
+      allow_empty     = options[:allow_empty]
+      collapse_spaces = options[:collapse_spaces]
+      regex           = options[:regex]
+    end
+    
+    if value.respond_to?(:strip)
+      value = (value.blank? && !allow_empty) ? nil : value.strip
+    end
 
-      attributes.each do |attr, value|
-        original_value = value
+    if regex && value.respond_to?(:gsub!)
+      value.gsub!(regex, '')
+    end
 
-        if value.respond_to?(:strip)
-          value = (value.blank? && !allow_empty) ? nil : value.strip
-        end
-
-        if regex && value.respond_to?(:gsub!)
-          value.gsub!(regex, '')
-        end
-
-        if MULTIBYTE_SUPPORTED
-          # Remove leading and trailing Unicode invisible and whitespace characters.
-          # The POSIX character class [:space:] corresponds to the Unicode class Z
-          # ("separator"). We also include the following characters from Unicode class
-          # C ("control"), which are spaces or invisible characters that make no
-          # sense at the start or end of a string:
-          #   U+180E MONGOLIAN VOWEL SEPARATOR
-          #   U+200B ZERO WIDTH SPACE
-          #   U+200C ZERO WIDTH NON-JOINER
-          #   U+200D ZERO WIDTH JOINER
-          #   U+2060 WORD JOINER
-          #   U+FEFF ZERO WIDTH NO-BREAK SPACE
-          if value.respond_to?(:gsub!)
-            value.gsub!(/\A[[:space:]\u180E\u200B\u200C\u200D\u2060\uFEFF]+|[[:space:]\u180E\u200B\u200C\u200D\u2060\uFEFF]+\z/, '')
-          end
-        end
-
-        if collapse_spaces && value.respond_to?(:squeeze!)
-          value.squeeze!(' ')
-        end
-
-        record[attr] = value if original_value != value
+    if MULTIBYTE_SUPPORTED
+      # Remove leading and trailing Unicode invisible and whitespace characters.
+      # The POSIX character class [:space:] corresponds to the Unicode class Z
+      # ("separator"). We also include the following characters from Unicode class
+      # C ("control"), which are spaces or invisible characters that make no
+      # sense at the start or end of a string:
+      #   U+180E MONGOLIAN VOWEL SEPARATOR
+      #   U+200B ZERO WIDTH SPACE
+      #   U+200C ZERO WIDTH NON-JOINER
+      #   U+200D ZERO WIDTH JOINER
+      #   U+2060 WORD JOINER
+      #   U+FEFF ZERO WIDTH NO-BREAK SPACE
+      if value.respond_to?(:gsub!)
+        value.gsub!(/\A[[:space:]\u180E\u200B\u200C\u200D\u2060\uFEFF]+|[[:space:]\u180E\u200B\u200C\u200D\u2060\uFEFF]+\z/, '')
       end
+    end
+
+    if collapse_spaces && value.respond_to?(:squeeze!)
+      value.squeeze!(' ')
+    end    
+    value
   end
 
   def self.validate_options(options)
