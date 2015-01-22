@@ -72,6 +72,8 @@ module StripAttributes
       if value.respond_to?(:gsub!)
         value.gsub!(/\A[[:space:]\u180E\u200B\u200C\u200D\u2060\uFEFF]+|[[:space:]\u180E\u200B\u200C\u200D\u2060\uFEFF]+\z/, '')
       end
+    elsif value.respond_to?(:strip!)
+      value.strip!
     end
 
     if collapse_spaces && value.respond_to?(:squeeze!)
