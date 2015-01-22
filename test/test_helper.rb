@@ -13,3 +13,6 @@ end
 
 # Avoid annoying deprecation warning
 I18n.enforce_available_locales = true
+
+# Remove this after we drop support for Rails 3.2 and Minitest 4.x
+Minitest::Test = Minitest::Unit::TestCase unless defined?(Minitest::Test)

@@ -61,7 +61,7 @@ class StripRegexMockRecord < Tableless
   strip_attributes :regex => /[\^\%&\*]/
 end
 
-class StripAttributesTest < MiniTest::Unit::TestCase
+class StripAttributesTest < Minitest::Test
   def setup
     @init_params = { :foo => "\tfoo", :bar => "bar \t ", :biz => "\tbiz ", :baz => "", :bang => " ", :foz => " foz  foz" }
   end
@@ -181,7 +181,7 @@ class StripAttributesTest < MiniTest::Unit::TestCase
     record.valid?
     assert_equal "abc",        record.foo
     assert_equal "bar",        record.bar
-  end  
+  end
 
   def test_strip_unicode
     # This feature only works if multi-byte characters are supported by Ruby
