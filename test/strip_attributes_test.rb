@@ -201,16 +201,16 @@ class StripAttributesTest < Minitest::Test
     end
 
     def test_should_allow_empty
-      assert_equal "", StripAttributes.strip("", allow_empty: true)
-      assert_equal "", StripAttributes.strip(" \t ", allow_empty: true)
+      assert_equal "", StripAttributes.strip("", :allow_empty => true)
+      assert_equal "", StripAttributes.strip(" \t ", :allow_empty => true)
     end
 
     def test_should_collapse_spaces
-      assert_equal "1 2 3", StripAttributes.strip(" 1   2   3\t ", collapse_spaces: true)
+      assert_equal "1 2 3", StripAttributes.strip(" 1   2   3\t ", :collapse_spaces => true)
     end
 
     def test_should_strip_regex
-      assert_equal "abc", StripAttributes.strip("^%&*abc  ^  ", regex: /[\^\%&\*]/)
+      assert_equal "abc", StripAttributes.strip("^%&*abc  ^  ", :regex => /[\^\%&\*]/)
     end
 
     def test_should_strip_unicode
