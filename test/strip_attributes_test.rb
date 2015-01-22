@@ -183,7 +183,7 @@ class StripAttributesTest < Minitest::Test
     assert_equal "bar",        record.bar
   end
 
-  def test_strip_unicode
+  def test_should_strip_unicode
     # This feature only works if multi-byte characters are supported by Ruby
     return if "\u0020" != " "
     # U200A - HAIR SPACE
@@ -191,5 +191,34 @@ class StripAttributesTest < Minitest::Test
     record = StripOnlyOneMockRecord.new({:foo => "\u200A\u200B foo\u200A\u200B "})
     record.valid?
     assert_equal "foo",      record.foo
+  end
+
+  class ClassMethodsTest < Minitest::Test
+    def test_should_strip_whitespace
+      assert_equal nil, StripAttributes.strip("")
+      assert_equal nil, StripAttributes.strip(" \t ")
+      assert_equal "thirty six", StripAttributes.strip(" thirty six \t \n")
+    end
+
+    def test_should_allow_empty
+      assert_equal "", StripAttributes.strip("", allow_empty: true)
+      assert_equal "", StripAttributes.strip(" \t ", allow_empty: true)
+    end
+
+    def test_should_collapse_spaces
+      assert_equal "1 2 3", StripAttributes.strip(" 1   2   3\t ", collapse_spaces: true)
+    end
+
+    def test_should_strip_regex
+      assert_equal "abc", StripAttributes.strip("^%&*abc  ^  ", regex: /[\^\%&\*]/)
+    end
+
+    def test_should_strip_unicode
+      # This feature only works if multi-byte characters are supported by Ruby
+      return if "\u0020" != " "
+      # U200A - HAIR SPACE
+      # U200B - ZERO WIDTH SPACE
+      assert_equal "foo", StripAttributes.strip("\u200A\u200B foo\u200A\u200B ")
+    end
   end
 end
