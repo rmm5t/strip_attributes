@@ -1,5 +1,8 @@
 source "https://rubygems.org"
 
-gem "activemodel", :github => "rails/rails", :branch => "3-2-stable"
+gem "activemodel", "~> 3.2.0"
+
+gem "minitest", "~> 4.7"
+gem "i18n", "~> 0.6.0"
 
 gemspec :path => "../"
