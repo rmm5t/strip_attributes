@@ -13,7 +13,7 @@ a single attribute (`:only => :field`) or arrays of attributes (`:except =>
 ## How You Can Help
 
 **If you like this project, please help. [Donate via Gittip][gittip] or [buy me a coffee with Bitcoin][bitcoin].**<br>
-[![Gittip](http://img.shields.io/gittip/rmm5t.svg)][gittip]
+[![Gratipay](http://img.shields.io/gratipay/rmm5t.svg)][gratipay]
 [![Bitcoin](http://img.shields.io/badge/bitcoin-buy%20me%20a%20coffee-brightgreen.svg)][bitcoin]
 
 **[Bitcoin][bitcoin]**: `1rmm5tv6f997JK5bLcGbRCZyVjZUPkQ2m`<br>
@@ -24,7 +24,7 @@ a single attribute (`:only => :field`) or arrays of attributes (`:except =>
 **You can [book a session with me on Codementor][codementor].**<br>
 [![Book a Codementor session](http://img.shields.io/badge/codementor-book%20a%20session-orange.svg)][codementor]
 
-[gittip]: https://www.gittip.com/rmm5t/ "Donate to rmm5t for open source!"
+[gratipay]: https://gratipay.com/rmm5t/ "Donate to rmm5t for open source!"
 [bitcoin]: https://blockchain.info/address/1rmm5tv6f997JK5bLcGbRCZyVjZUPkQ2m "Buy rmm5t a coffee for open source!"
 [bitcoin-scheme]: bitcoin:1rmm5tv6f997JK5bLcGbRCZyVjZUPkQ2m?amount=0.01&label=Coffee%20to%20rmm5t%20for%20Open%20Source "Buy rmm5t a coffee for open source!"
 [bitcoin-qr-small]: http://chart.apis.google.com/chart?cht=qr&chs=150x150&chl=bitcoin%3A1rmm5tv6f997JK5bLcGbRCZyVjZUPkQ2m%3Famount%3D0.01%26label%3DCoffee%2520to%2520rmm5t%2520for%2520Open%2520Source
