@@ -126,6 +126,17 @@ end
 
 ```
 
+### Using it directly
+
+```ruby
+# where record is an ActiveModel isntance
+StripAttributes.strip(record, :collapse_spaces => true)
+
+# works directly on Strings too
+StripAttributes.strip(" foo \t") #=> "foo"
+StripAttributes.strip(" foo   bar", :collapse_spaces => true) #=> "foo bar"
+```
+
 ## Testing
 
 StripAttributes provides an RSpec/Shoulda-compatible matcher for easier
