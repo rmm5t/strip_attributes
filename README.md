@@ -129,7 +129,7 @@ end
 ### Using it directly
 
 ```ruby
-# where record is an ActiveModel isntance
+# where record is an ActiveModel instance
 StripAttributes.strip(record, :collapse_spaces => true)
 
 # works directly on Strings too
