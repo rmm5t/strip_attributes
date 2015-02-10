@@ -47,14 +47,14 @@ class CollapseDuplicateSpaces < Tableless
   strip_attributes :collapse_spaces => true
 end
 
-class RemoveNewLines < Tableless
+class ReplaceNewLines < Tableless
   include MockAttributes
-  strip_attributes :remove_new_lines => true
+  strip_attributes :replace_newlines => true
 end
 
-class RemoveNewLinesAndDuplicateSpaces < Tableless
+class ReplaceNewLinesAndDuplicateSpaces < Tableless
   include MockAttributes
-  strip_attributes :remove_new_lines => true, :collapse_spaces => true
+  strip_attributes :replace_newlines => true, :collapse_spaces => true
 end
 
 class CoexistWithOtherValidations < Tableless
@@ -165,8 +165,8 @@ class StripAttributesTest < Minitest::Test
     assert_equal nil,          record.bang
   end
 
-  def test_should_remove_newlines
-    record = RemoveNewLines.new(@init_params)
+  def test_should_replace_newlines
+    record = ReplaceNewLines.new(@init_params)
     record.valid?
     assert_equal "foo",        record.foo
     assert_equal "bar",        record.bar
@@ -177,8 +177,8 @@ class StripAttributesTest < Minitest::Test
     assert_equal nil,          record.bang
   end
 
-  def test_should_remove_newlines_and_duplicate_spaces
-    record = RemoveNewLinesAndDuplicateSpaces.new(@init_params)
+  def test_should_replace_newlines_and_duplicate_spaces
+    record = ReplaceNewLinesAndDuplicateSpaces.new(@init_params)
     record.valid?
     assert_equal "foo",     record.foo
     assert_equal "bar",     record.bar
@@ -252,8 +252,8 @@ class StripAttributesTest < Minitest::Test
       assert_equal "1 2 3", StripAttributes.strip(" 1   2   3\t ", :collapse_spaces => true)
     end
 
-    def test_should_remove_new_lines
-      assert_equal "1 2", StripAttributes.strip("1\n2", :remove_new_lines => true)
+    def test_should_replace_newlines
+      assert_equal "1 2", StripAttributes.strip("1\n2", :replace_newlines => true)
     end
 
     def test_should_strip_regex
