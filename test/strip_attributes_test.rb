@@ -253,7 +253,7 @@ class StripAttributesTest < Minitest::Test
     end
 
     def test_should_replace_newlines
-      assert_equal "1 2", StripAttributes.strip("1\n2", :replace_newlines => true)
+      assert_equal "1 2", StripAttributes.strip("1\r\n2", :replace_newlines => true)
     end
 
     def test_should_strip_regex
