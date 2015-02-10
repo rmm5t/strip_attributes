@@ -85,6 +85,15 @@ class EloquentPokerPlayer < ActiveRecord::Base
 end
 ```
 
+### Using `replace_newlines`
+
+```ruby
+# Newlines in attributes will be replaced with a space
+class EloquentPokerPlayer < ActiveRecord::Base
+  strip_attributes :replace_newlines => true
+end
+```
+
 ### Using `regex`
 
 ```ruby
