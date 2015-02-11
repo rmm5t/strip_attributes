@@ -21,6 +21,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "active_attr", "~> 0.7"
   spec.add_development_dependency "minitest-matchers", "~> 1.2"
   spec.add_development_dependency "minitest", ">= 4.7", "< 6.0"
-  spec.add_development_dependency "minitest-reporters", "~> 1.0"
+  spec.add_development_dependency "minitest-reporters", ">= 0.14.24"
   spec.add_development_dependency "rake", "~> 10.1.1" # 10.2 requires ruby 1.9
 end
