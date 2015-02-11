@@ -19,7 +19,7 @@ module ActiveModel::Validations::HelperMethods
 end
 
 module StripAttributes
-  VALID_OPTIONS = [:only, :except, :allow_empty, :collapse_spaces, :regex]
+  VALID_OPTIONS = [:only, :except, :allow_empty, :collapse_spaces, :replace_newlines, :regex]
   MULTIBYTE_SUPPORTED = "\u0020" == " "
 
   def self.strip(record_or_string, options = nil)
@@ -44,9 +44,10 @@ module StripAttributes
 
   def self.strip_string(value, options = nil)
     if options
-      allow_empty     = options[:allow_empty]
-      collapse_spaces = options[:collapse_spaces]
-      regex           = options[:regex]
+      allow_empty      = options[:allow_empty]
+      collapse_spaces  = options[:collapse_spaces]
+      replace_newlines = options[:replace_newlines]
+      regex            = options[:regex]
     end
 
     if value.respond_to?(:strip)
@@ -74,6 +75,10 @@ module StripAttributes
       end
     elsif value.respond_to?(:strip!)
       value.strip!
+    end
+
+    if replace_newlines && value.respond_to?(:gsub!)
+      value.gsub!(/\r?\n/, ' ')
     end
 
     if collapse_spaces && value.respond_to?(:squeeze!)

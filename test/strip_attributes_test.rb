@@ -8,6 +8,7 @@ module MockAttributes
     base.attribute :baz
     base.attribute :bang
     base.attribute :foz
+    base.attribute :fiz
   end
 end
 
@@ -46,6 +47,16 @@ class CollapseDuplicateSpaces < Tableless
   strip_attributes :collapse_spaces => true
 end
 
+class ReplaceNewLines < Tableless
+  include MockAttributes
+  strip_attributes :replace_newlines => true
+end
+
+class ReplaceNewLinesAndDuplicateSpaces < Tableless
+  include MockAttributes
+  strip_attributes :replace_newlines => true, :collapse_spaces => true
+end
+
 class CoexistWithOtherValidations < Tableless
   attribute :number, :type => Integer
 
@@ -63,7 +74,7 @@ end
 
 class StripAttributesTest < Minitest::Test
   def setup
-    @init_params = { :foo => "\tfoo", :bar => "bar \t ", :biz => "\tbiz ", :baz => "", :bang => " ", :foz => " foz  foz" }
+    @init_params = { :foo => "\tfoo", :bar => "bar \t ", :biz => "\tbiz ", :baz => "", :bang => " ", :foz => " foz  foz", :fiz => "fiz \n  fiz" }
   end
 
   def test_should_exist
@@ -73,10 +84,11 @@ class StripAttributesTest < Minitest::Test
   def test_should_strip_all_fields
     record = StripAllMockRecord.new(@init_params)
     record.valid?
-    assert_equal "foo",      record.foo
-    assert_equal "bar",      record.bar
-    assert_equal "biz",      record.biz
-    assert_equal "foz  foz", record.foz
+    assert_equal "foo",         record.foo
+    assert_equal "bar",         record.bar
+    assert_equal "biz",         record.biz
+    assert_equal "foz  foz",    record.foz
+    assert_equal "fiz \n  fiz", record.fiz
     assert_nil record.baz
     assert_nil record.bang
   end
@@ -84,32 +96,35 @@ class StripAttributesTest < Minitest::Test
   def test_should_strip_only_one_field
     record = StripOnlyOneMockRecord.new(@init_params)
     record.valid?
-    assert_equal "foo",      record.foo
-    assert_equal "bar \t ",  record.bar
-    assert_equal "\tbiz ",   record.biz
-    assert_equal " foz  foz", record.foz
-    assert_equal "",         record.baz
-    assert_equal " ",        record.bang
+    assert_equal "foo",         record.foo
+    assert_equal "bar \t ",     record.bar
+    assert_equal "\tbiz ",      record.biz
+    assert_equal " foz  foz",   record.foz
+    assert_equal "fiz \n  fiz", record.fiz
+    assert_equal "",            record.baz
+    assert_equal " ",           record.bang
   end
 
   def test_should_strip_only_three_fields
     record = StripOnlyThreeMockRecord.new(@init_params)
     record.valid?
-    assert_equal "foo",      record.foo
-    assert_equal "bar",      record.bar
-    assert_equal "biz",      record.biz
-    assert_equal " foz  foz", record.foz
-    assert_equal "",         record.baz
-    assert_equal " ",        record.bang
+    assert_equal "foo",         record.foo
+    assert_equal "bar",         record.bar
+    assert_equal "biz",         record.biz
+    assert_equal " foz  foz",   record.foz
+    assert_equal "fiz \n  fiz", record.fiz
+    assert_equal "",            record.baz
+    assert_equal " ",           record.bang
   end
 
   def test_should_strip_all_except_one_field
     record = StripExceptOneMockRecord.new(@init_params)
     record.valid?
-    assert_equal "\tfoo",    record.foo
-    assert_equal "bar",      record.bar
-    assert_equal "biz",      record.biz
-    assert_equal "foz  foz", record.foz
+    assert_equal "\tfoo",       record.foo
+    assert_equal "bar",         record.bar
+    assert_equal "biz",         record.biz
+    assert_equal "foz  foz",    record.foz
+    assert_equal "fiz \n  fiz", record.fiz
     assert_nil record.baz
     assert_nil record.bang
   end
@@ -117,10 +132,11 @@ class StripAttributesTest < Minitest::Test
   def test_should_strip_all_except_three_fields
     record = StripExceptThreeMockRecord.new(@init_params)
     record.valid?
-    assert_equal "\tfoo",    record.foo
-    assert_equal "bar \t ",  record.bar
-    assert_equal "\tbiz ",   record.biz
-    assert_equal "foz  foz", record.foz
+    assert_equal "\tfoo",       record.foo
+    assert_equal "bar \t ",     record.bar
+    assert_equal "\tbiz ",      record.biz
+    assert_equal "foz  foz",    record.foz
+    assert_equal "fiz \n  fiz", record.fiz
     assert_nil record.baz
     assert_nil record.bang
   end
@@ -128,21 +144,47 @@ class StripAttributesTest < Minitest::Test
   def test_should_strip_and_allow_empty
     record = StripAllowEmpty.new(@init_params)
     record.valid?
-    assert_equal "foo",      record.foo
-    assert_equal "bar",      record.bar
-    assert_equal "biz",      record.biz
-    assert_equal "foz  foz", record.foz
-    assert_equal "",         record.baz
-    assert_equal "",         record.bang
+    assert_equal "foo",         record.foo
+    assert_equal "bar",         record.bar
+    assert_equal "biz",         record.biz
+    assert_equal "foz  foz",    record.foz
+    assert_equal "fiz \n  fiz", record.fiz
+    assert_equal "",            record.baz
+    assert_equal "",            record.bang
   end
 
   def test_should_collapse_duplicate_spaces
     record = CollapseDuplicateSpaces.new(@init_params)
     record.valid?
+    assert_equal "foo",        record.foo
+    assert_equal "bar",        record.bar
+    assert_equal "biz",        record.biz
+    assert_equal "foz foz",    record.foz
+    assert_equal "fiz \n fiz", record.fiz
+    assert_equal nil,          record.baz
+    assert_equal nil,          record.bang
+  end
+
+  def test_should_replace_newlines
+    record = ReplaceNewLines.new(@init_params)
+    record.valid?
+    assert_equal "foo",        record.foo
+    assert_equal "bar",        record.bar
+    assert_equal "biz",        record.biz
+    assert_equal "foz  foz",   record.foz
+    assert_equal "fiz    fiz", record.fiz
+    assert_equal nil,          record.baz
+    assert_equal nil,          record.bang
+  end
+
+  def test_should_replace_newlines_and_duplicate_spaces
+    record = ReplaceNewLinesAndDuplicateSpaces.new(@init_params)
+    record.valid?
     assert_equal "foo",     record.foo
     assert_equal "bar",     record.bar
     assert_equal "biz",     record.biz
     assert_equal "foz foz", record.foz
+    assert_equal "fiz fiz", record.fiz
     assert_equal nil,       record.baz
     assert_equal nil,       record.bang
   end
@@ -152,12 +194,13 @@ class StripAttributesTest < Minitest::Test
     record.valid?
     record.assign_attributes(@init_params)
     record.valid?
-    assert_equal "foo",      record.foo
-    assert_equal "bar",      record.bar
-    assert_equal "biz",      record.biz
-    assert_equal "foz  foz", record.foz
-    assert_equal "",         record.baz
-    assert_equal "",         record.bang
+    assert_equal "foo",         record.foo
+    assert_equal "bar",         record.bar
+    assert_equal "biz",         record.biz
+    assert_equal "foz  foz",    record.foz
+    assert_equal "fiz \n  fiz", record.fiz
+    assert_equal "",            record.baz
+    assert_equal "",            record.bang
   end
 
   def test_should_coexist_with_other_validations
@@ -207,6 +250,10 @@ class StripAttributesTest < Minitest::Test
 
     def test_should_collapse_spaces
       assert_equal "1 2 3", StripAttributes.strip(" 1   2   3\t ", :collapse_spaces => true)
+    end
+
+    def test_should_replace_newlines
+      assert_equal "1 2", StripAttributes.strip("1\r\n2", :replace_newlines => true)
     end
 
     def test_should_strip_regex
