@@ -1,5 +1,11 @@
 require "minitest/autorun"
-require "minitest/pride"
+require "minitest/reporters"
+if ENV["CI"] == "true"
+  Minitest::Reporters.use! Minitest::Reporters::DefaultReporter.new
+else
+  Minitest::Reporters.use! Minitest::Reporters::ProgressReporter.new
+end
+
 require "active_attr"
 require "strip_attributes"
 
