@@ -78,7 +78,7 @@ module StripAttributes
     end
 
     if replace_newlines && value.respond_to?(:gsub!)
-      value.gsub!(/\r?\n/, ' ')
+      value.gsub!(/[\r\n]+/, ' ')
     end
 
     if collapse_spaces && value.respond_to?(:squeeze!)
