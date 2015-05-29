@@ -226,6 +226,10 @@ Wiki](http://oldwiki.rubyonrails.org/rails/pages/HowToStripWhitespaceFromModelFi
 but was modified from the original to include more idiomatic ruby and rails
 support.
 
+## Versioning
+
+Semantic Versioning 2.0 as defined at <http://semver.org>.
+
 ## License
 
 Copyright (c) 2007-2013 Ryan McGeary released under the [MIT
