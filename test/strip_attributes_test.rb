@@ -267,7 +267,10 @@ class StripAttributesTest < Minitest::Test
       return if "\u0020" != " "
       # U200A - HAIR SPACE
       # U200B - ZERO WIDTH SPACE
+      # U20AC - EURO SIGN
+
       assert_equal "foo", StripAttributes.strip("\u200A\u200B foo\u200A\u200B ")
+      assert_equal "foo\u20AC".force_encoding("ASCII-8BIT"), StripAttributes.strip("foo\u20AC ".force_encoding("ASCII-8BIT"))
     end
   end
 end

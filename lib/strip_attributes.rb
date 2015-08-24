@@ -70,8 +70,9 @@ module StripAttributes
       #   U+200D ZERO WIDTH JOINER
       #   U+2060 WORD JOINER
       #   U+FEFF ZERO WIDTH NO-BREAK SPACE
-      if value.respond_to?(:gsub!)
-        value.gsub!(/\A[[:space:]\u180E\u200B\u200C\u200D\u2060\uFEFF]+|[[:space:]\u180E\u200B\u200C\u200D\u2060\uFEFF]+\z/, '')
+      regex = /\A[[:space:]\u180E\u200B\u200C\u200D\u2060\uFEFF]+|[[:space:]\u180E\u200B\u200C\u200D\u2060\uFEFF]+\z/
+      if value.respond_to?(:gsub!) && Encoding.compatible?(value, regex)
+        value.gsub!(regex, '')
       end
     elsif value.respond_to?(:strip!)
       value.strip!
