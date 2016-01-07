@@ -1,4 +1,6 @@
-# StripAttributes [![Gem Version](http://img.shields.io/gem/v/strip_attributes.svg)](https://rubygems.org/gems/strip_attributes) [![Build Status](https://secure.travis-ci.org/rmm5t/strip_attributes.svg)](http://travis-ci.org/rmm5t/strip_attributes) [![Code Climate](http://img.shields.io/codeclimate/github/rmm5t/strip_attributes.svg)](https://codeclimate.com/github/rmm5t/strip_attributes)
+# StripAttributes
+
+[![Gem Version](http://img.shields.io/gem/v/strip_attributes.svg)](https://rubygems.org/gems/strip_attributes) [![Build Status](https://secure.travis-ci.org/rmm5t/strip_attributes.svg)](http://travis-ci.org/rmm5t/strip_attributes) [![Code Climate](http://img.shields.io/codeclimate/github/rmm5t/strip_attributes.svg)](https://codeclimate.com/github/rmm5t/strip_attributes)
 
 StripAttributes is an ActiveModel extension that automatically strips all
 attributes of leading and trailing whitespace before validation. If the
@@ -151,7 +153,7 @@ or [Minitest-Matchers](https://github.com/zenspider/minitest-matchers).
 
 ### Setup `spec_helper.rb` or `test_helper.rb`
 
-To initialize **RSpec**, add this to your `spec_helper.rb`:
+#### To initialize **RSpec**, add this to your `spec_helper.rb`:
 
 ```ruby
 require "strip_attributes/matchers"
@@ -160,7 +162,7 @@ RSpec.configure do |config|
 end
 ```
 
-To initialize **Shoulda (with test-unit)**, add this to your `test_helper.rb`:
+#### To initialize **Shoulda (with test-unit)**, add this to your `test_helper.rb`:
 
 ```ruby
 require "strip_attributes/matchers"
@@ -169,11 +171,29 @@ class Test::Unit::TestCase
 end
 ```
 
-To initialize **Minitest-Matchers**, add this to your `test_helper.rb`:
+OR if in a Rails environment, you might prefer this:
+
+``` ruby
+require "strip_attributes/matchers"
+class ActiveSupport::TestCase
+  extend StripAttributes::Matchers
+end
+```
+
+#### To initialize **Minitest-Matchers**, add this to your `test_helper.rb`:
 
 ```ruby
 require "strip_attributes/matchers"
 class MiniTest::Spec
+  include StripAttributes::Matchers
+end
+```
+
+OR if in a Rails environment, you might prefer this:
+
+``` ruby
+require "strip_attributes/matchers"
+class ActiveSupport::TestCase
   include StripAttributes::Matchers
 end
 ```
@@ -221,10 +241,9 @@ form of new unit tests.
 
 ## Credits
 
-The idea was originally triggered by the information at the (now defunct) [Rails
-Wiki](http://oldwiki.rubyonrails.org/rails/pages/HowToStripWhitespaceFromModelFields)
-but was modified from the original to include more idiomatic ruby and rails
-support.
+The idea was originally triggered by the information at the (now defunct)
+Rails Wiki but was modified from the original to include more idiomatic ruby
+and rails support.
 
 ## Versioning
 
