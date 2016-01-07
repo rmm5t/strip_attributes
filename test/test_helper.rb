@@ -9,6 +9,9 @@ end
 require "active_attr"
 require "strip_attributes"
 
+# For rails 5 & active_attr support: https://github.com/cgriego/active_attr/issues/150
+require "active_model/serializers/xml"
+
 class Tableless
   include ActiveAttr::BasicModel
   include ActiveAttr::TypecastedAttributes
