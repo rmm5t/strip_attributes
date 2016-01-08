@@ -13,8 +13,8 @@ Gem::Specification.new do |spec|
   spec.description = "StripAttributes automatically strips all ActiveRecord model attributes of leading and trailing whitespace before validation. If the attribute is blank, it strips the value to nil."
   spec.license     = "MIT"
 
-  spec.files         = Dir["{lib,test}/**/*", "README*"]
-  spec.test_files    = Dir["{test}/**/*"]
+  spec.files         = `git ls-files -- {app,bin,lib,test,spec}/* {LICENSE*,Rakefile,README*}`.split("\n")
+  spec.test_files    = `git ls-files -- {test,spec}/*`.split("\n")
   spec.require_paths = ["lib"]
 
   spec.add_runtime_dependency "activemodel", ">= 3.0", "< 5.0"
