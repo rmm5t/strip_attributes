@@ -149,7 +149,9 @@ StripAttributes.strip(" foo   bar", :collapse_spaces => true) #=> "foo bar"
 StripAttributes provides an RSpec/Shoulda-compatible matcher for easier
 testing of attribute assignment. You can use this with
 [RSpec](http://rspec.info/), [Shoulda](https://github.com/thoughtbot/shoulda),
-or [Minitest-Matchers](https://github.com/zenspider/minitest-matchers).
+[Minitest-MatchersVaccine](https://github.com/rmm5t/minitest-matchers_vaccine)
+(preferred), or
+[Minitest-Matchers](https://github.com/wojtekmach/minitest-matchers).
 
 ### Setup `spec_helper.rb` or `test_helper.rb`
 
@@ -180,10 +182,10 @@ class ActiveSupport::TestCase
 end
 ```
 
-#### To initialize **Minitest-Matchers**, add this to your `test_helper.rb`:
+#### To initialize **Minitest-MatchersVaccine**, add this to your `test_helper.rb`:
 
 ```ruby
-require "strip_attributes/matchers"
+require "strip_attributes/matchers_vaccine"
 class MiniTest::Spec
   include StripAttributes::Matchers
 end
@@ -192,8 +194,17 @@ end
 OR if in a Rails environment, you might prefer this:
 
 ``` ruby
-require "strip_attributes/matchers"
+require "strip_attributes/matchers_vaccine"
 class ActiveSupport::TestCase
+  include StripAttributes::Matchers
+end
+```
+
+#### To initialize **Minitest-Matchers**, add this to your `test_helper.rb`:
+
+```ruby
+require "strip_attributes/matchers"
+class MiniTest::Spec
   include StripAttributes::Matchers
 end
 ```
@@ -217,6 +228,20 @@ class UserTest < ActiveSupport::TestCase
   should strip_attribute(:name).collapse_spaces
   should strip_attribute :email
   should_not strip_attribute :password
+end
+```
+
+**Minitest-MatchersVaccine**:
+
+```ruby
+describe User do
+  subject { User.new }
+
+  it "should strip attributes" do
+    must strip_attribute(:name).collapse_spaces
+    must strip_attribute :email
+    wont strip_attribute :password
+  end
 end
 ```
 
