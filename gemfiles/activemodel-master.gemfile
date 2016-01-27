@@ -2,7 +2,4 @@ source "https://rubygems.org"
 
 gem "activemodel", github: "rails/rails", branch: "master"
 
-# For rails 5 & active_attr support: https://github.com/cgriego/active_attr/issues/150
-gem "activemodel-serializers-xml", github: "rails/activemodel-serializers-xml", branch: "master"
-
 gemspec path: "../"

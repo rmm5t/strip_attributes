@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_runtime_dependency "activemodel", ">= 3.0", "< 6.0"
-  spec.add_development_dependency "active_attr", "~> 0.7"
+  spec.add_development_dependency "active_attr", "~> 0.9"
   spec.add_development_dependency "minitest-matchers", "~> 1.2"
   spec.add_development_dependency "minitest", ">= 4.7", "< 6.0"
   spec.add_development_dependency "minitest-reporters", ">= 0.14.24"
