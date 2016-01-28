@@ -1,8 +1,11 @@
 source "https://rubygems.org"
 
+ENV["SKIP_VACCINE"] = "true"
+
 gem "activemodel", "~> 3.2.0"
 
 gem "minitest", "~> 4.7"
+gem "minitest-matchers", "~> 1.2"
 gem "i18n", "~> 0.6.0"
 
 gemspec path: "../"

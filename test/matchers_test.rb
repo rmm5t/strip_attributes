@@ -1,4 +1,8 @@
-require "minitest/matchers_vaccine"
+begin
+  require "minitest/matchers_vaccine"
+rescue LoadError
+  require "minitest/matchers"
+end
 require "test_helper"
 require "strip_attributes/matchers"
 
@@ -21,24 +25,36 @@ describe SampleMockRecord do
 
   subject { SampleMockRecord.new }
 
-  it "should strip strippable attributes" do
-    must strip_attribute :stripped1
-    must strip_attribute :stripped2
-    must strip_attribute :stripped3
-  end
+  if defined? Minitest::MatchersVaccine
+    it "should strip strippable attributes" do
+      must strip_attribute :stripped1
+      must strip_attribute :stripped2
+      must strip_attribute :stripped3
+    end
 
-  it "should not strip other attributes" do
-    wont strip_attribute :unstripped1
-    wont strip_attribute :unstripped2
-    wont strip_attribute :unstripped3
-  end
+    it "should not strip other attributes" do
+      wont strip_attribute :unstripped1
+      wont strip_attribute :unstripped2
+      wont strip_attribute :unstripped3
+    end
 
-  it "should collapse collapsible attributes" do
-    must strip_attribute(:collapsed).collapse_spaces
-  end
+    it "should collapse collapsible attributes" do
+      must strip_attribute(:collapsed).collapse_spaces
+    end
 
-  it "should not collapse other attributes" do
-    wont strip_attribute(:uncollapsed).collapse_spaces
+    it "should not collapse other attributes" do
+      wont strip_attribute(:uncollapsed).collapse_spaces
+    end
+  else
+      must { strip_attribute :stripped1 }
+      must { strip_attribute :stripped2 }
+      must { strip_attribute :stripped3 }
+      wont { strip_attribute :unstripped1 }
+      wont { strip_attribute :unstripped2 }
+      wont { strip_attribute :unstripped3 }
+
+      must { strip_attribute(:collapsed).collapse_spaces }
+      wont { strip_attribute(:uncollapsed).collapse_spaces }
   end
 
   it "should fail when testing for strip on an unstripped attribute" do
