@@ -3,17 +3,11 @@ cache: bundler
 sudo: false
 bundler_args: --without guard
 rvm:
-  - 2.1.9
   - 2.2.5
   - 2.3.1
-  - jruby-19mode
 gemfile:
   - Gemfile
   - gemfiles/activemodel-3.2.gemfile
   - gemfiles/activemodel-4.1.gemfile
   - gemfiles/activemodel-4.2.gemfile
   - gemfiles/activemodel-master.gemfile
-matrix:
-  allow_failures:
-    - rvm: jruby-19mode
-      gemfile: gemfiles/activemodel-master.gemfile
