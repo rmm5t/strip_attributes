@@ -1,6 +1,7 @@
 language: ruby
 cache: bundler
 sudo: false
+bundler_args: --without guard
 rvm:
   - 2.1.9
   - 2.2.5
