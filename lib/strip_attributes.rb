@@ -20,7 +20,21 @@ end
 
 module StripAttributes
   VALID_OPTIONS = [:only, :except, :allow_empty, :collapse_spaces, :replace_newlines, :regex]
-  MULTIBYTE_SUPPORTED = "\u0020" == " "
+
+  # Unicode invisible and whitespace characters.  The POSIX character class
+  # [:space:] corresponds to the Unicode class Z ("separator"). We also
+  # include the following characters from Unicode class C ("control"), which
+  # are spaces or invisible characters that make no sense at the start or end
+  # of a string:
+  #   U+180E MONGOLIAN VOWEL SEPARATOR
+  #   U+200B ZERO WIDTH SPACE
+  #   U+200C ZERO WIDTH NON-JOINER
+  #   U+200D ZERO WIDTH JOINER
+  #   U+2060 WORD JOINER
+  #   U+FEFF ZERO WIDTH NO-BREAK SPACE
+  MULTIBYTE_WHITE = "\u180E\u200B\u200C\u200D\u2060\uFEFF"
+  MULTIBYTE_SPACE = /[[:space:]#{MULTIBYTE_WHITE}]/
+  MULTIBYTE_SUPPORTED  = "\u0020" == " "
 
   def self.strip(record_or_string, options = nil)
     if record_or_string.respond_to?(:attributes)
@@ -55,31 +69,17 @@ module StripAttributes
     end
 
     if regex && value.respond_to?(:gsub!)
-      value.gsub!(regex, '')
+      value.gsub!(regex, "")
     end
 
-    if MULTIBYTE_SUPPORTED
-      # Remove leading and trailing Unicode invisible and whitespace characters.
-      # The POSIX character class [:space:] corresponds to the Unicode class Z
-      # ("separator"). We also include the following characters from Unicode class
-      # C ("control"), which are spaces or invisible characters that make no
-      # sense at the start or end of a string:
-      #   U+180E MONGOLIAN VOWEL SEPARATOR
-      #   U+200B ZERO WIDTH SPACE
-      #   U+200C ZERO WIDTH NON-JOINER
-      #   U+200D ZERO WIDTH JOINER
-      #   U+2060 WORD JOINER
-      #   U+FEFF ZERO WIDTH NO-BREAK SPACE
-      regex = /\A[[:space:]\u180E\u200B\u200C\u200D\u2060\uFEFF]+|[[:space:]\u180E\u200B\u200C\u200D\u2060\uFEFF]+\z/
-      if value.respond_to?(:gsub!) && Encoding.compatible?(value, regex)
-        value.gsub!(regex, '')
-      end
+    if MULTIBYTE_SUPPORTED && value.respond_to?(:gsub!) && Encoding.compatible?(value, MULTIBYTE_SPACE)
+      value.gsub!(/\A#{MULTIBYTE_SPACE}+|#{MULTIBYTE_SPACE}+\z/, "")
     elsif value.respond_to?(:strip!)
       value.strip!
     end
 
     if replace_newlines && value.respond_to?(:gsub!)
-      value.gsub!(/[\r\n]+/, ' ')
+      value.gsub!(/[\r\n]+/, " ")
     end
 
     if collapse_spaces && value.respond_to?(:squeeze!)

@@ -74,7 +74,15 @@ end
 
 class StripAttributesTest < Minitest::Test
   def setup
-    @init_params = { :foo => "\tfoo", :bar => "bar \t ", :biz => "\tbiz ", :baz => "", :bang => " ", :foz => " foz  foz", :fiz => "fiz \n  fiz" }
+    @init_params = {
+      :foo  => "\tfoo",
+      :bar  => "bar \t ",
+      :biz  => "\tbiz ",
+      :baz  => "",
+      :bang => " ",
+      :foz  => " foz  foz",
+      :fiz  => "fiz \n  fiz"
+    }
   end
 
   def test_should_exist
@@ -227,11 +235,9 @@ class StripAttributesTest < Minitest::Test
   end
 
   def test_should_strip_unicode
-    # This feature only works if multi-byte characters are supported by Ruby
-    return if "\u0020" != " "
-    # U200A - HAIR SPACE
-    # U200B - ZERO WIDTH SPACE
-    record = StripOnlyOneMockRecord.new({:foo => "\u200A\u200B foo\u200A\u200B "})
+    skip "multi-byte characters not supported by this version of Ruby" unless StripAttributes::MULTIBYTE_SUPPORTED
+
+    record = StripOnlyOneMockRecord.new({:foo => "\u200A\u200B foo\u200A\u200B\u00A0 "})
     record.valid?
     assert_equal "foo",      record.foo
   end
@@ -263,11 +269,7 @@ class StripAttributesTest < Minitest::Test
     end
 
     def test_should_strip_unicode
-      # This feature only works if multi-byte characters are supported by Ruby
-      return if "\u0020" != " "
-      # U200A - HAIR SPACE
-      # U200B - ZERO WIDTH SPACE
-      # U20AC - EURO SIGN
+      skip "multi-byte characters not supported by this version of Ruby" unless StripAttributes::MULTIBYTE_SUPPORTED
 
       assert_equal "foo", StripAttributes.strip("\u200A\u200B foo\u200A\u200B ")
       assert_equal "foo\u20AC".force_encoding("ASCII-8BIT"), StripAttributes.strip("foo\u20AC ".force_encoding("ASCII-8BIT"))
