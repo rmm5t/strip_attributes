@@ -258,6 +258,10 @@ class StripAttributesTest < Minitest::Test
       assert_equal "1 2 3", StripAttributes.strip(" 1   2   3\t ", :collapse_spaces => true)
     end
 
+    def test_should_collapse_multibyte_spaces
+      assert_equal "1 2 3", StripAttributes.strip(" 1 \u00A0  2\u00A03\t ", :collapse_spaces => true)
+    end
+
     def test_should_replace_newlines
       assert_equal "1 2", StripAttributes.strip("1\n2", :replace_newlines => true)
       assert_equal "1 2", StripAttributes.strip("1\r\n2", :replace_newlines => true)

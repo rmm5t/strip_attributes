@@ -34,6 +34,7 @@ module StripAttributes
   #   U+FEFF ZERO WIDTH NO-BREAK SPACE
   MULTIBYTE_WHITE = "\u180E\u200B\u200C\u200D\u2060\uFEFF"
   MULTIBYTE_SPACE = /[[:space:]#{MULTIBYTE_WHITE}]/
+  MULTIBYTE_BLANK = /[[:blank:]#{MULTIBYTE_WHITE}]/
   MULTIBYTE_SUPPORTED  = "\u0020" == " "
 
   def self.strip(record_or_string, options = nil)
@@ -82,8 +83,12 @@ module StripAttributes
       value.gsub!(/[\r\n]+/, " ")
     end
 
-    if collapse_spaces && value.respond_to?(:squeeze!)
-      value.squeeze!(' ')
+    if collapse_spaces
+      if MULTIBYTE_SUPPORTED && value.respond_to?(:gsub!) && Encoding.compatible?(value, MULTIBYTE_BLANK)
+        value.gsub!(/#{MULTIBYTE_BLANK}+/, " ")
+      elsif value.respond_to?(:squeeze!)
+        value.squeeze!(" ")
+      end
     end
 
     value
