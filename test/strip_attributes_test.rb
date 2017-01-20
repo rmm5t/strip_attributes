@@ -169,8 +169,8 @@ class StripAttributesTest < Minitest::Test
     assert_equal "biz",        record.biz
     assert_equal "foz foz",    record.foz
     assert_equal "fiz \n fiz", record.fiz
-    assert_equal nil,          record.baz
-    assert_equal nil,          record.bang
+    assert_nil record.baz
+    assert_nil record.bang
   end
 
   def test_should_replace_newlines
@@ -181,8 +181,8 @@ class StripAttributesTest < Minitest::Test
     assert_equal "biz",        record.biz
     assert_equal "foz  foz",   record.foz
     assert_equal "fiz    fiz", record.fiz
-    assert_equal nil,          record.baz
-    assert_equal nil,          record.bang
+    assert_nil record.baz
+    assert_nil record.bang
   end
 
   def test_should_replace_newlines_and_duplicate_spaces
@@ -193,8 +193,8 @@ class StripAttributesTest < Minitest::Test
     assert_equal "biz",     record.biz
     assert_equal "foz foz", record.foz
     assert_equal "fiz fiz", record.fiz
-    assert_equal nil,       record.baz
-    assert_equal nil,       record.bang
+    assert_nil record.baz
+    assert_nil record.bang
   end
 
   def test_should_strip_and_allow_empty_always
@@ -244,8 +244,8 @@ class StripAttributesTest < Minitest::Test
 
   class ClassMethodsTest < Minitest::Test
     def test_should_strip_whitespace
-      assert_equal nil, StripAttributes.strip("")
-      assert_equal nil, StripAttributes.strip(" \t ")
+      assert_nil StripAttributes.strip("")
+      assert_nil StripAttributes.strip(" \t ")
       assert_equal "thirty six", StripAttributes.strip(" thirty six \t \n")
     end
 
