@@ -280,5 +280,5 @@ Semantic Versioning 2.0 as defined at <http://semver.org>.
 
 ## License
 
-Copyright (c) 2007-2015 Ryan McGeary released under the [MIT
+Copyright (c) 2007-2017 Ryan McGeary released under the [MIT
 license](http://en.wikipedia.org/wiki/MIT_License)
