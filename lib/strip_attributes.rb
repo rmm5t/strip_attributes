@@ -51,7 +51,7 @@ module StripAttributes
     attributes.each do |attr, value|
       original_value = value
       value = strip_string(value, options)
-      record[attr] = value if original_value != value
+      record.send "#{attr}=", value if original_value != value
     end
 
     record
