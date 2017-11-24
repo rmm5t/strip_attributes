@@ -19,69 +19,69 @@ end
 
 class StripOnlyOneMockRecord < Tableless
   include MockAttributes
-  strip_attributes :only => :foo
+  strip_attributes only: :foo
 end
 
 class StripOnlyThreeMockRecord < Tableless
   include MockAttributes
-  strip_attributes :only => [:foo, :bar, :biz]
+  strip_attributes only: [:foo, :bar, :biz]
 end
 
 class StripExceptOneMockRecord < Tableless
   include MockAttributes
-  strip_attributes :except => :foo
+  strip_attributes except: :foo
 end
 
 class StripExceptThreeMockRecord < Tableless
   include MockAttributes
-  strip_attributes :except => [:foo, :bar, :biz]
+  strip_attributes except: [:foo, :bar, :biz]
 end
 
 class StripAllowEmpty < Tableless
   include MockAttributes
-  strip_attributes :allow_empty => true
+  strip_attributes allow_empty: true
 end
 
 class CollapseDuplicateSpaces < Tableless
   include MockAttributes
-  strip_attributes :collapse_spaces => true
+  strip_attributes collapse_spaces: true
 end
 
 class ReplaceNewLines < Tableless
   include MockAttributes
-  strip_attributes :replace_newlines => true
+  strip_attributes replace_newlines: true
 end
 
 class ReplaceNewLinesAndDuplicateSpaces < Tableless
   include MockAttributes
-  strip_attributes :replace_newlines => true, :collapse_spaces => true
+  strip_attributes replace_newlines: true, collapse_spaces: true
 end
 
 class CoexistWithOtherValidations < Tableless
-  attribute :number, :type => Integer
+  attribute :number, type: Integer
 
   strip_attributes
   validates :number, {
-    :numericality => { :only_integer => true,  :greater_than_or_equal_to => 1000 },
-    :allow_blank => true
+    numericality: { only_integer: true,  greater_than_or_equal_to: 1000 },
+    allow_blank: true
   }
 end
 
 class StripRegexMockRecord < Tableless
   include MockAttributes
-  strip_attributes :regex => /[\^\%&\*]/
+  strip_attributes regex: /[\^\%&\*]/
 end
 
 class StripAttributesTest < Minitest::Test
   def setup
     @init_params = {
-      :foo  => "\tfoo",
-      :bar  => "bar \t ",
-      :biz  => "\tbiz ",
-      :baz  => "",
-      :bang => " ",
-      :foz  => " foz  foz",
-      :fiz  => "fiz \n  fiz"
+      foo:  "\tfoo",
+      bar:  "bar \t ",
+      biz:  "\tbiz ",
+      baz:  "",
+      bang: " ",
+      foz:  " foz  foz",
+      fiz:  "fiz \n  fiz"
     }
   end
 
@@ -217,18 +217,18 @@ class StripAttributesTest < Minitest::Test
     assert !record.valid?, "Expected record to be invalid"
     assert record.errors.include?(:number), "Expected record to have an error on :number"
 
-    record = CoexistWithOtherValidations.new(:number => " 1000.2 ")
+    record = CoexistWithOtherValidations.new(number: " 1000.2 ")
     assert !record.valid?, "Expected record to be invalid"
     assert record.errors.include?(:number), "Expected record to have an error on :number"
 
-    # record = CoexistWithOtherValidations.new(:number => " 1000 ")
+    # record = CoexistWithOtherValidations.new(number: " 1000 ")
     # assert record.valid?, "Expected record to be valid, but got #{record.errors.full_messages}"
     # assert !record.errors.include?(:number), "Expected record to have no errors on :number"
   end
 
   def test_should_strip_regex
     record = StripRegexMockRecord.new
-    record.assign_attributes(@init_params.merge(:foo => "^%&*abc  "))
+    record.assign_attributes(@init_params.merge(foo: "^%&*abc  "))
     record.valid?
     assert_equal "abc",        record.foo
     assert_equal "bar",        record.bar
@@ -237,7 +237,7 @@ class StripAttributesTest < Minitest::Test
   def test_should_strip_unicode
     skip "multi-byte characters not supported by this version of Ruby" unless StripAttributes::MULTIBYTE_SUPPORTED
 
-    record = StripOnlyOneMockRecord.new({:foo => "\u200A\u200B foo\u200A\u200B\u00A0 "})
+    record = StripOnlyOneMockRecord.new({foo: "\u200A\u200B foo\u200A\u200B\u00A0 "})
     record.valid?
     assert_equal "foo",      record.foo
   end
@@ -250,26 +250,26 @@ class StripAttributesTest < Minitest::Test
     end
 
     def test_should_allow_empty
-      assert_equal "", StripAttributes.strip("", :allow_empty => true)
-      assert_equal "", StripAttributes.strip(" \t ", :allow_empty => true)
+      assert_equal "", StripAttributes.strip("", allow_empty: true)
+      assert_equal "", StripAttributes.strip(" \t ", allow_empty: true)
     end
 
     def test_should_collapse_spaces
-      assert_equal "1 2 3", StripAttributes.strip(" 1   2   3\t ", :collapse_spaces => true)
+      assert_equal "1 2 3", StripAttributes.strip(" 1   2   3\t ", collapse_spaces: true)
     end
 
     def test_should_collapse_multibyte_spaces
-      assert_equal "1 2 3", StripAttributes.strip(" 1 \u00A0  2\u00A03\t ", :collapse_spaces => true)
+      assert_equal "1 2 3", StripAttributes.strip(" 1 \u00A0  2\u00A03\t ", collapse_spaces: true)
     end
 
     def test_should_replace_newlines
-      assert_equal "1 2", StripAttributes.strip("1\n2", :replace_newlines => true)
-      assert_equal "1 2", StripAttributes.strip("1\r\n2", :replace_newlines => true)
-      assert_equal "1 2", StripAttributes.strip("1\r2", :replace_newlines => true)
+      assert_equal "1 2", StripAttributes.strip("1\n2", replace_newlines: true)
+      assert_equal "1 2", StripAttributes.strip("1\r\n2", replace_newlines: true)
+      assert_equal "1 2", StripAttributes.strip("1\r2", replace_newlines: true)
     end
 
     def test_should_strip_regex
-      assert_equal "abc", StripAttributes.strip("^%&*abc  ^  ", :regex => /[\^\%&\*]/)
+      assert_equal "abc", StripAttributes.strip("^%&*abc  ^  ", regex: /[\^\%&\*]/)
     end
 
     def test_should_strip_trailing_whitespace
@@ -286,7 +286,7 @@ class StripAttributesTest < Minitest::Test
           console.log(`Hello ${name}!`);
         };
       EOF
-      actual = StripAttributes.strip(messy_code, :regex => /[[:blank:]]+$/)
+      actual = StripAttributes.strip(messy_code, regex: /[[:blank:]]+$/)
       assert_equal expected, actual
     end
 

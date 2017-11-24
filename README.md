@@ -12,8 +12,7 @@ attribute is blank, it strips the value to `nil` by default.
 It works by adding a before_validation hook to the record.  By default, all
 attributes are stripped of whitespace, but `:only` and `:except`
 options can be used to limit which attributes are stripped.  Both options accept
-a single attribute (`:only => :field`) or arrays of attributes (`:except =>
-[:field1, :field2, :field3]`).
+a single attribute (`only: :field`) or arrays of attributes (`except: [:field1, :field2, :field3]`).
 
 ---
 
@@ -56,7 +55,7 @@ end
 ```ruby
 # all attributes will be stripped except :boxers
 class SoberPokerPlayer < ActiveRecord::Base
-  strip_attributes :except => :boxers
+  strip_attributes except: :boxers
 end
 ```
 
@@ -65,7 +64,7 @@ end
 ```ruby
 # only :shoe, :sock, and :glove attributes will be stripped
 class ConservativePokerPlayer < ActiveRecord::Base
-  strip_attributes :only => [:shoe, :sock, :glove]
+  strip_attributes only: [:shoe, :sock, :glove]
 end
 ```
 
@@ -74,7 +73,7 @@ end
 ```ruby
 # Empty attributes will not be converted to nil
 class BrokePokerPlayer < ActiveRecord::Base
-  strip_attributes :allow_empty => true
+  strip_attributes allow_empty: true
 end
 ```
 
@@ -83,7 +82,7 @@ end
 ```ruby
 # Sequential spaces in attributes will be collapsed to one space
 class EloquentPokerPlayer < ActiveRecord::Base
-  strip_attributes :collapse_spaces => true
+  strip_attributes collapse_spaces: true
 end
 ```
 
@@ -92,7 +91,7 @@ end
 ```ruby
 # Newlines in attributes will be replaced with a space
 class EloquentPokerPlayer < ActiveRecord::Base
-  strip_attributes :replace_newlines => true
+  strip_attributes replace_newlines: true
 end
 ```
 
@@ -101,11 +100,11 @@ end
 ```ruby
 class User < ActiveRecord::Base
   # Strip off characters defined by RegEx
-  strip_attributes :only => [:first_name, :last_name], :regex => /[^[:alpha:]\s]/
+  strip_attributes only: [:first_name, :last_name], regex: /[^[:alpha:]\s]/
   # Strip off non-integers
-  strip_attributes :only => [:phone], :regex => /[^0-9]/
+  strip_attributes only: [:phone], regex: /[^0-9]/
   # Strip off all spaces and keep only alphabetic and numeric characters
-  strip_attributes :only => [:nick_name], :regex => /[^[:alnum:]\S]/
+  strip_attributes only: [:nick_name], regex: /[^[:alnum:]\S]/
 end
 ```
 
@@ -118,7 +117,7 @@ It also works on other ActiveModel classes, such as [Mongoid](http://mongoid.org
 ```ruby
 class User
   include Mongoid::Document
-  strip_attributes :only => :email
+  strip_attributes only: :email
 end
 ```
 
@@ -141,11 +140,11 @@ end
 
 ```ruby
 # where record is an ActiveModel instance
-StripAttributes.strip(record, :collapse_spaces => true)
+StripAttributes.strip(record, collapse_spaces: true)
 
 # works directly on Strings too
 StripAttributes.strip(" foo \t") #=> "foo"
-StripAttributes.strip(" foo   bar", :collapse_spaces => true) #=> "foo bar"
+StripAttributes.strip(" foo   bar", collapse_spaces: true) #=> "foo bar"
 ```
 
 ## Testing

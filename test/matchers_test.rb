@@ -13,11 +13,11 @@ class SampleMockRecord < Tableless
   attribute :unstripped1
   attribute :unstripped2
   attribute :unstripped3
-  strip_attributes :only => [:stripped1, :stripped2, :stripped3]
+  strip_attributes only: [:stripped1, :stripped2, :stripped3]
 
   attribute :collapsed
   attribute :uncollapsed
-  strip_attributes :only => [:collapsed], :collapse_spaces => true
+  strip_attributes only: [:collapsed], collapse_spaces: true
 end
 
 describe SampleMockRecord do

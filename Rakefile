@@ -3,7 +3,7 @@ require "bundler/gem_tasks"
 require "bundler/setup"
 
 desc "Default: run unit tests."
-task :default => :test
+task default: :test
 
 Rake::TestTask.new(:test) do |t|
   t.libs << "lib" << "test"
