@@ -101,10 +101,15 @@ end
 class User < ActiveRecord::Base
   # Strip off characters defined by RegEx
   strip_attributes only: [:first_name, :last_name], regex: /[^[:alpha:]\s]/
+
   # Strip off non-integers
-  strip_attributes only: [:phone], regex: /[^0-9]/
+  strip_attributes only: :phone, regex: /[^0-9]/
+
   # Strip off all spaces and keep only alphabetic and numeric characters
-  strip_attributes only: [:nick_name], regex: /[^[:alnum:]\S]/
+  strip_attributes only: :nick_name, regex: /[^[:alnum:]\S]/
+
+  # Remove trailing whitespace from a multi-line string
+  strip_attributes only: :code, regex: /[[:blank:]]+$/)
 end
 ```
 
