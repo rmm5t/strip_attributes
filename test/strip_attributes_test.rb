@@ -272,6 +272,24 @@ class StripAttributesTest < Minitest::Test
       assert_equal "abc", StripAttributes.strip("^%&*abc  ^  ", :regex => /[\^\%&\*]/)
     end
 
+    def test_should_strip_trailing_whitespace
+      messy_code =
+        "const hello = (name) => {      \n" +
+        "  if (name === 'voldemort') return; \n" +
+        "  \n" +
+        "  console.log(`Hello ${name}!`); \t \t \n" +
+        "};  \n"
+      expected = <<~EOF.strip
+        const hello = (name) => {
+          if (name === 'voldemort') return;
+
+          console.log(`Hello ${name}!`);
+        };
+      EOF
+      actual = StripAttributes.strip(messy_code, :regex => /[[:blank:]]+$/)
+      assert_equal expected, actual
+    end
+
     def test_should_strip_unicode
       skip "multi-byte characters not supported by this version of Ruby" unless StripAttributes::MULTIBYTE_SUPPORTED
 
