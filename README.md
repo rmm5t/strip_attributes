@@ -106,7 +106,7 @@ class User < ActiveRecord::Base
   strip_attributes only: :phone, regex: /[^0-9]/
 
   # Strip off all spaces and keep only alphabetic and numeric characters
-  strip_attributes only: :nick_name, regex: /[^[:alnum:]\S]/
+  strip_attributes only: :nickname, regex: /[^[:alnum:]_-]/
 
   # Remove trailing whitespace from a multi-line string
   strip_attributes only: :code, regex: /[[:blank:]]+$/)

@@ -272,6 +272,11 @@ class StripAttributesTest < Minitest::Test
       assert_equal "abc", StripAttributes.strip("^%&*abc  ^  ", regex: /[\^\%&\*]/)
     end
 
+    def test_should_keep_only_alphanumerics
+      nickname = " funky BAT-2009"
+      assert_equal "funkyBAT-2009", StripAttributes.strip(nickname, regex: /[^[:alnum:]_-]/)
+    end
+
     def test_should_strip_trailing_whitespace
       messy_code =
         "const hello = (name) => {      \n" +
