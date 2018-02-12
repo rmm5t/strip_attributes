@@ -2,7 +2,6 @@
 
 [![Gem Version](http://img.shields.io/gem/v/strip_attributes.svg)](https://rubygems.org/gems/strip_attributes)
 [![Build Status](https://secure.travis-ci.org/rmm5t/strip_attributes.svg)](http://travis-ci.org/rmm5t/strip_attributes)
-[![Code Climate](http://img.shields.io/codeclimate/github/rmm5t/strip_attributes.svg)](https://codeclimate.com/github/rmm5t/strip_attributes)
 [![Gem Downloads](https://img.shields.io/gem/dt/strip_attributes.svg)](https://rubygems.org/gems/strip_attributes)
 
 StripAttributes is an ActiveModel extension that automatically strips all
