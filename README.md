@@ -192,7 +192,7 @@ end
 #### To initialize **Minitest-MatchersVaccine**, add this to your `test_helper.rb`:
 
 ```ruby
-require "strip_attributes/matchers_vaccine"
+require "strip_attributes/matchers"
 class MiniTest::Spec
   include StripAttributes::Matchers
 end
@@ -201,7 +201,7 @@ end
 OR if in a Rails environment, you might prefer this:
 
 ``` ruby
-require "strip_attributes/matchers_vaccine"
+require "strip_attributes/matchers"
 class ActiveSupport::TestCase
   include StripAttributes::Matchers
 end
