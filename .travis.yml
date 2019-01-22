@@ -15,6 +15,11 @@ gemfile:
   - gemfiles/activemodel-6.0.gemfile
   - gemfiles/activemodel-master.gemfile
 matrix:
+  exclude:
+    - rvm: 2.3
+      gemfile: gemfiles/activemodel-6.0.gemfile
+    - rvm: 2.4
+      gemfile: gemfiles/activemodel-6.0.gemfile
   allow_failures:
     - gemfile: gemfiles/activemodel-master.gemfile
   fast_finish: true
