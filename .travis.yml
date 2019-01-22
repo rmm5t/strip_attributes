@@ -2,17 +2,24 @@ language: ruby
 cache: bundler
 sudo: false
 rvm:
-  - 2.3.6
-  - 2.4.3
-  - 2.5.0
+  - 2.3
+  - 2.4
+  - 2.5
+  - 2.6
 gemfile:
   - Gemfile
   - gemfiles/activemodel-3.2.gemfile
   - gemfiles/activemodel-4.2.gemfile
   - gemfiles/activemodel-5.1.gemfile
   - gemfiles/activemodel-5.2.gemfile
+  - gemfiles/activemodel-6.0.gemfile
   - gemfiles/activemodel-master.gemfile
 matrix:
+  exclude:
+    - rvm: 2.3
+      gemfile: gemfiles/activemodel-6.0.gemfile
+    - rvm: 2.4
+      gemfile: gemfiles/activemodel-6.0.gemfile
   allow_failures:
     - gemfile: gemfiles/activemodel-master.gemfile
   fast_finish: true
