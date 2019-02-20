@@ -19,7 +19,7 @@ module ActiveModel::Validations::HelperMethods
 end
 
 module StripAttributes
-  VALID_OPTIONS = [:only, :except, :allow_empty, :collapse_spaces, :replace_newlines, :regex]
+  VALID_OPTIONS = [:only, :except, :allow_empty, :collapse_spaces, :replace_newlines, :regex, :if]
 
   # Unicode invisible and whitespace characters.  The POSIX character class
   # [:space:] corresponds to the Unicode class Z ("separator"). We also
@@ -38,6 +38,10 @@ module StripAttributes
   MULTIBYTE_SUPPORTED  = "\u0020" == " "
 
   def self.strip(record_or_string, options = nil)
+    if options && options[:if] && !record_or_string.send(options[:if].to_sym)
+      return record_or_string
+    end
+
     if record_or_string.respond_to?(:attributes)
       strip_record(record_or_string, options)
     else
