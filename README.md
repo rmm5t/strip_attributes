@@ -13,6 +13,8 @@ attributes are stripped of whitespace, but `:only` and `:except`
 options can be used to limit which attributes are stripped.  Both options accept
 a single attribute (`only: :field`) or arrays of attributes (`except: [:field1, :field2, :field3]`).
 
+It's also possible to skip stripping the attributes altogether per model using the `:if` and `:unless` options.
+
 ---
 
 **How You Can Help**
@@ -64,6 +66,32 @@ end
 # only :shoe, :sock, and :glove attributes will be stripped
 class ConservativePokerPlayer < ActiveRecord::Base
   strip_attributes only: [:shoe, :sock, :glove]
+end
+```
+
+### Using `if`
+
+```ruby
+# Only records with odd ids will be stripped
+class OddPokerPlayer < ActiveRecord::Base
+  strip_attributes if: :strip_me?
+
+  def strip_me?
+    id.odd?
+  end
+end
+```
+
+### Using `unless`
+
+```ruby
+# strip_attributes will be applied randomly
+class RandomPokerPlayer < ActiveRecord::Base
+  strip_attributes unless: :strip_me?
+
+  def strip_me?
+    [true, false].sample
+  end
 end
 ```
 
