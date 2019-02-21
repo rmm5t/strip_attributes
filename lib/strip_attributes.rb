@@ -5,7 +5,12 @@ module ActiveModel::Validations::HelperMethods
   def strip_attributes(options = nil)
     StripAttributes.validate_options(options)
 
-    before_validation do |record|
+    rails_opts = {
+      if: options && options[:if],
+      unless: options && options[:unless]
+    }
+
+    before_validation(rails_opts) do |record|
       StripAttributes.strip(record, options)
     end
   end
@@ -38,14 +43,6 @@ module StripAttributes
   MULTIBYTE_SUPPORTED  = "\u0020" == " "
 
   def self.strip(record_or_string, options = nil)
-    if options && options[:if] && !record_or_string.send(options[:if].to_sym)
-      return record_or_string
-    end
-
-    if options && options[:unless] && record_or_string.send(options[:unless].to_sym)
-      return record_or_string
-    end
-
     if record_or_string.respond_to?(:attributes)
       strip_record(record_or_string, options)
     else
