@@ -5,12 +5,7 @@ module ActiveModel::Validations::HelperMethods
   def strip_attributes(options = nil)
     StripAttributes.validate_options(options)
 
-    rails_opts = {
-      if: options && options[:if],
-      unless: options && options[:unless]
-    }
-
-    before_validation(rails_opts) do |record|
+    before_validation(options && options.slice(:if, :unless) || {}) do |record|
       StripAttributes.strip(record, options)
     end
   end
