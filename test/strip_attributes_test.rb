@@ -9,6 +9,8 @@ module MockAttributes
     base.attribute :bang
     base.attribute :foz
     base.attribute :fiz
+    base.attribute :strip_me
+    base.attribute :skip_me
   end
 end
 
@@ -70,6 +72,29 @@ end
 class StripRegexMockRecord < Tableless
   include MockAttributes
   strip_attributes regex: /[\^\%&\*]/
+end
+
+class IfSymMockRecord < Tableless
+  include MockAttributes
+  strip_attributes if: :strip_me?
+
+  def strip_me?
+    strip_me
+  end
+end
+
+class UnlessSymMockRecord < Tableless
+  include MockAttributes
+  strip_attributes unless: :skip_me?
+
+  def skip_me?
+    skip_me
+  end
+end
+
+class IfProcMockRecord < Tableless
+  include MockAttributes
+  strip_attributes if: Proc.new { |record| record.strip_me }
 end
 
 class StripAttributesTest < Minitest::Test
@@ -240,6 +265,78 @@ class StripAttributesTest < Minitest::Test
     record = StripOnlyOneMockRecord.new({foo: "\u200A\u200B foo\u200A\u200B\u00A0 "})
     record.valid?
     assert_equal "foo",      record.foo
+  end
+
+  def test_should_strip_all_fields_if_true
+    record = IfSymMockRecord.new(@init_params.merge(strip_me: true))
+    record.valid?
+    assert_equal "foo",         record.foo
+    assert_equal "bar",         record.bar
+    assert_equal "biz",         record.biz
+    assert_equal "foz  foz",    record.foz
+    assert_equal "fiz \n  fiz", record.fiz
+    assert_nil record.baz
+    assert_nil record.bang
+  end
+
+  def test_should_strip_no_fields_if_false
+    record = IfSymMockRecord.new(@init_params.merge(strip_me: false))
+    record.valid?
+    assert_equal "\tfoo",       record.foo
+    assert_equal "bar \t ",     record.bar
+    assert_equal "\tbiz ",      record.biz
+    assert_equal " foz  foz",   record.foz
+    assert_equal "fiz \n  fiz", record.fiz
+    assert_equal "",            record.baz
+    assert_equal " ",           record.bang
+  end
+
+  def test_should_strip_all_fields_unless_false
+    record = UnlessSymMockRecord.new(@init_params.merge(skip_me: false))
+    record.valid?
+    assert_equal "foo",         record.foo
+    assert_equal "bar",         record.bar
+    assert_equal "biz",         record.biz
+    assert_equal "foz  foz",    record.foz
+    assert_equal "fiz \n  fiz", record.fiz
+    assert_nil record.baz
+    assert_nil record.bang
+  end
+
+  def test_should_strip_no_fields_unless_true
+    record = UnlessSymMockRecord.new(@init_params.merge(skip_me: true))
+    record.valid?
+    assert_equal "\tfoo",       record.foo
+    assert_equal "bar \t ",     record.bar
+    assert_equal "\tbiz ",      record.biz
+    assert_equal " foz  foz",   record.foz
+    assert_equal "fiz \n  fiz", record.fiz
+    assert_equal "",            record.baz
+    assert_equal " ",           record.bang
+  end
+
+  def test_should_strip_all_fields_if_true_proc
+    record = IfProcMockRecord.new(@init_params.merge(strip_me: true))
+    record.valid?
+    assert_equal "foo",         record.foo
+    assert_equal "bar",         record.bar
+    assert_equal "biz",         record.biz
+    assert_equal "foz  foz",    record.foz
+    assert_equal "fiz \n  fiz", record.fiz
+    assert_nil record.baz
+    assert_nil record.bang
+  end
+
+  def test_should_strip_no_fields_if_false_proc
+    record = IfProcMockRecord.new(@init_params.merge(strip_me: false))
+    record.valid?
+    assert_equal "\tfoo",       record.foo
+    assert_equal "bar \t ",     record.bar
+    assert_equal "\tbiz ",      record.biz
+    assert_equal " foz  foz",   record.foz
+    assert_equal "fiz \n  fiz", record.fiz
+    assert_equal "",            record.baz
+    assert_equal " ",           record.bang
   end
 
   class ClassMethodsTest < Minitest::Test

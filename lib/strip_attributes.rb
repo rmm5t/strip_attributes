@@ -2,24 +2,24 @@ require "active_model"
 
 module ActiveModel::Validations::HelperMethods
   # Strips whitespace from model fields and converts blank values to nil.
-  def strip_attributes(options = nil)
+  def strip_attributes(options = {})
     StripAttributes.validate_options(options)
 
-    before_validation do |record|
+    before_validation(options.slice(:if, :unless)) do |record|
       StripAttributes.strip(record, options)
     end
   end
 
   # <b>DEPRECATED:</b> Please use <tt>strip_attributes</tt> (non-bang method)
   # instead.
-  def strip_attributes!(options = nil)
+  def strip_attributes!(options = {})
     warn "[DEPRECATION] `strip_attributes!` is deprecated.  Please use `strip_attributes` (non-bang method) instead."
     strip_attributes(options)
   end
 end
 
 module StripAttributes
-  VALID_OPTIONS = [:only, :except, :allow_empty, :collapse_spaces, :replace_newlines, :regex]
+  VALID_OPTIONS = [:only, :except, :allow_empty, :collapse_spaces, :replace_newlines, :regex, :if, :unless]
 
   # Unicode invisible and whitespace characters.  The POSIX character class
   # [:space:] corresponds to the Unicode class Z ("separator"). We also
@@ -37,7 +37,7 @@ module StripAttributes
   MULTIBYTE_BLANK = /[[:blank:]#{MULTIBYTE_WHITE}]/
   MULTIBYTE_SUPPORTED  = "\u0020" == " "
 
-  def self.strip(record_or_string, options = nil)
+  def self.strip(record_or_string, options = {})
     if record_or_string.respond_to?(:attributes)
       strip_record(record_or_string, options)
     else
@@ -45,7 +45,7 @@ module StripAttributes
     end
   end
 
-  def self.strip_record(record, options = nil)
+  def self.strip_record(record, options = {})
     attributes = narrow(record.attributes, options)
 
     attributes.each do |attr, value|
@@ -57,13 +57,11 @@ module StripAttributes
     record
   end
 
-  def self.strip_string(value, options = nil)
-    if options
-      allow_empty      = options[:allow_empty]
-      collapse_spaces  = options[:collapse_spaces]
-      replace_newlines = options[:replace_newlines]
-      regex            = options[:regex]
-    end
+  def self.strip_string(value, options = {})
+    allow_empty      = options[:allow_empty]
+    collapse_spaces  = options[:collapse_spaces]
+    replace_newlines = options[:replace_newlines]
+    regex            = options[:regex]
 
     if value.respond_to?(:strip)
       value = (value.blank? && !allow_empty) ? nil : value.strip
@@ -97,10 +95,10 @@ module StripAttributes
   # Necessary because Rails has removed the narrowing of attributes using :only
   # and :except on Base#attributes
   def self.narrow(attributes, options = {})
-    if except = options && options[:except]
+    if except = options[:except]
       except = Array(except).collect { |attribute| attribute.to_s }
       attributes.except(*except)
-    elsif only = options && options[:only]
+    elsif only = options[:only]
       only = Array(only).collect { |attribute| attribute.to_s }
       attributes.slice(*only)
     else
@@ -109,7 +107,7 @@ module StripAttributes
   end
 
   def self.validate_options(options)
-    if keys = options && options.keys
+    if keys = options.keys
       unless (keys - VALID_OPTIONS).empty?
         raise ArgumentError, "Options does not specify #{VALID_OPTIONS} (#{options.keys.inspect})"
       end
