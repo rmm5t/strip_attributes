@@ -11,6 +11,8 @@ module MockAttributes
     base.attribute :fiz
     base.attribute :strip_me
     base.attribute :skip_me
+    base.attribute :list
+    base.attribute :dict
   end
 end
 
@@ -97,6 +99,12 @@ class IfProcMockRecord < Tableless
   strip_attributes if: Proc.new { |record| record.strip_me }
 end
 
+class CompactArraysAndHashes < Tableless
+  include MockAttributes
+
+  strip_attributes compact: true
+end
+
 class StripAttributesTest < Minitest::Test
   def setup
     @init_params = {
@@ -106,7 +114,9 @@ class StripAttributesTest < Minitest::Test
       baz:  "",
       bang: " ",
       foz:  " foz  foz",
-      fiz:  "fiz \n  fiz"
+      fiz:  "fiz \n  fiz",
+      list: [nil, "foo", nil],
+      dict: { bar: nil, foo: "bar" },
     }
   end
 
@@ -337,6 +347,13 @@ class StripAttributesTest < Minitest::Test
     assert_equal "fiz \n  fiz", record.fiz
     assert_equal "",            record.baz
     assert_equal " ",           record.bang
+  end
+
+  def test_should_compact_arrays_and_hashes_proc
+    record = CompactArraysAndHashes.new(@init_params)
+    record.valid?
+    assert_equal(["foo"],        record.list)
+    assert_equal({ foo: "bar" }, record.dict)
   end
 
   class ClassMethodsTest < Minitest::Test

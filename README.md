@@ -122,6 +122,15 @@ class User < ActiveRecord::Base
 end
 ```
 
+### Using `compact`
+
+```ruby
+# nil values in array and hash attributes will be removed
+class User < ActiveRecord::Base
+  strip_attributes compact: true
+end
+```
+
 ## Usage Patterns
 
 ### Other ORMs implementing `ActiveModel`
