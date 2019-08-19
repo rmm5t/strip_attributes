@@ -19,7 +19,9 @@ module ActiveModel::Validations::HelperMethods
 end
 
 module StripAttributes
-  VALID_OPTIONS = [:only, :except, :allow_empty, :collapse_spaces, :replace_newlines, :regex, :if, :unless]
+  VALID_OPTIONS = [
+    :only, :except, :allow_empty, :collapse_spaces, :replace_newlines, :regex, :if, :unless, :compact,
+  ]
 
   # Unicode invisible and whitespace characters.  The POSIX character class
   # [:space:] corresponds to the Unicode class Z ("separator"). We also
@@ -60,9 +62,14 @@ module StripAttributes
   def self.strip_string(value, options = {})
     allow_empty      = options[:allow_empty]
     collapse_spaces  = options[:collapse_spaces]
+    compact          = options[:compact]
     replace_newlines = options[:replace_newlines]
     regex            = options[:regex]
 
+    if compact && value.respond_to?(:compact)
+      value = value.compact
+    end
+    
     if value.respond_to?(:strip)
       value = (value.blank? && !allow_empty) ? nil : value.strip
     end
