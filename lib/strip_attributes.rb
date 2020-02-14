@@ -64,7 +64,7 @@ module StripAttributes
     regex            = options[:regex]
 
     if value.respond_to?(:strip)
-      value = (value.blank? && !allow_empty) ? nil : value.strip
+      value = value.strip
     end
 
     if regex && value.respond_to?(:gsub!)
@@ -89,7 +89,7 @@ module StripAttributes
       end
     end
 
-    value
+    (value.blank? && !allow_empty) ? nil : value
   end
 
   # Necessary because Rails has removed the narrowing of attributes using :only
