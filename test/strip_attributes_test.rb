@@ -9,6 +9,8 @@ module MockAttributes
     base.attribute :bang
     base.attribute :foz
     base.attribute :fiz
+    base.attribute :qax
+    base.attribute :qux
     base.attribute :strip_me
     base.attribute :skip_me
   end
@@ -106,7 +108,9 @@ class StripAttributesTest < Minitest::Test
       baz:  "",
       bang: " ",
       foz:  " foz  foz",
-      fiz:  "fiz \n  fiz"
+      fiz:  "fiz \n  fiz",
+      qax:  "\n\t ",
+      qux:  "\u200B"
     }
   end
 
@@ -124,6 +128,8 @@ class StripAttributesTest < Minitest::Test
     assert_equal "fiz \n  fiz", record.fiz
     assert_nil record.baz
     assert_nil record.bang
+    assert_nil record.qax
+    assert_nil record.qux
   end
 
   def test_should_strip_only_one_field

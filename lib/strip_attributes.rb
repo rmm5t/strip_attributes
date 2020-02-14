@@ -19,7 +19,7 @@ module ActiveModel::Validations::HelperMethods
 end
 
 module StripAttributes
-  VALID_OPTIONS = [:only, :except, :allow_empty, :collapse_spaces, :replace_newlines, :regex, :if, :unless]
+  VALID_OPTIONS = [:only, :except, :allow_empty, :collapse_spaces, :replace_newlines, :regex, :if, :unless].freeze
 
   # Unicode invisible and whitespace characters.  The POSIX character class
   # [:space:] corresponds to the Unicode class Z ("separator"). We also
@@ -32,10 +32,10 @@ module StripAttributes
   #   U+200D ZERO WIDTH JOINER
   #   U+2060 WORD JOINER
   #   U+FEFF ZERO WIDTH NO-BREAK SPACE
-  MULTIBYTE_WHITE = "\u180E\u200B\u200C\u200D\u2060\uFEFF"
-  MULTIBYTE_SPACE = /[[:space:]#{MULTIBYTE_WHITE}]/
-  MULTIBYTE_BLANK = /[[:blank:]#{MULTIBYTE_WHITE}]/
-  MULTIBYTE_SUPPORTED  = "\u0020" == " "
+  MULTIBYTE_WHITE = "\u180E\u200B\u200C\u200D\u2060\uFEFF".freeze
+  MULTIBYTE_SPACE = /[[:space:]#{MULTIBYTE_WHITE}]/.freeze
+  MULTIBYTE_BLANK = /[[:blank:]#{MULTIBYTE_WHITE}]/.freeze
+  MULTIBYTE_SUPPORTED = "\u0020" == " "
 
   def self.strip(record_or_string, options = {})
     if record_or_string.respond_to?(:attributes)
@@ -63,13 +63,9 @@ module StripAttributes
     replace_newlines = options[:replace_newlines]
     regex            = options[:regex]
 
-    if value.respond_to?(:strip)
-      value = (value.blank? && !allow_empty) ? nil : value.strip
-    end
+    value = value.strip if value.respond_to?(:strip)
 
-    if regex && value.respond_to?(:gsub!)
-      value.gsub!(regex, "")
-    end
+    value.gsub!(regex, "") if regex && value.respond_to?(:gsub!)
 
     if MULTIBYTE_SUPPORTED && value.respond_to?(:gsub!) && Encoding.compatible?(value, MULTIBYTE_SPACE)
       value.gsub!(/\A#{MULTIBYTE_SPACE}+|#{MULTIBYTE_SPACE}+\z/, "")
@@ -77,9 +73,7 @@ module StripAttributes
       value.strip!
     end
 
-    if replace_newlines && value.respond_to?(:gsub!)
-      value.gsub!(/[\r\n]+/, " ")
-    end
+    value.gsub!(/[\r\n]+/, " ") if replace_newlines && value.respond_to?(:gsub!)
 
     if collapse_spaces
       if MULTIBYTE_SUPPORTED && value.respond_to?(:gsub!) && Encoding.compatible?(value, MULTIBYTE_BLANK)
@@ -89,7 +83,7 @@ module StripAttributes
       end
     end
 
-    value
+    (value.blank? && !allow_empty) ? nil : value
   end
 
   # Necessary because Rails has removed the narrowing of attributes using :only
