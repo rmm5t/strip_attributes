@@ -13,7 +13,7 @@ module ActiveModel::Validations::HelperMethods
   # <b>DEPRECATED:</b> Please use <tt>strip_attributes</tt> (non-bang method)
   # instead.
   def strip_attributes!(options = {})
-    warn "[DEPRECATION] `strip_attributes!` is deprecated.  Please use `strip_attributes` (non-bang method) instead."
+    warn "[DEPRECATION] `strip_attributes!` is deprecated. Please use `strip_attributes` (non-bang method) instead."
     strip_attributes(options)
   end
 end
@@ -21,7 +21,7 @@ end
 module StripAttributes
   VALID_OPTIONS = [:only, :except, :allow_empty, :collapse_spaces, :replace_newlines, :regex, :if, :unless].freeze
 
-  # Unicode invisible and whitespace characters.  The POSIX character class
+  # Unicode invisible and whitespace characters. The POSIX character class
   # [:space:] corresponds to the Unicode class Z ("separator"). We also
   # include the following characters from Unicode class C ("control"), which
   # are spaces or invisible characters that make no sense at the start or end
@@ -65,22 +65,20 @@ module StripAttributes
     replace_newlines = options[:replace_newlines]
     regex            = options[:regex]
 
-    value = value.strip if value.respond_to?(:strip)
+    value.gsub!(regex, "") if regex
 
-    value.gsub!(regex, "") if regex && value.respond_to?(:gsub!)
-
-    if MULTIBYTE_SUPPORTED && value.respond_to?(:gsub!) && Encoding.compatible?(value, MULTIBYTE_SPACE)
+    if MULTIBYTE_SUPPORTED && Encoding.compatible?(value, MULTIBYTE_SPACE)
       value.gsub!(/\A#{MULTIBYTE_SPACE}+|#{MULTIBYTE_SPACE}+\z/, "")
-    elsif value.respond_to?(:strip!)
+    else
       value.strip!
     end
 
-    value.gsub!(/[\r\n]+/, " ") if replace_newlines && value.respond_to?(:gsub!)
+    value.gsub!(/[\r\n]+/, " ") if replace_newlines
 
     if collapse_spaces
-      if MULTIBYTE_SUPPORTED && value.respond_to?(:gsub!) && Encoding.compatible?(value, MULTIBYTE_BLANK)
+      if MULTIBYTE_SUPPORTED && Encoding.compatible?(value, MULTIBYTE_BLANK)
         value.gsub!(/#{MULTIBYTE_BLANK}+/, " ")
-      elsif value.respond_to?(:squeeze!)
+      else
         value.squeeze!(" ")
       end
     end
