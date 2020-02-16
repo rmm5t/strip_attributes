@@ -49,6 +49,7 @@ module StripAttributes
     attributes = narrow(record.attributes, options)
 
     attributes.each do |attr, value|
+      next unless value.is_a?(String)
       original_value = value
       value = strip_string(value, options)
       record[attr] = value if original_value != value
