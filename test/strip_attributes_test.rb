@@ -61,6 +61,17 @@ class ReplaceNewLinesAndDuplicateSpaces < Tableless
   strip_attributes replace_newlines: true, collapse_spaces: true
 end
 
+class CoexistWithOtherObjects < Tableless
+  attr_accessor :arr, :hsh, :str
+  strip_attributes
+  def initialize
+    @arr, @hsh, @str = [], {}, "foo "
+  end
+  def attributes
+    {arr: arr, hsh: hsh, str: str}
+  end
+end
+
 class CoexistWithOtherValidations < Tableless
   attribute :number, type: Integer
 
@@ -240,6 +251,14 @@ class StripAttributesTest < Minitest::Test
     assert_equal "fiz \n  fiz", record.fiz
     assert_equal "",            record.baz
     assert_equal "",            record.bang
+  end
+
+  def test_should_allow_other_empty_objects
+    record = CoexistWithOtherObjects.new
+    record.valid?
+    assert_equal [],    record.arr
+    assert_equal({},    record.hsh)
+    assert_equal "foo", record.str
   end
 
   def test_should_coexist_with_other_validations
