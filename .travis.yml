@@ -10,7 +10,6 @@ gemfile:
   - Gemfile
   - gemfiles/activemodel-3.2.gemfile
   - gemfiles/activemodel-4.2.gemfile
-  - gemfiles/activemodel-5.1.gemfile
   - gemfiles/activemodel-5.2.gemfile
   - gemfiles/activemodel-6.0.gemfile
   - gemfiles/activemodel-master.gemfile
