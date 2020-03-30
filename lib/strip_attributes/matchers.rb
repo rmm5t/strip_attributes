@@ -17,24 +17,24 @@ module StripAttributes
     #   wont { strip_attribute :password }
     #   wont { strip_attributes(:password, :encrypted_password) }
     def strip_attribute(*attributes)
-      StripAttributeMatcher.new(*attributes)
+      StripAttributeMatcher.new(attributes)
     end
 
     alias_method :strip_attributes, :strip_attribute
 
     class StripAttributeMatcher
-      def initialize(*attributes)
+      def initialize(attributes)
         @attributes = attributes
         @options = {}
       end
 
       def matches?(subject)
-        @attributes.map do |attribute|
+        @attributes.all? do |attribute|
           @attribute = attribute
           subject.send("#{@attribute}=", " string ")
           subject.valid?
           subject.send(@attribute) == "string" and collapse_spaces?(subject)
-        end.all?
+        end
       end
 
       def collapse_spaces
