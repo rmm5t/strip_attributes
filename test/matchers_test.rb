@@ -92,4 +92,14 @@ describe SampleMockRecord do
       assert true
     end
   end
+
+  it "should take a list of arguments" do
+    must strip_attribute(:stripped1, :stripped2, :stripped3)
+    wont strip_attribute(:unstripped1, :unstripped2, :unstripped3)
+  end
+
+  it "should alias strip_attribute to strip_attributes" do
+    must strip_attributes(:stripped1, :stripped2, :stripped3)
+    wont strip_attributes(:unstripped1, :unstripped2, :unstripped3)
+  end
 end
