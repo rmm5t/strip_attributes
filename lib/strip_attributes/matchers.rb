@@ -54,7 +54,7 @@ module StripAttributes
       alias_method :negative_failure_message,       :failure_message_when_negated # RSpec 1.1
 
       def description
-        "#{expectation(false)} whitespace from ##{@attribute}"
+        "#{expectation(false)} whitespace from #{@attributes.map {|el| "##{el}" }.to_sentence}"
       end
 
       private
