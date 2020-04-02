@@ -13,6 +13,7 @@ module MockAttributes
     base.attribute :qux
     base.attribute :strip_me
     base.attribute :skip_me
+    base.attribute :frozen
   end
 end
 
@@ -201,6 +202,12 @@ class StripAttributesTest < Minitest::Test
     assert_equal "fiz \n  fiz", record.fiz
     assert_equal "",            record.baz
     assert_equal "",            record.bang
+  end
+
+  def test_should_strip_frozen_values
+    record = StripAllMockRecord.new(frozen: " ice ".freeze)
+    record.valid?
+    assert_equal "ice", record.frozen
   end
 
   def test_should_collapse_duplicate_spaces
