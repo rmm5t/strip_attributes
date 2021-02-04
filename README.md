@@ -1,7 +1,7 @@
 # StripAttributes
 
 [![Gem Version](http://img.shields.io/gem/v/strip_attributes.svg)](https://rubygems.org/gems/strip_attributes)
-[![Build Status](https://github.com/rmm5t/strip_attributes/workflows/test/badge.svg?branch=master)](https://github.com/rmm5t/strip_attributes/actions?query=workflow%3A.github%2Fworkflows%2Ftest.yml)
+[![Build Status](https://github.com/rmm5t/strip_attributes/workflows/CI/badge.svg?branch=master)](https://github.com/rmm5t/strip_attributes/actions?query=workflow%3ACI)
 [![Gem Downloads](https://img.shields.io/gem/dt/strip_attributes.svg)](https://rubygems.org/gems/strip_attributes)
 
 StripAttributes is an ActiveModel extension that automatically strips all
