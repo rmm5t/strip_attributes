@@ -1,33 +1,23 @@
 language: ruby
 cache: bundler
 rvm:
-  - 2.3
-  - 2.4
   - 2.5
   - 2.6
   - 2.7
 gemfile:
   - Gemfile
-  - gemfiles/activemodel-3.2.gemfile
-  - gemfiles/activemodel-4.2.gemfile
   - gemfiles/activemodel-5.2.gemfile
   - gemfiles/activemodel-6.0.gemfile
   - gemfiles/activemodel-6.1.gemfile
   - gemfiles/activemodel-main.gemfile
 matrix:
-  exclude:
+  include:
     - rvm: 2.3
-      gemfile: gemfiles/activemodel-6.0.gemfile
-    - rvm: 2.4
-      gemfile: gemfiles/activemodel-6.0.gemfile
+      gemfile: gemfiles/activemodel-3.2.gemfile
     - rvm: 2.3
-      gemfile: gemfiles/activemodel-6.1.gemfile
+      gemfile: gemfiles/activemodel-4.2.gemfile
     - rvm: 2.4
-      gemfile: gemfiles/activemodel-6.1.gemfile
-    - rvm: 2.3
-      gemfile: gemfiles/activemodel-main.gemfile
-    - rvm: 2.4
-      gemfile: gemfiles/activemodel-main.gemfile
+      gemfile: gemfiles/activemodel-4.2.gemfile
   allow_failures:
     - gemfile: gemfiles/activemodel-main.gemfile
   fast_finish: true
