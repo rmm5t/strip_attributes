@@ -1,0 +1,31 @@
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby: [2.5, 2.6, 2.7]
+        gemfile:
+          - activemodel-5.2
+          - activemodel-6.0
+          - activemodel-6.1
+          - activemodel-main
+        include:
+          - { ruby: "2.3", gemfile: "activemodel-3.2" }
+          - { ruby: "2.3", gemfile: "activemodel-4.2" }
+          - { ruby: "2.4", gemfile: "activemodel-4.2" }
+
+    env:
+      BUNDLE_GEMFILE: gemfiles/${{ matrix.gemfile }}.gemfile
+    steps:
+      # https://github.com/marketplace/actions/checkout
+      - uses: actions/checkout@v2
+      # https://github.com/marketplace/actions/setup-ruby-jruby-and-truffleruby
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true # runs `bundle install` and caches gems automatically
+      - name: Run tests
+        run: bundle exec rake
