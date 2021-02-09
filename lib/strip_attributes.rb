@@ -2,11 +2,11 @@ require "active_model"
 
 module ActiveModel::Validations::HelperMethods
   # Strips whitespace from model fields and converts blank values to nil.
-  def strip_attributes(options = {})
-    StripAttributes.validate_options(options)
+  def strip_attributes(**options)
+    StripAttributes.validate_options(**options)
 
     before_validation(options.slice(:if, :unless)) do |record|
-      StripAttributes.strip(record, options)
+      StripAttributes.strip(record, **options)
     end
   end
 end
