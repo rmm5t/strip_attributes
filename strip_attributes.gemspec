@@ -17,7 +17,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = `git ls-files -- {test,spec}/*`.split("\n")
   spec.require_paths = ["lib"]
 
-  spec.add_runtime_dependency "activemodel", ">= 3.0", "< 7.0"
+  spec.add_runtime_dependency "activemodel", ">= 3.0", "< 7.1"
   spec.add_development_dependency "active_attr", "~> 0.10"
   spec.add_development_dependency "minitest", ">= 5.0", "< 6.0"
   spec.add_development_dependency "minitest-matchers_vaccine", "~> 1.0" unless ENV["SKIP_VACCINE"]
