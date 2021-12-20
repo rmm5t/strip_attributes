@@ -6,16 +6,17 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby: [2.5, 2.6, 2.7]
+        ruby: [2.7, 3.0]
         gemfile:
-          - activemodel-5.2
           - activemodel-6.0
           - activemodel-6.1
+          - activemodel-7.0
           - activemodel-main
         include:
           - { ruby: "2.3", gemfile: "activemodel-3.2" }
-          - { ruby: "2.3", gemfile: "activemodel-4.2" }
           - { ruby: "2.4", gemfile: "activemodel-4.2" }
+          - { ruby: "2.5", gemfile: "activemodel-5.2" }
+          - { ruby: "2.6", gemfile: "activemodel-6.1" }
 
     env:
       BUNDLE_GEMFILE: gemfiles/${{ matrix.gemfile }}.gemfile
