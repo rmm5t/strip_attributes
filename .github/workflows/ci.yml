@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby: ["2.7", "3.0"]
+        ruby: ["2.7", "3.0", "3.1"]
         gemfile:
           - activemodel-6.0
           - activemodel-6.1
@@ -17,6 +17,8 @@ jobs:
           - { ruby: "2.4", gemfile: "activemodel-4.2" }
           - { ruby: "2.5", gemfile: "activemodel-5.2" }
           - { ruby: "2.6", gemfile: "activemodel-6.1" }
+        exclude:
+          - { ruby: "3.1", gemfile: "activemodel-7.0" }
 
     env:
       BUNDLE_GEMFILE: gemfiles/${{ matrix.gemfile }}.gemfile
