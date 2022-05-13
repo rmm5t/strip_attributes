@@ -17,6 +17,12 @@ Gem::Specification.new do |spec|
   spec.test_files    = `git ls-files -- {test,spec}/*`.split("\n")
   spec.require_paths = ["lib"]
 
+  spec.metadata = {
+    "bug_tracker_uri"   => "https://github.com/rmm5t/strip_attributes/issues",
+    "changelog_uri"     => "https://github.com/rmm5t/strip_attributes/blob/master/CHANGELOG.md",
+    "source_code_uri"   => "https://github.com/rmm5t/strip_attributes",
+  }
+
   spec.add_runtime_dependency "activemodel", ">= 3.0", "< 8.0"
   spec.add_development_dependency "active_attr", "~> 0.15"
   spec.add_development_dependency "minitest", ">= 5.0", "< 6.0"
