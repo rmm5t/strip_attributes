@@ -233,6 +233,7 @@ end
 ```ruby
 describe User do
   it { is_expected.to strip_attribute(:name).collapse_spaces }
+  it { is_expected.to strip_attribute(:name).replace_newlines }
   it { is_expected.to strip_attribute :email }
   it { is_expected.to strip_attributes(:name, :email) }
   it { is_expected.not_to strip_attribute :password }
@@ -245,6 +246,7 @@ end
 ```ruby
 class UserTest < ActiveSupport::TestCase
   should strip_attribute(:name).collapse_spaces
+  should strip_attribute(:name).replace_newlines
   should strip_attribute :email
   should strip_attributes(:name, :email)
   should_not strip_attribute :password
@@ -260,6 +262,7 @@ describe User do
 
   it "should strip attributes" do
     must strip_attribute(:name).collapse_spaces
+    must strip_attribute(:name).replace_newlines
     must strip_attribute :email
     must strip_attributes(:name, :email)
     wont strip_attribute :password
@@ -275,6 +278,7 @@ describe User do
   subject { User.new }
 
   must { strip_attribute(:name).collapse_spaces }
+  must { strip_attribute(:name).replace_newlines }
   must { strip_attribute :email }
   must { strip_attributes(:name, :email) }
   wont { strip_attribute :password }

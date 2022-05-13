@@ -33,12 +33,17 @@ module StripAttributes
           @attribute = attribute
           subject.send("#{@attribute}=", " string ")
           subject.valid?
-          subject.send(@attribute) == "string" and collapse_spaces?(subject)
+          subject.send(@attribute) == "string" and collapse_spaces?(subject) and replace_newlines?(subject)
         end
       end
 
       def collapse_spaces
         @options[:collapse_spaces] = true
+        self
+      end
+
+      def replace_newlines
+        @options[:replace_newlines] = true
         self
       end
 
@@ -70,7 +75,16 @@ module StripAttributes
       def expectation(past = true)
         expectation = past ? "stripped" : "strip"
         expectation += past ? " and collapsed" : " and collapse" if @options[:collapse_spaces]
+        expectation += past ? " and replaced" : " and replace" if !@options[:replace_newlines]
         expectation
+      end
+
+      def replace_newlines?(subject)
+        return true if !@options[:replace_newlines]
+
+        subject.send("#{@attribute}=", "string\nstring")
+        subject.valid?
+        subject.send(@attribute) == "string string"
       end
     end
   end

@@ -18,6 +18,10 @@ class SampleMockRecord < Tableless
   attribute :collapsed
   attribute :uncollapsed
   strip_attributes only: [:collapsed], collapse_spaces: true
+
+  attribute :replaceable
+  attribute :unreplaceable
+  strip_attributes only: [:replaceable], replace_newlines: true
 end
 
 describe SampleMockRecord do
@@ -45,6 +49,14 @@ describe SampleMockRecord do
     it "should not collapse other attributes" do
       wont strip_attribute(:uncollapsed).collapse_spaces
     end
+
+    it "should replace replaceable attributes" do
+      must strip_attribute(:replaceable).replace_newlines
+    end
+
+    it "should not replace on other attributes" do
+      wont strip_attribute(:unreplaceable).replace_newlines
+    end
   else
       must { strip_attribute :stripped1 }
       must { strip_attribute :stripped2 }
@@ -55,6 +67,9 @@ describe SampleMockRecord do
 
       must { strip_attribute(:collapsed).collapse_spaces }
       wont { strip_attribute(:uncollapsed).collapse_spaces }
+
+      must { strip_attribute(:replaceable).replace_newlines }
+      wont { strip_attribute(:unreplaceable).replace_newlines }
   end
 
   it "should fail when testing for strip on an unstripped attribute" do
@@ -87,6 +102,24 @@ describe SampleMockRecord do
   it "should fail when testing for no collapse on a collapsed attribute" do
     begin
       assert_wont collapse_attribute(:collapsed)
+      assert false
+    rescue
+      assert true
+    end
+  end
+
+  it "should fail when testing for replacement on an unreplaceable attribute" do
+    begin
+      assert_must replace_newlines(:unreplaceable)
+      assert false
+    rescue
+      assert true
+    end
+  end
+
+  it "should fail when testing for no replacement on a replaceable attribute" do
+    begin
+      assert_wont replace_newlines(:replaceable)
       assert false
     rescue
       assert true
