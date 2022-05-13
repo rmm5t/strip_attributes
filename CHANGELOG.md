@@ -6,7 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com//), and thi
 
 ## [Unreleased] - TBD
 
-- Added a matcher for the replace_newlines functionality (#62)
+## [1.13.0] - 2022-05-13
+
+- Added a matcher for `replace_newlines` (#62)
 - Added Ruby 3.1 support
 
 ## [1.12.0] - 2021-12-20
@@ -103,7 +105,8 @@ Added multibyte whitespace support to `:collapse_spaces` option (#32)
 
 ## [0.9.0] - untracked
 
-[Unreleased]: https://github.com/rmm5t/strip_attributes/compare/v1.12.0..HEAD
+[Unreleased]: https://github.com/rmm5t/strip_attributes/compare/v1.13.0..HEAD
+[1.13.0]: https://github.com/rmm5t/strip_attributes/compare/v1.12.0..v1.13.0
 [1.12.0]: https://github.com/rmm5t/strip_attributes/compare/v1.11.0..v1.12.0
 [1.11.0]: https://github.com/rmm5t/strip_attributes/compare/v1.10.1..v1.11.0
 [1.10.1]: https://github.com/rmm5t/strip_attributes/compare/v1.10.0..v1.10.1
