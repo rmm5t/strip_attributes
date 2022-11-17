@@ -204,10 +204,12 @@ class StripAttributesTest < Minitest::Test
     assert_equal "",            record.bang
   end
 
-  def test_should_skip_frozen_values
-    record = StripAllMockRecord.new(frozen: " ice ".freeze)
+  def test_should_not_mutate_values
+    record = StripAllMockRecord.new(foo: " foo ")
+    old_value = record.foo
     record.valid?
-    assert_equal " ice ", record.frozen
+    assert_equal "foo",        record.foo
+    refute_equal old_value,    record.foo
   end
 
   def test_should_collapse_duplicate_spaces
