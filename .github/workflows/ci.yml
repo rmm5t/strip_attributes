@@ -21,12 +21,13 @@ jobs:
           - { ruby: "2.4", gemfile: "activemodel-4.2" }
           - { ruby: "2.5", gemfile: "activemodel-5.2" }
           - { ruby: "2.6", gemfile: "activemodel-6.1" }
+          - { ruby: "3.2", gemfile: "activemodel-7.0" }
 
     env:
       BUNDLE_GEMFILE: gemfiles/${{ matrix.gemfile }}.gemfile
     steps:
       # https://github.com/marketplace/actions/checkout
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       # https://github.com/marketplace/actions/setup-ruby-jruby-and-truffleruby
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
