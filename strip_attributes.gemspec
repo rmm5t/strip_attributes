@@ -24,7 +24,6 @@ Gem::Specification.new do |spec|
   }
 
   spec.add_runtime_dependency "activemodel", ">= 3.0", "< 8.0"
-  spec.add_development_dependency "active_attr", "~> 0.15"
   spec.add_development_dependency "minitest", ">= 5.0", "< 6.0"
   spec.add_development_dependency "minitest-matchers_vaccine", "~> 1.0" unless ENV["SKIP_VACCINE"]
   spec.add_development_dependency "minitest-reporters", ">= 0.14.24"
