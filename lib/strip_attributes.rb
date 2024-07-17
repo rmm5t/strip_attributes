@@ -83,11 +83,11 @@ module StripAttributes
   # Necessary because Rails has removed the narrowing of attributes using :only
   # and :except on Base#attributes
   def self.narrow(attributes, options = {})
-    if except = options[:except]
-      except = Array(except).collect { |attribute| attribute.to_s }
+    if options[:except]
+      except = Array(options[:except]).map(&:to_s)
       attributes.except(*except)
-    elsif only = options[:only]
-      only = Array(only).collect { |attribute| attribute.to_s }
+    elsif options[:only]
+      only = Array(options[:only]).map(&:to_s)
       attributes.slice(*only)
     else
       attributes
@@ -95,10 +95,7 @@ module StripAttributes
   end
 
   def self.validate_options(options)
-    if keys = options.keys
-      unless (keys - VALID_OPTIONS).empty?
-        raise ArgumentError, "Options does not specify #{VALID_OPTIONS} (#{options.keys.inspect})"
-      end
-    end
+    return if (options.keys - VALID_OPTIONS).empty?
+    raise ArgumentError, "Options does not specify #{VALID_OPTIONS} (#{options.keys.inspect})"
   end
 end
