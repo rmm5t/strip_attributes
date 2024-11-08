@@ -22,7 +22,11 @@ jobs:
           - { ruby: "2.4", gemfile: "activemodel-4.2" }
           - { ruby: "2.5", gemfile: "activemodel-5.2" }
           - { ruby: "2.6", gemfile: "activemodel-6.1" }
-          - { ruby: "3.3", gemfile: "activemodel-7.1" }
+          - { ruby: "3.1", gemfile: "activemodel-7.2" }
+          - { ruby: "3.2", gemfile: "activemodel-7.2" }
+          - { ruby: "3.3", gemfile: "activemodel-7.2" }
+          - { ruby: "3.2", gemfile: "activemodel-8.0" }
+          - { ruby: "3.3", gemfile: "activemodel-8.0" }
 
     env:
       BUNDLE_GEMFILE: gemfiles/${{ matrix.gemfile }}.gemfile
