@@ -14,6 +14,7 @@ jobs:
         gemfile:
           - activemodel-7.1
           - activemodel-7.2
+          - activemodel-8.0
           # - activemodel-main
         include:
           - { ruby: "2.3", gemfile: "activemodel-3.2" }
