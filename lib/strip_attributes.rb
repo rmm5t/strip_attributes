@@ -29,6 +29,8 @@ module StripAttributes
   MULTIBYTE_SPACE = /[[:space:]#{MULTIBYTE_WHITE}]/.freeze
   MULTIBYTE_BLANK = /[[:blank:]#{MULTIBYTE_WHITE}]/.freeze
   MULTIBYTE_SUPPORTED = "\u0020" == " "
+  EMPTY_STRING = "".freeze
+  SINGLE_SPACE = " ".freeze
 
   def self.strip(record_or_string, options = {})
     if record_or_string.respond_to?(:attributes)
@@ -59,7 +61,7 @@ module StripAttributes
     replace_newlines = options[:replace_newlines]
     regex            = options[:regex]
 
-    value.gsub!(regex, "") if regex
+    value.gsub!(regex, EMPTY_STRING) if regex
 
     if MULTIBYTE_SUPPORTED && Encoding.compatible?(value, MULTIBYTE_SPACE)
       value.gsub!(/\A#{MULTIBYTE_SPACE}+|#{MULTIBYTE_SPACE}+\z/, "")
@@ -67,13 +69,13 @@ module StripAttributes
       value.strip!
     end
 
-    value.gsub!(/[\r\n]+/, " ") if replace_newlines
+    value.gsub!(/[\r\n]+/, SINGLE_SPACE) if replace_newlines
 
     if collapse_spaces
       if MULTIBYTE_SUPPORTED && Encoding.compatible?(value, MULTIBYTE_BLANK)
-        value.gsub!(/#{MULTIBYTE_BLANK}+/, " ")
+        value.gsub!(/#{MULTIBYTE_BLANK}+/, SINGLE_SPACE)
       else
-        value.squeeze!(" ")
+        value.squeeze!(SINGLE_SPACE)
       end
     end
 
