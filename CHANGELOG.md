@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com//), and thi
 
 ## [Unreleased] - TBD
 
+## [1.14.1] - 2024-12-10
+
+- `funding_uri` added to gemspec
+
 ## [1.14.0] - 2024-11-10
 
 - Adds Rails 8 support ([#73], [#74])
