@@ -31,7 +31,7 @@ module StripAttributes
       def matches?(subject)
         @attributes.all? do |attribute|
           @attribute = attribute
-          subject.send("#{@attribute}=", " string ")
+          subject.send("#{@attribute}=", +" string ")
           subject.valid?
           subject.send(@attribute) == "string" and collapse_spaces?(subject) and replace_newlines?(subject)
         end
@@ -67,7 +67,7 @@ module StripAttributes
       def collapse_spaces?(subject)
         return true if !@options[:collapse_spaces]
 
-        subject.send("#{@attribute}=", " string    string ")
+        subject.send("#{@attribute}=", +" string    string ")
         subject.valid?
         subject.send(@attribute) == "string string"
       end
@@ -82,7 +82,7 @@ module StripAttributes
       def replace_newlines?(subject)
         return true if !@options[:replace_newlines]
 
-        subject.send("#{@attribute}=", "string\nstring")
+        subject.send("#{@attribute}=", +"string\nstring")
         subject.valid?
         subject.send(@attribute) == "string string"
       end

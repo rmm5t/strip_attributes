@@ -66,7 +66,7 @@ class CoexistWithOtherObjects < Tableless
   attr_accessor :arr, :hsh, :str
   strip_attributes
   def initialize
-    @arr, @hsh, @str = [], {}, "foo "
+    @arr, @hsh, @str = [], {}, +"foo "
   end
   def attributes
     {arr: arr, hsh: hsh, str: str}
@@ -114,15 +114,15 @@ end
 class StripAttributesTest < Minitest::Test
   def setup
     @init_params = {
-      foo:  "\tfoo",
-      bar:  "bar \t ",
-      biz:  "\tbiz ",
-      baz:  "",
-      bang: " ",
-      foz:  " foz  foz",
-      fiz:  "fiz \n  fiz",
-      qax:  "\n\t ",
-      qux:  "\u200B"
+      foo:  +"\tfoo",
+      bar:  +"bar \t ",
+      biz:  +"\tbiz ",
+      baz:  +"",
+      bang: +" ",
+      foz:  +" foz  foz",
+      fiz:  +"fiz \n  fiz",
+      qax:  +"\n\t ",
+      qux:  +"\u200B"
     }
   end
 
@@ -285,7 +285,7 @@ class StripAttributesTest < Minitest::Test
 
   def test_should_strip_regex
     record = StripRegexMockRecord.new
-    record.assign_attributes(@init_params.merge(foo: "^%&*abc  "))
+    record.assign_attributes(@init_params.merge(foo: +"^%&*abc  "))
     record.valid?
     assert_equal "abc",        record.foo
     assert_equal "bar",        record.bar
@@ -294,7 +294,7 @@ class StripAttributesTest < Minitest::Test
   def test_should_strip_unicode
     skip "multi-byte characters not supported by this version of Ruby" unless StripAttributes::MULTIBYTE_SUPPORTED
 
-    record = StripOnlyOneMockRecord.new({foo: "\u200A\u200B foo\u200A\u200B\u00A0 "})
+    record = StripOnlyOneMockRecord.new({foo: +"\u200A\u200B foo\u200A\u200B\u00A0 "})
     record.valid?
     assert_equal "foo",      record.foo
   end
@@ -373,42 +373,42 @@ class StripAttributesTest < Minitest::Test
 
   class ClassMethodsTest < Minitest::Test
     def test_should_strip_whitespace
-      assert_nil StripAttributes.strip("")
-      assert_nil StripAttributes.strip(" \t ")
-      assert_equal "thirty six", StripAttributes.strip(" thirty six \t \n")
+      assert_nil StripAttributes.strip(+"")
+      assert_nil StripAttributes.strip(+" \t ")
+      assert_equal "thirty six", StripAttributes.strip(+" thirty six \t \n")
     end
 
     def test_should_allow_empty
-      assert_equal "", StripAttributes.strip("", allow_empty: true)
-      assert_equal "", StripAttributes.strip(" \t ", allow_empty: true)
+      assert_equal "", StripAttributes.strip(+"", allow_empty: true)
+      assert_equal "", StripAttributes.strip(+" \t ", allow_empty: true)
     end
 
     def test_should_collapse_spaces
-      assert_equal "1 2 3", StripAttributes.strip(" 1   2   3\t ", collapse_spaces: true)
+      assert_equal "1 2 3", StripAttributes.strip(+" 1   2   3\t ", collapse_spaces: true)
     end
 
     def test_should_collapse_multibyte_spaces
-      assert_equal "1 2 3", StripAttributes.strip(" 1 \u00A0  2\u00A03\t ", collapse_spaces: true)
+      assert_equal "1 2 3", StripAttributes.strip(+" 1 \u00A0  2\u00A03\t ", collapse_spaces: true)
     end
 
     def test_should_replace_newlines
-      assert_equal "1 2", StripAttributes.strip("1\n2", replace_newlines: true)
-      assert_equal "1 2", StripAttributes.strip("1\r\n2", replace_newlines: true)
-      assert_equal "1 2", StripAttributes.strip("1\r2", replace_newlines: true)
+      assert_equal "1 2", StripAttributes.strip(+"1\n2", replace_newlines: true)
+      assert_equal "1 2", StripAttributes.strip(+"1\r\n2", replace_newlines: true)
+      assert_equal "1 2", StripAttributes.strip(+"1\r2", replace_newlines: true)
     end
 
     def test_should_strip_regex
-      assert_equal "abc", StripAttributes.strip("^%&*abc  ^  ", regex: /[\^\%&\*]/)
+      assert_equal "abc", StripAttributes.strip(+"^%&*abc  ^  ", regex: /[\^\%&\*]/)
     end
 
     def test_should_keep_only_alphanumerics
-      nickname = " funky BAT-2009"
+      nickname = +" funky BAT-2009"
       assert_equal "funkyBAT-2009", StripAttributes.strip(nickname, regex: /[^[:alnum:]_-]/)
     end
 
     def test_should_strip_trailing_whitespace
       messy_code =
-        "const hello = (name) => {      \n" +
+        +"const hello = (name) => {      \n" +
         "  if (name === 'voldemort') return; \n" +
         "  \n" +
         "  console.log(`Hello ${name}!`); \t \t \n" +
@@ -427,8 +427,8 @@ class StripAttributesTest < Minitest::Test
     def test_should_strip_unicode
       skip "multi-byte characters not supported by this version of Ruby" unless StripAttributes::MULTIBYTE_SUPPORTED
 
-      assert_equal "foo", StripAttributes.strip("\u200A\u200B foo\u200A\u200B ")
-      assert_equal "foo\u20AC".force_encoding("ASCII-8BIT"), StripAttributes.strip("foo\u20AC ".force_encoding("ASCII-8BIT"))
+      assert_equal "foo", StripAttributes.strip(+"\u200A\u200B foo\u200A\u200B ")
+      assert_equal (+"foo\u20AC").force_encoding("ASCII-8BIT"), StripAttributes.strip((+"foo\u20AC ").force_encoding("ASCII-8BIT"))
     end
   end
 end
