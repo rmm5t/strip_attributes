@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require "active_model"
 
 module ActiveModel::Validations::HelperMethods
@@ -27,8 +28,11 @@ module StripAttributes
   #   U+FEFF ZERO WIDTH NO-BREAK SPACE
   MULTIBYTE_WHITE = "\u180E\u200B\u200C\u200D\u2060\uFEFF".freeze
   MULTIBYTE_SPACE = /[[:space:]#{MULTIBYTE_WHITE}]/.freeze
+  MULTIBYTE_SPACE_AT_ENDS = /\A#{MULTIBYTE_SPACE}+|#{MULTIBYTE_SPACE}+\z/.freeze
   MULTIBYTE_BLANK = /[[:blank:]#{MULTIBYTE_WHITE}]/.freeze
+  MULTIBYTE_BLANK_REPEATED = /#{MULTIBYTE_BLANK}+/.freeze
   MULTIBYTE_SUPPORTED = "\u0020" == " "
+  NEWLINES = /[\r\n]+/.freeze
 
   def self.strip(record_or_string, options = {})
     if record_or_string.respond_to?(:attributes)
@@ -62,16 +66,16 @@ module StripAttributes
     value.gsub!(regex, "") if regex
 
     if MULTIBYTE_SUPPORTED && Encoding.compatible?(value, MULTIBYTE_SPACE)
-      value.gsub!(/\A#{MULTIBYTE_SPACE}+|#{MULTIBYTE_SPACE}+\z/, "")
+      value.gsub!(MULTIBYTE_SPACE_AT_ENDS, "")
     else
       value.strip!
     end
 
-    value.gsub!(/[\r\n]+/, " ") if replace_newlines
+    value.gsub!(NEWLINES, " ") if replace_newlines
 
     if collapse_spaces
       if MULTIBYTE_SUPPORTED && Encoding.compatible?(value, MULTIBYTE_BLANK)
-        value.gsub!(/#{MULTIBYTE_BLANK}+/, " ")
+        value.gsub!(MULTIBYTE_BLANK_REPEATED, " ")
       else
         value.squeeze!(" ")
       end
