@@ -59,21 +59,21 @@ module StripAttributes
     replace_newlines = options[:replace_newlines]
     regex            = options[:regex]
 
-    value.gsub!(regex, "") if regex
+    value = value.gsub(regex, "") if regex
 
-    if MULTIBYTE_SUPPORTED && Encoding.compatible?(value, MULTIBYTE_SPACE)
-      value.gsub!(/\A#{MULTIBYTE_SPACE}+|#{MULTIBYTE_SPACE}+\z/, "")
+    value = if MULTIBYTE_SUPPORTED && Encoding.compatible?(value, MULTIBYTE_SPACE)
+      value.gsub(/\A#{MULTIBYTE_SPACE}+|#{MULTIBYTE_SPACE}+\z/, "")
     else
-      value.strip!
+      value.strip
     end
 
-    value.gsub!(/[\r\n]+/, " ") if replace_newlines
+    value = value.gsub(/[\r\n]+/, " ") if replace_newlines
 
     if collapse_spaces
-      if MULTIBYTE_SUPPORTED && Encoding.compatible?(value, MULTIBYTE_BLANK)
-        value.gsub!(/#{MULTIBYTE_BLANK}+/, " ")
+      value = if MULTIBYTE_SUPPORTED && Encoding.compatible?(value, MULTIBYTE_BLANK)
+        value.gsub(/#{MULTIBYTE_BLANK}+/, " ")
       else
-        value.squeeze!(" ")
+        value.squeeze(" ")
       end
     end
 
