@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "strip_attributes/version"
@@ -32,5 +33,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "minitest-reporters", ">= 0.14.24"
   spec.add_development_dependency "rake"
 
-  spec.required_ruby_version = '>= 1.9.3'
+  spec.required_ruby_version = ">= 1.9.3"
 end

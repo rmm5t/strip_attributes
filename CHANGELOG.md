@@ -115,7 +115,8 @@ Added multibyte whitespace support to `:collapse_spaces` option ([#32])
 
 ## [0.9.0] - untracked
 
-[Unreleased]: https://github.com/rmm5t/strip_attributes/compare/v1.14.0..HEAD
+[Unreleased]: https://github.com/rmm5t/strip_attributes/compare/v1.14.1..HEAD
+[1.14.1]: https://github.com/rmm5t/strip_attributes/compare/v1.14.0..v1.14.1
 [1.14.0]: https://github.com/rmm5t/strip_attributes/compare/v1.13.0..v1.14.0
 [1.13.0]: https://github.com/rmm5t/strip_attributes/compare/v1.12.0..v1.13.0
 [1.12.0]: https://github.com/rmm5t/strip_attributes/compare/v1.11.0..v1.12.0
