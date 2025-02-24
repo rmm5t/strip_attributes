@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby: ["3.2", "3.3"]
+        ruby: ["3.2", "3.3", "3.4"]
         gemfile:
           - activemodel-7.1
           - activemodel-7.2
