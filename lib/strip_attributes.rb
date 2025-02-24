@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 require "active_model"
 
 module ActiveModel::Validations::HelperMethods
@@ -56,28 +55,28 @@ module StripAttributes
 
   def self.strip_string(value, options = {})
     return value unless value.is_a?(String)
-    value = value.dup
 
     allow_empty      = options[:allow_empty]
     collapse_spaces  = options[:collapse_spaces]
     replace_newlines = options[:replace_newlines]
     regex            = options[:regex]
 
-    value = value.gsub(regex, "") if regex
+    value = value.dup
+    value.gsub!(regex, "") if regex
 
-    value = if MULTIBYTE_SUPPORTED && Encoding.compatible?(value, MULTIBYTE_SPACE)
-      value.gsub(MULTIBYTE_SPACE_AT_ENDS, "")
+    if MULTIBYTE_SUPPORTED && Encoding.compatible?(value, MULTIBYTE_SPACE)
+      value.gsub!(MULTIBYTE_SPACE_AT_ENDS, "")
     else
-      value.strip
+      value.strip!
     end
 
-    value = value.gsub(NEWLINES, " ") if replace_newlines
+    value.gsub!(NEWLINES, " ") if replace_newlines
 
     if collapse_spaces
-      value = if MULTIBYTE_SUPPORTED && Encoding.compatible?(value, MULTIBYTE_BLANK)
-        value.gsub(MULTIBYTE_BLANK_REPEATED, " ")
+      if MULTIBYTE_SUPPORTED && Encoding.compatible?(value, MULTIBYTE_BLANK)
+        value.gsub!(MULTIBYTE_BLANK_REPEATED, " ")
       else
-        value.squeeze(" ")
+        value.squeeze!(" ")
       end
     end
 
