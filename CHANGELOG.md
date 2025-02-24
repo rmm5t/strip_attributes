@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com//), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [Unreleased] - TBD
+
 ## [2.0.0] - 2025-02-23
 
 The change here is that at attribute's value is no longer mutated in place; a
@@ -125,8 +127,8 @@ Added multibyte whitespace support to `:collapse_spaces` option ([#32])
 
 ## [0.9.0] - untracked
 
-[Unreleased]: https://github.com/rmm5t/strip_attributes/compare/v1.15.0..HEAD
-[1.15.0]: https://github.com/rmm5t/strip_attributes/compare/v1.14.1..v1.15.0
+[Unreleased]: https://github.com/rmm5t/strip_attributes/compare/v2.0.0..HEAD
+[2.0.0]: https://github.com/rmm5t/strip_attributes/compare/v1.14.1..v2.0.0
 [1.14.1]: https://github.com/rmm5t/strip_attributes/compare/v1.14.0..v1.14.1
 [1.14.0]: https://github.com/rmm5t/strip_attributes/compare/v1.13.0..v1.14.0
 [1.13.0]: https://github.com/rmm5t/strip_attributes/compare/v1.12.0..v1.13.0
