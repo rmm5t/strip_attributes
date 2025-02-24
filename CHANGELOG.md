@@ -12,7 +12,7 @@ it's a big enough change to warrant the major version bump, just in case a
 deployment relied on the prior behavior.
 
 - Use frozen string literals and regex constants to reduce allocations ([#63])
-- Limit concurrent-ruby in build matrix for activemodels <= 7.0 ([#79])
+- Limit concurrent-ruby in build matrix for activemodel <= 7.0 ([#79])
 - Avoid string mutation for Ruby 3.4 ([#76], [#77], [#64])
 - Optimize string allocation during mutation ([#80])
 
