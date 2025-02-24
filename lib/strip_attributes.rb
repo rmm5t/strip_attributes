@@ -56,7 +56,7 @@ module StripAttributes
 
   def self.strip_string(value, options = {})
     return value unless value.is_a?(String)
-    return value if value.frozen?
+    value = value.dup
 
     allow_empty      = options[:allow_empty]
     collapse_spaces  = options[:collapse_spaces]
