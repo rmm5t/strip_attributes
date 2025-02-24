@@ -1,3 +1,3 @@
 module StripAttributes
-  VERSION = "1.14.1"
+  VERSION = "2.0.0"
 end

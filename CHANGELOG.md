@@ -4,7 +4,17 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com//), and this project adheres to [Semantic Versioning](https://semver.org/).
 
-## [Unreleased] - TBD
+## [2.0.0] - 2025-02-23
+
+The change here is that at attribute's value is no longer mutated in place; a
+copy is mutated instead. This should not be a breaking change for most, but
+it's a big enough change to warrant the major version bump, just in case a
+deployment relied on the prior behavior.
+
+- Use frozen string literals and regex constants to reduce allocations ([#63])
+- Limit concurrent-ruby in build matrix for activemodels <= 7.0 ([#79])
+- Avoid string mutation for Ruby 3.4 ([#76], [#77], [#64])
+- Optimize string allocation during mutation ([#80])
 
 ## [1.14.1] - 2024-12-10
 
@@ -115,7 +125,8 @@ Added multibyte whitespace support to `:collapse_spaces` option ([#32])
 
 ## [0.9.0] - untracked
 
-[Unreleased]: https://github.com/rmm5t/strip_attributes/compare/v1.14.1..HEAD
+[Unreleased]: https://github.com/rmm5t/strip_attributes/compare/v1.15.0..HEAD
+[1.15.0]: https://github.com/rmm5t/strip_attributes/compare/v1.14.1..v1.15.0
 [1.14.1]: https://github.com/rmm5t/strip_attributes/compare/v1.14.0..v1.14.1
 [1.14.0]: https://github.com/rmm5t/strip_attributes/compare/v1.13.0..v1.14.0
 [1.13.0]: https://github.com/rmm5t/strip_attributes/compare/v1.12.0..v1.13.0
@@ -148,11 +159,17 @@ Added multibyte whitespace support to `:collapse_spaces` option ([#32])
 [1.0.0]: https://github.com/rmm5t/strip_attributes/compare/v0.9.0..v1.0.0
 [0.9.0]: https://github.com/rmm5t/strip_attributes/compare/a78b807..v0.9.0
 
+[#80]: https://github.com/rmm5t/strip_attributes/pull/80
+[#79]: https://github.com/rmm5t/strip_attributes/pull/79
+[#77]: https://github.com/rmm5t/strip_attributes/pull/77
+[#76]: https://github.com/rmm5t/strip_attributes/issues/76
 [#74]: https://github.com/rmm5t/strip_attributes/pull/74
 [#73]: https://github.com/rmm5t/strip_attributes/pull/73
 [#70]: https://github.com/rmm5t/strip_attributes/pull/70
 [#69]: https://github.com/rmm5t/strip_attributes/pull/69
 [#65]: https://github.com/rmm5t/strip_attributes/pull/65
+[#64]: https://github.com/rmm5t/strip_attributes/pull/64
+[#63]: https://github.com/rmm5t/strip_attributes/pull/63
 [#62]: https://github.com/rmm5t/strip_attributes/pull/62
 [#58]: https://github.com/rmm5t/strip_attributes/pull/58
 [#59]: https://github.com/rmm5t/strip_attributes/pull/59
