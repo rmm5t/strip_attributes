@@ -1,6 +1,5 @@
 module StripAttributes
   module Matchers
-
     # Whitespace is stripped from the beginning and end of the attribute
     #
     # RSpec Examples:
@@ -20,7 +19,7 @@ module StripAttributes
       StripAttributeMatcher.new(attributes)
     end
 
-    alias_method :strip_attributes, :strip_attribute
+    alias strip_attributes strip_attribute
 
     class StripAttributeMatcher
       def initialize(attributes)
@@ -37,6 +36,11 @@ module StripAttributes
         end
       end
 
+      def using(value)
+        @options[:value] = value
+        self
+      end
+
       def collapse_spaces
         @options[:collapse_spaces] = true
         self
@@ -47,40 +51,43 @@ module StripAttributes
         self
       end
 
-      def failure_message # RSpec 3.x
+      # RSpec 3.x
+      def failure_message
         "Expected whitespace to be #{expectation} from ##{@attribute}, but it was not"
       end
-      alias_method :failure_message_for_should, :failure_message # RSpec 1.2, 2.x, and minitest-matchers
+      alias failure_message_for_should failure_message # RSpec 1.2, 2.x, and minitest-matchers
 
-      def failure_message_when_negated # RSpec 3.x
+      # RSpec 3.x
+      def failure_message_when_negated
         "Expected whitespace to remain on ##{@attribute}, but it was #{expectation}"
       end
-      alias_method :failure_message_for_should_not, :failure_message_when_negated # RSpec 1.2, 2.x, and minitest-matchers
-      alias_method :negative_failure_message,       :failure_message_when_negated # RSpec 1.1
+      alias failure_message_for_should_not failure_message_when_negated # RSpec 1.2, 2.x, and minitest-matchers
+      alias negative_failure_message       failure_message_when_negated # RSpec 1.1
 
       def description
-        "#{expectation(false)} whitespace from #{@attributes.map {|el| "##{el}" }.to_sentence}"
+        attrs = @attributes.map { |attr| "##{attr}" }.to_sentence
+        "#{expectation(past: false)} whitespace from #{attrs}"
       end
 
       private
 
       def collapse_spaces?(subject)
-        return true if !@options[:collapse_spaces]
+        return true unless @options[:collapse_spaces]
 
         subject.send("#{@attribute}=", " string    string ")
         subject.valid?
         subject.send(@attribute) == "string string"
       end
 
-      def expectation(past = true)
+      def expectation(past: true)
         expectation = past ? "stripped" : "strip"
         expectation += past ? " and collapsed" : " and collapse" if @options[:collapse_spaces]
-        expectation += past ? " and replaced" : " and replace" if !@options[:replace_newlines]
+        expectation += past ? " and replaced" : " and replace" unless @options[:replace_newlines]
         expectation
       end
 
       def replace_newlines?(subject)
-        return true if !@options[:replace_newlines]
+        return true unless @options[:replace_newlines]
 
         subject.send("#{@attribute}=", "string\nstring")
         subject.valid?
