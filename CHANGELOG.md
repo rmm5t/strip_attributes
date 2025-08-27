@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com//), and thi
 
 ## [Unreleased] - TBD
 
+## [2.0.1] - 2025-08-27
+
+- Add ability to specify a custom value in matcher ([#82])
+- Repository maintenance
+
 ## [2.0.0] - 2025-02-23
 
 The change here is that at attribute's value is no longer mutated in place; a
@@ -127,7 +132,8 @@ Added multibyte whitespace support to `:collapse_spaces` option ([#32])
 
 ## [0.9.0] - untracked
 
-[Unreleased]: https://github.com/rmm5t/strip_attributes/compare/v2.0.0..HEAD
+[Unreleased]: https://github.com/rmm5t/strip_attributes/compare/v2.0.1..HEAD
+[2.0.1]: https://github.com/rmm5t/strip_attributes/compare/v2.0.0..v2.0.1
 [2.0.0]: https://github.com/rmm5t/strip_attributes/compare/v1.14.1..v2.0.0
 [1.14.1]: https://github.com/rmm5t/strip_attributes/compare/v1.14.0..v1.14.1
 [1.14.0]: https://github.com/rmm5t/strip_attributes/compare/v1.13.0..v1.14.0
@@ -161,6 +167,7 @@ Added multibyte whitespace support to `:collapse_spaces` option ([#32])
 [1.0.0]: https://github.com/rmm5t/strip_attributes/compare/v0.9.0..v1.0.0
 [0.9.0]: https://github.com/rmm5t/strip_attributes/compare/a78b807..v0.9.0
 
+[#82]: https://github.com/rmm5t/strip_attributes/pull/82
 [#80]: https://github.com/rmm5t/strip_attributes/pull/80
 [#79]: https://github.com/rmm5t/strip_attributes/pull/79
 [#77]: https://github.com/rmm5t/strip_attributes/pull/77
