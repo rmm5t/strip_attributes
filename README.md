@@ -236,6 +236,7 @@ describe User do
   it { is_expected.to strip_attribute(:name).replace_newlines }
   it { is_expected.to strip_attribute :email }
   it { is_expected.to strip_attributes(:name, :email) }
+  it { is_expected.to strip_attributes(:ticker).using("AAPL") }
   it { is_expected.not_to strip_attribute :password }
   it { is_expected.not_to strip_attributes(:password, :encrypted_password)  }
 end
@@ -249,6 +250,7 @@ class UserTest < ActiveSupport::TestCase
   should strip_attribute(:name).replace_newlines
   should strip_attribute :email
   should strip_attributes(:name, :email)
+  should strip_attributes(:ticker).using("AAPL")
   should_not strip_attribute :password
   should_not strip_attributes(:password, :encrypted_password)
 end
@@ -265,6 +267,7 @@ describe User do
     must strip_attribute(:name).replace_newlines
     must strip_attribute :email
     must strip_attributes(:name, :email)
+    must strip_attributes(:ticker).using("AAPL")
     wont strip_attribute :password
     wont strip_attributes(:password, :encrypted_password)
   end
@@ -281,6 +284,7 @@ describe User do
   must { strip_attribute(:name).replace_newlines }
   must { strip_attribute :email }
   must { strip_attributes(:name, :email) }
+  must { strip_attributes(:ticker).using("AAPL") }
   wont { strip_attribute :password }
   wont { strip_attributes(:password, :encrypted_password) }
 end

@@ -22,6 +22,13 @@ class SampleMockRecord < Tableless
   attribute :replaceable
   attribute :unreplaceable
   strip_attributes only: [:replaceable], replace_newlines: true
+
+  attribute :upcased
+  strip_attributes only: [:upcased]
+
+  def upcased=(value)
+    super((value.upcase if value))
+  end
 end
 
 describe SampleMockRecord do
@@ -57,19 +64,32 @@ describe SampleMockRecord do
     it "should not replace on other attributes" do
       wont strip_attribute(:unreplaceable).replace_newlines
     end
+
+    it "should not strip normalized attributes missing a custom value" do
+      wont strip_attribute(:upcased)
+      wont strip_attribute(:upcased).using("fOO")
+    end
+
+    it "should strip normalized attributes using a custom value" do
+      must strip_attribute(:upcased).using("BIG")
+    end
   else
-      must { strip_attribute :stripped1 }
-      must { strip_attribute :stripped2 }
-      must { strip_attribute :stripped3 }
-      wont { strip_attribute :unstripped1 }
-      wont { strip_attribute :unstripped2 }
-      wont { strip_attribute :unstripped3 }
+    must { strip_attribute :stripped1 }
+    must { strip_attribute :stripped2 }
+    must { strip_attribute :stripped3 }
+    wont { strip_attribute :unstripped1 }
+    wont { strip_attribute :unstripped2 }
+    wont { strip_attribute :unstripped3 }
 
-      must { strip_attribute(:collapsed).collapse_spaces }
-      wont { strip_attribute(:uncollapsed).collapse_spaces }
+    must { strip_attribute(:collapsed).collapse_spaces }
+    wont { strip_attribute(:uncollapsed).collapse_spaces }
 
-      must { strip_attribute(:replaceable).replace_newlines }
-      wont { strip_attribute(:unreplaceable).replace_newlines }
+    must { strip_attribute(:replaceable).replace_newlines }
+    wont { strip_attribute(:unreplaceable).replace_newlines }
+
+    wont { strip_attribute(:upcased) }
+    wont { strip_attribute(:upcased).using("fOO") }
+    must { strip_attribute(:upcased).using("BIG") }
   end
 
   it "should fail when testing for strip on an unstripped attribute" do

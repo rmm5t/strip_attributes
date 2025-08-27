@@ -30,9 +30,9 @@ module StripAttributes
       def matches?(subject)
         @attributes.all? do |attribute|
           @attribute = attribute
-          subject.send("#{@attribute}=", " string ")
+          subject.send("#{@attribute}=", " #{value} ")
           subject.valid?
-          subject.send(@attribute) == "string" and collapse_spaces?(subject) and replace_newlines?(subject)
+          subject.send(@attribute) == value and collapse_spaces?(subject) and replace_newlines?(subject)
         end
       end
 
@@ -71,12 +71,16 @@ module StripAttributes
 
       private
 
+      def value
+        @options[:value] || "string"
+      end
+
       def collapse_spaces?(subject)
         return true unless @options[:collapse_spaces]
 
-        subject.send("#{@attribute}=", " string    string ")
+        subject.send("#{@attribute}=", " #{value}    #{value} ")
         subject.valid?
-        subject.send(@attribute) == "string string"
+        subject.send(@attribute) == "#{value} #{value}"
       end
 
       def expectation(past: true)
@@ -89,9 +93,9 @@ module StripAttributes
       def replace_newlines?(subject)
         return true unless @options[:replace_newlines]
 
-        subject.send("#{@attribute}=", "string\nstring")
+        subject.send("#{@attribute}=", "#{value}\n#{value}")
         subject.valid?
-        subject.send(@attribute) == "string string"
+        subject.send(@attribute) == "#{value} #{value}"
       end
     end
   end
