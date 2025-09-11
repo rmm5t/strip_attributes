@@ -373,6 +373,13 @@ class StripAttributesTest < Minitest::Test
     assert_equal " ",           record.bang
   end
 
+  def test_should_strip_on_save_without_validation
+    record = StripAllMockRecord.new(foo: " ")
+    record.save(validate: false)
+    
+    assert_nil record.foo, "Expected empty string ' ' to be converted to nil"
+  end
+
   class ClassMethodsTest < Minitest::Test
     def test_should_strip_whitespace
       assert_nil StripAttributes.strip("")

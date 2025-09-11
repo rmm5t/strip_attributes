@@ -8,6 +8,13 @@ module ActiveModel::Validations::HelperMethods
     before_validation(options.slice(:if, :unless)) do |record|
       StripAttributes.strip(record, options)
     end
+    
+    # Also add before_save to handle save(validate: false) scenarios
+    if respond_to?(:before_save)
+      before_save(options.slice(:if, :unless)) do |record|
+        StripAttributes.strip(record, options)
+      end
+    end
   end
 end
 
