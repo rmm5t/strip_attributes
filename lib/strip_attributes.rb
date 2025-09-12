@@ -7,12 +7,19 @@ module ActiveModel::Validations::HelperMethods
 
     before_validation(options.slice(:if, :unless)) do |record|
       StripAttributes.strip(record, options)
+      # Mark that stripping has been done to avoid double processing
+      record.instance_variable_set(:@attributes_stripped, true)
     end
     
     # Also add before_save to handle save(validate: false) scenarios
+    # Only run if validation was skipped (attributes not already stripped)
     if respond_to?(:before_save)
-      before_save(options.slice(:if, :unless)) do |record|
-        StripAttributes.strip(record, options)
+      before_save do |record|
+        unless record.instance_variable_get(:@attributes_stripped)
+          StripAttributes.strip(record, options)
+        end
+        # Reset the flag after save for next operation
+        record.instance_variable_set(:@attributes_stripped, false)
       end
     end
   end

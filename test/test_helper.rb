@@ -16,7 +16,8 @@ class Tableless
 
   include ActiveModel::Validations::Callbacks
   
-  # Define before_save callback support for testing
+  # Simple mock of save callbacks for testing
+  extend ActiveModel::Callbacks
   define_model_callbacks :save
   
   # Mock save method that respects validate: false option
@@ -30,11 +31,6 @@ class Tableless
       run_callbacks :save
     end
     true
-  end
-  
-  # Support for before_save callback registration
-  def self.before_save(*args, &block)
-    set_callback(:save, :before, *args, &block)
   end
 end
 
