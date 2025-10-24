@@ -43,13 +43,9 @@ module StripAttributes
 
   def self.strip_record(record, options = {})
     attributes = narrow(record.attributes, options)
+    normalized = attributes.map { |attr, value| [attr, strip_string(value, options)] }.to_h
 
-    attributes.each do |attr, value|
-      original_value = value
-      value = strip_string(value, options)
-      record[attr] = value if original_value != value
-    end
-
+    record.assign_attributes(normalized)
     record
   end
 
