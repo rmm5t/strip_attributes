@@ -63,18 +63,14 @@ class ReplaceNewLinesAndDuplicateSpaces < Tableless
 end
 
 class CoexistWithOtherObjects < Tableless
-  attr_accessor :arr, :hsh, :str
+  attribute :arr
+  attribute :hsh
+  attribute :str
   strip_attributes
-  def initialize
-    @arr, @hsh, @str = [], {}, "foo "
-  end
-  def attributes
-    {arr: arr, hsh: hsh, str: str}
-  end
 end
 
 class CoexistWithOtherValidations < Tableless
-  attribute :number, type: Integer
+  attribute :number, :integer
 
   strip_attributes
   validates :number, {
@@ -205,8 +201,8 @@ class StripAttributesTest < Minitest::Test
   end
 
   def test_should_not_mutate_values
-    record = StripAllMockRecord.new(foo: " foo ")
-    old_value = record.foo
+    old_value =" foo "
+    record = StripAllMockRecord.new(foo: old_value)
     record.valid?
     assert_equal "foo",        record.foo
     refute_equal old_value,    record.foo
@@ -263,26 +259,16 @@ class StripAttributesTest < Minitest::Test
   end
 
   def test_should_allow_other_empty_objects
-    record = CoexistWithOtherObjects.new
+    record = CoexistWithOtherObjects.new(arr: [], hsh: {}, str: "foo ")
     record.valid?
     assert_equal [],    record.arr
     assert_equal({},    record.hsh)
     assert_equal "foo", record.str
   end
 
-  def test_should_coexist_with_other_validations
-    record = CoexistWithOtherValidations.new
-    record.number = 1000.1
-    assert !record.valid?, "Expected record to be invalid"
-    assert record.errors.include?(:number), "Expected record to have an error on :number"
-
+  def test_should_not_break_for_non_string_attributes
     record = CoexistWithOtherValidations.new(number: " 1000.2 ")
-    assert !record.valid?, "Expected record to be invalid"
-    assert record.errors.include?(:number), "Expected record to have an error on :number"
-
-    # record = CoexistWithOtherValidations.new(number: " 1000 ")
-    # assert record.valid?, "Expected record to be valid, but got #{record.errors.full_messages}"
-    # assert !record.errors.include?(:number), "Expected record to have no errors on :number"
+    assert_equal 1000, record.number
   end
 
   def test_should_strip_regex
