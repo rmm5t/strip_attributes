@@ -26,7 +26,7 @@ Gem::Specification.new do |spec|
     "funding_uri"       => "https://github.com/sponsors/#{username}",
   }
 
-  spec.add_runtime_dependency "activemodel", ">= 3.0", "< 9.0"
+  spec.add_runtime_dependency "activemodel", ">= 8.1", "< 9.0"
   spec.add_development_dependency "minitest", "~> 5.0"
   spec.add_development_dependency "minitest-matchers_vaccine", "~> 1.0" unless ENV["SKIP_VACCINE"]
   spec.add_development_dependency "minitest-reporters", ">= 0.14.24"

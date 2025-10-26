@@ -14,6 +14,7 @@ class Tableless
   include ActiveModel::Model
   include ActiveModel::Attributes
   include ActiveModel::Validations::Callbacks
+  include ActiveModel::Attributes::Normalization
 end
 
 # Avoid annoying deprecation warning

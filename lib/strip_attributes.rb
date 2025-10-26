@@ -5,8 +5,8 @@ module ActiveModel::Validations::HelperMethods
   def strip_attributes(options = {})
     StripAttributes.validate_options(options)
 
-    before_validation(options.slice(:if, :unless)) do |record|
-      StripAttributes.strip(record, options)
+    StripAttributes.narrow(attribute_names, options).each do |attribute|
+      normalizes attribute, with: -> (value) { StripAttributes.strip_string(value, options) }
     end
   end
 end
@@ -79,17 +79,15 @@ module StripAttributes
     (value.blank? && !allow_empty) ? nil : value
   end
 
-  # Necessary because Rails has removed the narrowing of attributes using :only
-  # and :except on Base#attributes
-  def self.narrow(attributes, options = {})
+  def self.narrow(attribute_names, options = {})
     if options[:except]
       except = Array(options[:except]).map(&:to_s)
-      attributes.except(*except)
+      attribute_names - except
     elsif options[:only]
       only = Array(options[:only]).map(&:to_s)
-      attributes.slice(*only)
+      attribute_names & only
     else
-      attributes
+      attribute_names
     end
   end
 
