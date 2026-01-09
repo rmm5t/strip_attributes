@@ -6,15 +6,15 @@ else
   Minitest::Reporters.use! Minitest::Reporters::ProgressReporter.new
 end
 
-require "active_attr"
 require "strip_attributes"
 
 class Tableless
-  include ActiveAttr::BasicModel
-  include ActiveAttr::TypecastedAttributes
-  include ActiveAttr::Serialization
+  extend ActiveModel::Callbacks
 
+  include ActiveModel::Model
+  include ActiveModel::Attributes
   include ActiveModel::Validations::Callbacks
+  include ActiveModel::Attributes::Normalization
 end
 
 # Avoid annoying deprecation warning
