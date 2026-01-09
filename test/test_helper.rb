@@ -15,6 +15,23 @@ class Tableless
   include ActiveAttr::Serialization
 
   include ActiveModel::Validations::Callbacks
+  
+  # Simple mock of save callbacks for testing
+  extend ActiveModel::Callbacks
+  define_model_callbacks :save
+  
+  # Mock save method that respects validate: false option
+  def save(options = {})
+    if options[:validate] == false
+      # When validate: false, skip validation but still run save callbacks
+      run_callbacks :save
+    else
+      # Normal save: run validation callbacks then save callbacks
+      run_callbacks :validation
+      run_callbacks :save
+    end
+    true
+  end
 end
 
 # Avoid annoying deprecation warning
