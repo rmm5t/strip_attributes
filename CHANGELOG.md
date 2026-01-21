@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com//), and thi
 
 ## [Unreleased] - TBD
 
+- Add minitest 6 as dev dependency ([#86])
 - Enhance build matrix ([#85])
 
 ## [2.0.1] - 2025-08-27
@@ -169,6 +170,7 @@ Added multibyte whitespace support to `:collapse_spaces` option ([#32])
 [1.0.0]: https://github.com/rmm5t/strip_attributes/compare/v0.9.0..v1.0.0
 [0.9.0]: https://github.com/rmm5t/strip_attributes/compare/a78b807..v0.9.0
 
+[#86]: https://github.com/rmm5t/strip_attributes/pull/86
 [#85]: https://github.com/rmm5t/strip_attributes/pull/85
 [#82]: https://github.com/rmm5t/strip_attributes/pull/82
 [#80]: https://github.com/rmm5t/strip_attributes/pull/80
