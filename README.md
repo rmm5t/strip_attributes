@@ -45,6 +45,32 @@ the record, and even if validation fails. A normal `save` also runs validation
 and triggers normalization. Operations that skip validations, such as
 `save(validate: false)` and `update_columns`, do not trigger this hook.
 
+## Options Reference
+
+Pass options to `strip_attributes` in your model:
+
+| Option | Accepted values | Default | Effect |
+| --- | --- | --- | --- |
+| `only` | Attribute name as a symbol or string, or an array of names | All attributes | Process only the named attributes. |
+| `except` | Attribute name as a symbol or string, or an array of names | No exclusions | Skip the named attributes. |
+| `allow_empty` | `true` or `false` | Disabled | Keep stripped empty strings as `""` instead of converting them to `nil`. Existing `nil` values remain `nil`. |
+| `collapse_spaces` | `true` or `false` | Disabled | Replace runs of horizontal whitespace with one space, preserving internal newlines. |
+| `replace_newlines` | `true` or `false` | Disabled | Replace runs of carriage returns (`\r`) and line feeds (`\n`) with one space. Surrounding spaces remain unless `collapse_spaces` is also enabled. |
+| `regex` | Regular expression | None | Remove all matches before normal whitespace trimming. |
+| `if` | Predicate method name as a symbol or a proc | No condition | Run the validation callback only when the condition is truthy. |
+| `unless` | Predicate method name as a symbol or a proc | No condition | Skip the validation callback when the condition is truthy. |
+
+With compatible string encodings, `collapse_spaces` handles tabs, Unicode
+horizontal whitespace, and the selected invisible characters described below.
+For incompatible encodings, it only collapses repeated ordinary spaces.
+
+Use either `only` or `except` in a declaration. If both are supplied, `except`
+takes precedence and `only` is ignored.
+
+Each `strip_attributes` declaration registers a separate validation callback.
+Multiple declarations can apply different options to different attributes;
+overlapping selections can process the same attribute more than once.
+
 ## Whitespace and Blank Values
 
 Only `String` values are processed. Numbers, booleans, arrays, hashes, and `nil`
