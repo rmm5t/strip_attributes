@@ -4,12 +4,12 @@
 [![Build Status](https://github.com/rmm5t/strip_attributes/workflows/CI/badge.svg)](https://github.com/rmm5t/strip_attributes/actions/workflows/ci.yml)
 [![Gem Downloads](https://img.shields.io/gem/dt/strip_attributes.svg)](https://rubygems.org/gems/strip_attributes)
 
-StripAttributes is an ActiveModel extension that automatically strips all
-attributes of leading and trailing whitespace before validation. If the
-attribute is blank, it strips the value to `nil` by default.
+StripAttributes is an ActiveModel extension that automatically strips leading
+and trailing whitespace from string-valued attributes before validation. If
+the resulting string is blank, it converts the value to `nil` by default.
 
-It works by adding a before_validation hook to the record.  By default, all
-attributes are stripped of whitespace, but `:only` and `:except`
+It works by adding a before_validation hook to the record. By default, all
+string-valued attributes are stripped of whitespace, but `:only` and `:except`
 options can be used to limit which attributes are stripped.  Both options accept
 a single attribute (`only: :field`) or arrays of attributes (`except: [:field1, :field2, :field3]`).
 
@@ -44,6 +44,33 @@ Calling `valid?` updates the selected attributes in memory even without saving
 the record, and even if validation fails. A normal `save` also runs validation
 and triggers normalization. Operations that skip validations, such as
 `save(validate: false)` and `update_columns`, do not trigger this hook.
+
+## Whitespace and Blank Values
+
+Only `String` values are processed. Numbers, booleans, arrays, hashes, and `nil`
+are left unchanged. Strings nested inside arrays or hashes are not processed.
+
+By default, leading and trailing whitespace is removed, while internal
+whitespace is preserved. Empty strings and strings containing only whitespace
+become `nil`. Use `allow_empty: true` to keep stripped empty strings as `""`.
+
+The following examples use Ruby string notation (`\t` is a tab and `\n` is a
+newline):
+
+| Input | Options | Result |
+| --- | --- | --- |
+| `" \t "` | Default | `nil` |
+| `" \t "` | `allow_empty: true` | `""` |
+| `"a  b"` | Default | `"a  b"` |
+| `"a \n  b"` | `collapse_spaces: true` | `"a \n b"` |
+| `"a \n  b"` | `replace_newlines: true` | `"a    b"` |
+| `"a \n  b"` | `replace_newlines: true, collapse_spaces: true` | `"a b"` |
+
+With compatible string encodings, trimming also handles Unicode whitespace
+and selected invisible characters, including nonbreaking spaces (`U+00A0`)
+and zero-width spaces (`U+200B`). A string containing only these characters
+also becomes `nil` by default. For incompatible encodings, trimming falls
+back to Ruby's `String#strip` behavior.
 
 ## Examples
 
