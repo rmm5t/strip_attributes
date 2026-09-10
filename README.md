@@ -106,21 +106,28 @@ end
 
 ### Using `regex`
 
+The `regex` option removes matching characters throughout the string before
+normal leading and trailing whitespace trimming. It supplements the default
+trimming behavior rather than replacing it.
+
 ```ruby
 class User < ActiveRecord::Base
-  # Strip off characters defined by RegEx
+  # Remove non-alphabetic, non-whitespace characters
   strip_attributes only: [:first_name, :last_name], regex: /[^[:alpha:]\s]/
 
-  # Strip off non-integers
+  # Remove non-digit characters
   strip_attributes only: :phone, regex: /[^0-9]/
 
-  # Strip off all spaces and keep only alphabetic and numeric characters
+  # Keep only alphanumeric characters, underscores, and hyphens
   strip_attributes only: :nickname, regex: /[^[:alnum:]_-]/
 
-  # Remove trailing whitespace from a multi-line string
-  strip_attributes only: :code, regex: /[[:blank:]]+$/)
+  # Remove trailing horizontal whitespace from each line
+  strip_attributes only: :code, regex: /[[:blank:]]+$/
 end
 ```
+
+In the multiline example, normal trimming also removes leading whitespace at
+the beginning of the entire string and trailing whitespace at its end.
 
 ## Usage Patterns
 
