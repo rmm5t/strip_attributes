@@ -252,7 +252,8 @@ StripAttributes.strip(" foo   bar", collapse_spaces: true) #=> "foo bar"
 ## Testing
 
 StripAttributes provides an RSpec/Shoulda-compatible matcher for easier
-testing of attribute assignment. You can use this with
+testing of attribute normalization during validation. The matcher assigns test
+values, calls `valid?`, and checks the resulting attribute values. You can use it with
 [RSpec](http://rspec.info/), [Shoulda](https://github.com/thoughtbot/shoulda),
 [Minitest-MatchersVaccine](https://github.com/rmm5t/minitest-matchers_vaccine)
 (preferred), or
@@ -287,11 +288,21 @@ class ActiveSupport::TestCase
 end
 ```
 
-#### To initialize **Minitest-MatchersVaccine**, add this to your `test_helper.rb`:
+#### Minitest-MatchersVaccine
+
+Add the adapter gem to your Gemfile and run `bundle install`:
 
 ```ruby
+gem "minitest-matchers_vaccine", group: :test
+```
+
+Then add this to your `test_helper.rb`:
+
+```ruby
+require "minitest/autorun"
+require "minitest/matchers_vaccine"
 require "strip_attributes/matchers"
-class MiniTest::Spec
+class Minitest::Spec
   include StripAttributes::Matchers
 end
 ```
@@ -299,22 +310,43 @@ end
 OR if in a Rails environment, you might prefer this:
 
 ``` ruby
+require "minitest/matchers_vaccine"
 require "strip_attributes/matchers"
 class ActiveSupport::TestCase
   include StripAttributes::Matchers
 end
 ```
 
-#### To initialize **Minitest-Matchers**, add this to your `test_helper.rb`:
+#### Minitest-Matchers
+
+Add the adapter gem to your Gemfile and run `bundle install`:
 
 ```ruby
+gem "minitest-matchers", group: :test
+```
+
+Then add this to your `test_helper.rb`:
+
+```ruby
+require "minitest/autorun"
+require "minitest/matchers"
 require "strip_attributes/matchers"
-class MiniTest::Spec
+class Minitest::Spec
   include StripAttributes::Matchers
 end
 ```
 
 ### Writing Tests
+
+The matcher uses `"string"` as its default test value. Use `.using("AAPL")` to
+provide a value that remains unchanged by other setters or callbacks, such as
+one that uppercases a stock ticker. The matcher adds whitespace around that
+value and expects it to be removed during validation.
+
+A positive multi-attribute matcher requires every listed attribute to match.
+Negating it only establishes that at least one attribute does not match. Use
+separate negative assertions to check that each attribute preserves whitespace,
+as shown below.
 
 **RSpec**:
 
@@ -326,7 +358,7 @@ describe User do
   it { is_expected.to strip_attributes(:name, :email) }
   it { is_expected.to strip_attributes(:ticker).using("AAPL") }
   it { is_expected.not_to strip_attribute :password }
-  it { is_expected.not_to strip_attributes(:password, :encrypted_password)  }
+  it { is_expected.not_to strip_attribute :encrypted_password }
 end
 ```
 
@@ -340,7 +372,7 @@ class UserTest < ActiveSupport::TestCase
   should strip_attributes(:name, :email)
   should strip_attributes(:ticker).using("AAPL")
   should_not strip_attribute :password
-  should_not strip_attributes(:password, :encrypted_password)
+  should_not strip_attribute :encrypted_password
 end
 ```
 
@@ -357,7 +389,7 @@ describe User do
     must strip_attributes(:name, :email)
     must strip_attributes(:ticker).using("AAPL")
     wont strip_attribute :password
-    wont strip_attributes(:password, :encrypted_password)
+    wont strip_attribute :encrypted_password
   end
 end
 ```
@@ -374,7 +406,7 @@ describe User do
   must { strip_attributes(:name, :email) }
   must { strip_attributes(:ticker).using("AAPL") }
   wont { strip_attribute :password }
-  wont { strip_attributes(:password, :encrypted_password) }
+  wont { strip_attribute :encrypted_password }
 end
 ```
 
