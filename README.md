@@ -23,6 +23,28 @@ Include the gem in your Gemfile:
 gem "strip_attributes"
 ```
 
+## Quick Start
+
+For a Rails model with a `name` attribute:
+
+```ruby
+class User < ApplicationRecord
+  strip_attributes only: :name
+end
+
+user = User.new(name: "  Ada Lovelace \t")
+user.name # => "  Ada Lovelace \t"
+
+user.valid?
+user.name # => "Ada Lovelace"
+```
+
+Attributes are normalized before validation, rather than on assignment.
+Calling `valid?` updates the selected attributes in memory even without saving
+the record, and even if validation fails. A normal `save` also runs validation
+and triggers normalization. Operations that skip validations, such as
+`save(validate: false)` and `update_columns`, do not trigger this hook.
+
 ## Examples
 
 ### Default Behavior
