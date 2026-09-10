@@ -1,6 +1,6 @@
 # StripAttributes
 
-[![Gem Version](http://img.shields.io/gem/v/strip_attributes.svg)](https://rubygems.org/gems/strip_attributes)
+[![Gem Version](https://img.shields.io/gem/v/strip_attributes.svg)](https://rubygems.org/gems/strip_attributes)
 [![Build Status](https://github.com/rmm5t/strip_attributes/workflows/CI/badge.svg)](https://github.com/rmm5t/strip_attributes/actions/workflows/ci.yml)
 [![Gem Downloads](https://img.shields.io/gem/dt/strip_attributes.svg)](https://rubygems.org/gems/strip_attributes)
 
@@ -14,6 +14,19 @@ options can be used to limit which attributes are stripped.  Both options accept
 a single attribute (`only: :field`) or arrays of attributes (`except: [:field1, :field2, :field3]`).
 
 It's also possible to skip stripping the attributes altogether per model using the `:if` and `:unless` options.
+
+## Contents
+
+- [Installation](#installation)
+- [Quick Start](#quick-start)
+- [Options Reference](#options-reference)
+- [Whitespace and Blank Values](#whitespace-and-blank-values)
+- [Examples](#examples)
+- [Usage Patterns](#usage-patterns)
+- [Testing Your Models](#testing-your-models)
+- [Support](#support)
+- [Contributing](#contributing)
+- [Versioning and Changelog](#versioning-and-changelog)
 
 ## Installation
 
@@ -214,7 +227,7 @@ the beginning of the entire string and trailing whitespace at its end.
 
 ### Other ORMs implementing `ActiveModel`
 
-It also works on other ActiveModel classes, such as [Mongoid](http://mongoid.org/) documents:
+It also works on other ActiveModel classes, such as [Mongoid](https://www.mongodb.com/docs/mongoid/current/) documents:
 
 ```ruby
 class User
@@ -249,12 +262,12 @@ StripAttributes.strip(" foo \t") #=> "foo"
 StripAttributes.strip(" foo   bar", collapse_spaces: true) #=> "foo bar"
 ```
 
-## Testing
+## Testing Your Models
 
 StripAttributes provides an RSpec/Shoulda-compatible matcher for easier
 testing of attribute normalization during validation. The matcher assigns test
 values, calls `valid?`, and checks the resulting attribute values. You can use it with
-[RSpec](http://rspec.info/), [Shoulda](https://github.com/thoughtbot/shoulda),
+[RSpec](https://rspec.info/), [Shoulda](https://github.com/thoughtbot/shoulda),
 [Minitest-MatchersVaccine](https://github.com/rmm5t/minitest-matchers_vaccine)
 (preferred), or
 [Minitest-Matchers](https://github.com/wojtekmach/minitest-matchers).
@@ -423,9 +436,10 @@ The idea was originally triggered by the information at the (now defunct)
 Rails Wiki but was modified from the original to include more idiomatic ruby
 and rails support.
 
-## Versioning
+## Versioning and Changelog
 
-Semantic Versioning 2.0 as defined at <http://semver.org>.
+StripAttributes follows [Semantic Versioning 2.0](https://semver.org/).
+See [CHANGELOG.md](CHANGELOG.md) for release notes and changes between versions.
 
 ## License
 
