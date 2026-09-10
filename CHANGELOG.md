@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com//), and thi
 
 ## [Unreleased] - TBD
 
+- Improve README examples, options reference, testing guidance, and compatibility documentation
 - Add minitest 6 as dev dependency ([#86])
 - Enhance build matrix ([#85])
 
