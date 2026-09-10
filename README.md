@@ -53,27 +53,33 @@ end
 
 ### Using `if`
 
-```ruby
-# Only records with odd ids will be stripped
-class OddPokerPlayer < ActiveRecord::Base
-  strip_attributes if: :strip_me?
+The `if` and `unless` options accept a predicate method name or a proc. The
+condition is evaluated each time validation runs.
 
-  def strip_me?
-    id.odd?
+This example normalizes email unless the record's `preserve_whitespace` flag
+is set to `true`:
+
+```ruby
+class User < ActiveRecord::Base
+  attr_accessor :preserve_whitespace
+
+  strip_attributes only: :email, if: :normalize_email?
+
+  def normalize_email?
+    !preserve_whitespace
   end
 end
 ```
 
 ### Using `unless`
 
-```ruby
-# strip_attributes will be applied randomly
-class RandomPokerPlayer < ActiveRecord::Base
-  strip_attributes unless: :strip_me?
+The same behavior can be expressed with `unless` and a proc:
 
-  def strip_me?
-    [true, false].sample
-  end
+```ruby
+class User < ActiveRecord::Base
+  attr_accessor :preserve_whitespace
+
+  strip_attributes only: :email, unless: ->(record) { record.preserve_whitespace }
 end
 ```
 
